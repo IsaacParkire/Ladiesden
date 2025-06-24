@@ -1,0 +1,79 @@
+/* 1. Import Google Fonts - ensure this matches tailwind.config.js fonts */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Playfair+Display:wght@700&display=swap');
+
+/* 2. Tailwind base imports */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 3. Base styles */
+@layer base {
+  :root {
+    /* Dark mode defaults */
+    --color-text: rgba(255, 255, 255, 0.87);
+    --color-bg: #242424;
+  }
+
+  /* Universal box-sizing to prevent layout issues */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply bg-black text-white font-sans min-h-screen;
+    font-family: 'Open Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    @apply font-medium text-red-500 no-underline;
+    transition: color 0.25s;
+  }
+
+  a:hover {
+    @apply text-red-600;
+  }
+
+  h1 {
+    @apply text-4xl leading-tight;
+    font-family: 'Playfair Display', serif;
+  }
+
+  button {
+    @apply rounded-lg border border-transparent px-4 py-2 text-base font-medium bg-zinc-900 cursor-pointer transition-colors;
+  }
+
+  button:hover {
+    @apply border-red-600;
+  }
+
+  button:focus,
+  button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
+}
+
+/* 4. Light mode support */
+@media (prefers-color-scheme: light) {
+  @layer base {
+    :root {
+      --color-text: #213547;
+      --color-bg: #ffffff;
+    }
+
+    body {
+      @apply bg-white text-gray-900;
+    }
+
+    a:hover {
+      @apply text-red-600;
+    }
+
+    button {
+      @apply bg-zinc-100;
+    }
+  }
+}

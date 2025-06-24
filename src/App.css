@@ -1,0 +1,49 @@
+/* Container root for max width and center alignment */
+#root {
+  @apply max-w-7xl mx-auto p-8 text-center;
+}
+
+/* Logo styling */
+.logo {
+  height: 6rem; /* 6em to rem */
+  padding: 1.5rem;
+  will-change: filter;
+  transition: filter 300ms;
+  cursor: pointer;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 1.5rem #e5091480); /* Tailwind red with opacity */
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 1.5rem #ffd70080); /* Gold glow */
+}
+
+/* Spin animation for logo */
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animation preference */
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+/* Card style */
+.card {
+  @apply p-8 bg-zinc-900 rounded-lg shadow-lg;
+  /* You can adjust bg color for theme */
+}
+
+/* Docs link style */
+.read-the-docs {
+  @apply text-gray-400;
+}
