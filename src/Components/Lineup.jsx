@@ -26,9 +26,6 @@ export default function Lineup() {
       id="lineup"
       className="relative bg-gradient-to-b from-[#1a0000] via-black to-black text-white py-32 px-6 scroll-mt-24 overflow-hidden"
     >
-      {/* Optional Maroon Particle Overlay */}
-      <div className="absolute inset-0 bg-[url('/particles.png')] bg-cover bg-center opacity-10 pointer-events-none z-0"></div>
-
       {/* Top Fade for Seamless Transition */}
       <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-black to-transparent z-10"></div>
 
