@@ -1,0 +1,413 @@
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Lock, Shield, Crown, Star, Eye, Key, Users, Calendar } from "lucide-react";
+
+const secretServices = [
+  {
+    id: 1,
+    name: "Femdom Sessions",
+    icon: <Crown className="w-8 h-8 text-red-500" />,
+    description: "Take control in luxurious private suites with trained submissive male companions who understand the art of service.",
+    features: ["Professional submissives", "Safe words protocol", "Equipment provided", "Aftercare included"],
+    duration: "60-180 minutes",
+    price: "$400-800",
+    image: "/secrets/femdom.jpg",
+    memberTier: "Gold"
+  },
+  {
+    id: 2,
+    name: "Foot Worship Experience",
+    icon: <Star className="w-8 h-8 text-gold" />,
+    description: "Indulge in the ultimate foot worship experience with devoted male servants trained in the art of adoration.",
+    features: ["Pedicure service", "Massage therapy", "Worship rituals", "Luxury amenities"],
+    duration: "45-120 minutes",
+    price: "$300-600",
+    image: "/secrets/foot.jpg",
+    memberTier: "Silver"
+  },
+  {
+    id: 3,
+    name: "Obedience Training",
+    icon: <Key className="w-8 h-8 text-red-500" />,
+    description: "Train your personal male servant in the art of obedience and devotion in our specialized training suites.",
+    features: ["Training protocols", "Behavior modification", "Reward systems", "Progress tracking"],
+    duration: "90-240 minutes",
+    price: "$500-1000",
+    image: "/secrets/obedience.jpg",
+    memberTier: "Platinum"
+  },
+  {
+    id: 4,
+    name: "Custom Roleplay Scenarios",
+    icon: <Eye className="w-8 h-8 text-gold" />,
+    description: "Bring your wildest fantasies to life with our expert roleplay specialists in immersive themed environments.",
+    features: ["Custom scenarios", "Professional actors", "Costume wardrobe", "Set design"],
+    duration: "60-300 minutes",
+    price: "$600-1500",
+    image: "/secrets/roleplay.jpg",
+    memberTier: "Diamond"
+  }
+];
+
+const membershipTiers = [
+  {
+    tier: "Silver",
+    price: "$500/month",
+    benefits: ["Basic access to lounge", "2 sessions per month", "Standard amenities", "Basic customization"],
+    color: "from-gray-400 to-gray-600"
+  },
+  {
+    tier: "Gold",
+    price: "$1000/month",
+    benefits: ["Full lounge access", "4 sessions per month", "Premium amenities", "Advanced customization", "Priority booking"],
+    color: "from-yellow-400 to-yellow-600"
+  },
+  {
+    tier: "Platinum",
+    price: "$2000/month",
+    benefits: ["Unlimited access", "8 sessions per month", "Luxury amenities", "Full customization", "Personal concierge"],
+    color: "from-purple-400 to-purple-600"
+  },
+  {
+    tier: "Diamond",
+    price: "$5000/month",
+    benefits: ["Exclusive access", "Unlimited sessions", "Ultra-luxury amenities", "Bespoke experiences", "24/7 concierge", "Private entrance"],
+    color: "from-blue-400 to-blue-600"
+  }
+];
+
+const specialists = [
+  {
+    id: 1,
+    name: "Master Devon",
+    specialties: ["Femdom Training", "Roleplay", "Protocol Training"],
+    experience: "10+ years",
+    rating: 4.9,
+    image: "/specialists/devon.jpg",
+    description: "Expert in female dominance dynamics and submission training with extensive experience in power exchange."
+  },
+  {
+    id: 2,
+    name: "Servant Lucas",
+    specialties: ["Foot Worship", "Service Training", "Devotion Rituals"],
+    experience: "7+ years",
+    rating: 4.8,
+    image: "/specialists/lucas.jpg",
+    description: "Dedicated servant specializing in worship practices and devotional service with ultimate respect."
+  },
+  {
+    id: 3,
+    name: "Actor James",
+    specialties: ["Roleplay", "Character Development", "Fantasy Scenarios"],
+    experience: "8+ years",
+    rating: 4.9,
+    image: "/specialists/james.jpg",
+    description: "Professional actor and fantasy specialist bringing your deepest roleplay scenarios to vivid life."
+  }
+];
+
+export default function SecretsPage() {
+  const [selectedService, setSelectedService] = useState(null);
+  const [showMembership, setShowMembership] = useState(false);
+
+  return (
+    <div className="pt-24 bg-black text-white">
+      {/* Hero Section with Age Verification */}
+      <section className="py-20 px-6 bg-gradient-to-b from-red-900/20 to-black">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="mb-6"
+          >
+            <span className="text-6xl mb-4 block">🗝️</span>
+            <h1 className="text-5xl font-bold text-gold mb-4">Her Secrets</h1>
+            <p className="text-2xl text-red-500 font-medium">"Desire. Served Discreetly."</p>
+          </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="text-xl text-zinc-300 leading-relaxed max-w-3xl mx-auto mb-8"
+          >
+            Enter our exclusive private fetish lounge where your deepest desires are explored with complete discretion and professional expertise.
+          </motion.p>
+          
+          {/* Age Verification Warning */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="bg-red-900/30 border border-red-600/50 rounded-xl p-6 max-w-2xl mx-auto"
+          >
+            <Shield className="w-8 h-8 text-red-500 mx-auto mb-3" />
+            <p className="text-red-300 font-semibold mb-2">Adults Only - 21+ Required</p>
+            <p className="text-zinc-300 text-sm">
+              This section contains adult content. Membership verification and age confirmation required for access.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Membership Access */}
+      <section className="py-12 px-6 border-b border-zinc-800">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="bg-zinc-900/50 rounded-2xl p-8"
+          >
+            <Lock className="w-12 h-12 text-gold mx-auto mb-4" />
+            <h2 className="text-3xl font-bold text-gold mb-4">Premium Member-Only Access</h2>
+            <p className="text-zinc-300 mb-6 leading-relaxed">
+              Her Secrets is an exclusive private lounge accessible only to verified premium members. 
+              Our membership program ensures the highest level of discretion and quality for all experiences.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onClick={() => setShowMembership(true)}
+                className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-xl font-semibold transition-all hover:scale-105"
+              >
+                View Membership Options
+              </button>
+              <button className="border-2 border-gold text-gold hover:bg-gold hover:text-black px-8 py-3 rounded-xl font-semibold transition-all">
+                Member Login
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Services Preview (Blurred/Teaser) */}
+      <section className="py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl font-bold text-gold text-center mb-16"
+          >
+            Exclusive Experiences
+          </motion.h2>
+          
+          <div className="grid lg:grid-cols-2 gap-8">
+            {secretServices.map((service, index) => (
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.2, duration: 0.8 }}
+                className="relative bg-zinc-900/50 rounded-2xl overflow-hidden hover:bg-zinc-900/70 transition-all group"
+              >
+                {/* Blur overlay for non-members */}
+                <div className="absolute inset-0 backdrop-blur-sm bg-black/30 z-10 flex items-center justify-center">
+                  <div className="text-center">
+                    <Lock className="w-12 h-12 text-gold mx-auto mb-3" />
+                    <p className="text-white font-semibold mb-2">{service.memberTier} Members Only</p>
+                    <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm">
+                      Unlock Access
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="relative">
+                  <img
+                    src={service.image}
+                    alt={service.name}
+                    className="w-full h-64 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 flex items-center gap-3">
+                    {service.icon}
+                    <div>
+                      <h3 className="text-2xl font-bold text-white">{service.name}</h3>
+                      <p className="text-gold font-semibold">{service.price}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-6">
+                  <p className="text-zinc-300 mb-4 leading-relaxed">
+                    {service.description}
+                  </p>
+                  
+                  <div className="grid grid-cols-2 gap-2 mb-4">
+                    {service.features.map((feature, i) => (
+                      <div key={i} className="flex items-center gap-2 text-sm text-zinc-400">
+                        <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="text-zinc-400 text-sm">
+                    Duration: {service.duration}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Membership Tiers */}
+      {showMembership && (
+        <section className="py-20 px-6 bg-zinc-900/30">
+          <div className="max-w-7xl mx-auto">
+            <motion.h2
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-4xl font-bold text-gold text-center mb-16"
+            >
+              Membership Tiers
+            </motion.h2>
+            
+            <div className="grid lg:grid-cols-4 gap-6">
+              {membershipTiers.map((tier, index) => (
+                <motion.div
+                  key={tier.tier}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1, duration: 0.8 }}
+                  className={`bg-gradient-to-br ${tier.color} p-[1px] rounded-2xl`}
+                >
+                  <div className="bg-black rounded-2xl p-6 h-full">
+                    <h3 className="text-2xl font-bold text-white text-center mb-2">{tier.tier}</h3>
+                    <p className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-gold to-red-500 bg-clip-text text-transparent">
+                      {tier.price}
+                    </p>
+                    
+                    <ul className="space-y-3 mb-8">
+                      {tier.benefits.map((benefit, i) => (
+                        <li key={i} className="flex items-center gap-2 text-sm text-zinc-300">
+                          <div className="w-2 h-2 bg-gold rounded-full"></div>
+                          {benefit}
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    <button className="w-full bg-gradient-to-r from-red-600 to-gold hover:from-red-700 hover:to-yellow-500 text-white py-3 rounded-xl font-semibold transition-all hover:scale-105">
+                      Select {tier.tier}
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Specialists (Partially Visible) */}
+      <section className="py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <motion.h2
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl font-bold text-gold text-center mb-16"
+          >
+            Expert Specialists
+          </motion.h2>
+          
+          <div className="grid lg:grid-cols-3 gap-8">
+            {specialists.map((specialist, index) => (
+              <motion.div
+                key={specialist.id}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.2, duration: 0.8 }}
+                className="relative bg-zinc-900/50 rounded-2xl overflow-hidden hover:bg-zinc-900/70 transition-all group"
+              >
+                <div className="relative">
+                  <img
+                    src={specialist.image}
+                    alt={specialist.name}
+                    className="w-full h-64 object-cover filter blur-sm"
+                  />
+                  <div className="absolute inset-0 bg-black/50"></div>
+                  <div className="absolute bottom-4 left-4">
+                    <h3 className="text-2xl font-bold text-white">{specialist.name}</h3>
+                    <div className="flex items-center gap-1 mt-1">
+                      <Star className="w-4 h-4 text-yellow-500 fill-current" />
+                      <span className="text-gold font-bold">{specialist.rating}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-6">
+                  <p className="text-zinc-300 text-sm mb-4">
+                    {specialist.description}
+                  </p>
+                  
+                  <div className="mb-4">
+                    <span className="text-zinc-400 text-sm">{specialist.experience}</span>
+                  </div>
+                  
+                  <button className="w-full bg-zinc-700 text-zinc-400 py-3 rounded-xl font-semibold cursor-not-allowed">
+                    Members Only Access
+                  </button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Privacy & Discretion */}
+      <section className="py-20 px-6 bg-gradient-to-t from-red-900/20 to-transparent">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="bg-green-900/20 border border-green-600/30 rounded-2xl p-8"
+          >
+            <Shield className="w-12 h-12 text-green-500 mx-auto mb-4" />
+            <h3 className="text-2xl font-bold text-green-400 mb-4">Ultimate Privacy & Discretion</h3>
+            <p className="text-zinc-300 leading-relaxed mb-6">
+              Her Secrets operates under the strictest confidentiality protocols. All activities are consensual, 
+              safe, and conducted by trained professionals. Your privacy and safety are our absolute priority.
+            </p>
+            <div className="grid md:grid-cols-3 gap-6 text-sm">
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span>Complete Anonymity</span>
+              </div>
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span>Safe Words Protocol</span>
+              </div>
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span>Professional Standards</span>
+              </div>
+            </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="mt-8"
+          >
+            <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105">
+              Begin Membership Application
+            </button>
+          </motion.div>
+        </div>
+      </section>
+    </div>
+  );
+}

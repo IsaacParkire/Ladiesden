@@ -19,6 +19,11 @@
     box-sizing: border-box;
   }
 
+  /* Smooth scrolling for all elements */
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-black text-white font-sans min-h-screen;
     font-family: 'Open Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;

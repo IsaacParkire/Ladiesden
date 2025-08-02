@@ -1,39 +1,40 @@
 import { useState, useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, ShoppingCart, Search, Star } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/laydies-logo.png";
 
 const navLinks = [
-  { name: "Home", href: "#hero" },
-  { name: "Projects", href: "#projects" },
+  { name: "Home", href: "/" },
+  { name: "Her Boutique", href: "/boutique" },
+  { name: "Her Touch", href: "/touch" },
+  { name: "Her Strength", href: "/strength" },
 ];
 
 const categories = [
-  { name: "Lineup", href: "#lineup" },
-  { name: "VIP", href: "#vip" },
-  { name: "Gallery", href: "#gallery" },
-  { name: "Gym", href: "#gym" },
-  { name: "Stretches", href: "#stretches" },
-  { name: "Contact", href: "#contact" },
+  { name: "Her Night", href: "/night" },
+  { name: "Her Secrets", href: "/secrets" },
+  { name: "Gallery", href: "/gallery" },
+  { name: "Book Session", href: "/book" },
+  { name: "Connect", href: "/connect" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeLink, setActiveLink] = useState("Home");
+  const location = useLocation();
   const dropdownRef = useRef(null);
 
+  const getActiveLink = () => {
+    const currentPath = location.pathname;
+    const allLinks = [...navLinks, ...categories];
+    const activeLink = allLinks.find(link => link.href === currentPath);
+    return activeLink ? activeLink.name : "Home";
+  };
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 30);
-      const scrollY = window.scrollY + 150;
-      for (const link of [...navLinks, ...categories]) {
-        const section = document.querySelector(link.href);
-        if (section && section.offsetTop <= scrollY && scrollY < section.offsetTop + section.offsetHeight) {
-          setActiveLink(link.name);
-        }
-      }
     };
 
     const handleClickOutside = (e) => {
@@ -53,23 +54,21 @@ export default function Navbar() {
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${scrolled ? "backdrop-blur bg-black/70 py-2 shadow-md" : "bg-black py-4"}`}>
-      <div className="max-w-7xl mx-auto w-full px-4 flex justify-between items-center">
-        {/* Logo */}
-        <a href="#hero" className="flex items-center space-x-3">
+      <div className="max-w-7xl mx-auto w-full px-4 flex justify-between items-center">        {/* Logo */}
+        <Link to="/" className="flex items-center space-x-3">
           <img src={logo} alt="Laydies Den Logo" className="h-14 md:h-16 object-contain max-w-[200px]" />
-        </a>
+        </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center space-x-6">
-          {navLinks.map((link) => (
-            <a
+        <nav className="hidden md:flex items-center space-x-6">          {navLinks.map((link) => (
+            <Link
               key={link.name}
-              href={link.href}
-              className={`relative font-medium tracking-wide text-sm transition-colors ${activeLink === link.name ? "text-red-500" : "text-gold"}`}
+              to={link.href}
+              className={`relative font-medium tracking-wide text-sm transition-colors ${getActiveLink() === link.name ? "text-red-500" : "text-gold"}`}
             >
               {link.name}
-              {activeLink === link.name && <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500 rounded-full"></span>}
-            </a>
+              {getActiveLink() === link.name && <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-red-500 rounded-full"></span>}
+            </Link>
           ))}
 
           {/* Categories Dropdown */}
@@ -88,16 +87,15 @@ export default function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   className="absolute mt-2 w-44 bg-black border border-zinc-800 rounded-lg shadow-lg z-50"
-                >
-                  {categories.map((cat) => (
-                    <a
+                >                  {categories.map((cat) => (
+                    <Link
                       key={cat.name}
-                      href={cat.href}
+                      to={cat.href}
                       onClick={() => setDropdownOpen(false)}
                       className="block px-4 py-2 text-sm text-gold hover:bg-red-600 hover:text-white transition-colors"
                     >
                       {cat.name}
-                    </a>
+                    </Link>
                   ))}
                 </motion.div>
               )}
@@ -112,15 +110,13 @@ export default function Navbar() {
               placeholder="Search..."
               className="ml-2 bg-transparent outline-none text-sm placeholder-zinc-400 text-white"
             />
-          </div>
-
-          {/* Cart */}
-          <a
-            href="#cart"
+          </div>          {/* Cart */}
+          <Link
+            to="/cart"
             className="flex items-center gap-1 px-3 py-1.5 text-sm bg-zinc-900 text-gold rounded-full hover:bg-red-600 hover:text-white transition-all"
           >
             <ShoppingCart size={16} /> Cart
-          </a>
+          </Link>
 
           {/* Book VIP Button */}
           <a
@@ -142,37 +138,34 @@ export default function Navbar() {
         <div className="p-5 flex justify-between items-center border-b border-zinc-800">
           <img src={logo} alt="Laydies Den" className="h-12 object-contain" />
           <X className="text-gold cursor-pointer" size={24} onClick={() => setOpen(false)} />
-        </div>
-        <nav className="flex flex-col items-start px-6 pt-6 space-y-4">
+        </div>        <nav className="flex flex-col items-start px-6 pt-6 space-y-4">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
-              href={link.href}
+              to={link.href}
               onClick={() => setOpen(false)}
-              className={`text-lg font-medium ${activeLink === link.name ? "text-red-500" : "text-gold"}`}
+              className={`text-lg font-medium ${getActiveLink() === link.name ? "text-red-500" : "text-gold"}`}
             >
               {link.name}
-            </a>
+            </Link>
           ))}
 
           {categories.map((cat) => (
-            <a
+            <Link
               key={cat.name}
-              href={cat.href}
+              to={cat.href}
               onClick={() => setOpen(false)}
-              className={`text-lg font-medium ${activeLink === cat.name ? "text-red-500" : "text-gold"}`}
+              className={`text-lg font-medium ${getActiveLink() === cat.name ? "text-red-500" : "text-gold"}`}
             >
               {cat.name}
-            </a>
-          ))}
-
-          <a
-            href="#cart"
+            </Link>
+          ))}          <Link
+            to="/cart"
             onClick={() => setOpen(false)}
             className="flex items-center gap-1 px-3 py-1.5 text-sm bg-zinc-900 text-gold rounded-full hover:bg-red-600 hover:text-white transition-all"
           >
             <ShoppingCart size={16} /> Cart
-          </a>
+          </Link>
 
           <a
             href="#vip"
