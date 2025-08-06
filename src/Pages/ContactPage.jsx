@@ -64,27 +64,38 @@ export default function ContactPage() {
     "General Inquiry"
   ];
 
-  return (
-    <div className="min-h-screen bg-black text-white pt-24">
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-red-900/20 to-black">
-        <div className="absolute inset-0 bg-black/50"></div>
-        <div className="relative max-w-7xl mx-auto px-4 text-center">
+  return (    <div className="min-h-screen bg-black text-white pt-24">      {/* Hero Section */}
+      <section className="h-[20vh] px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+        <div className="relative max-w-7xl mx-auto text-center">
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent"
+            transition={{ duration: 0.8 }}
+            className="text-4xl lg:text-5xl font-bold mb-4 text-gold"
           >
             Connect With Us 💎
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-xl md:text-2xl text-gold max-w-3xl mx-auto"
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto mb-6"
           >
-            Ready to experience luxury redefined? Let's create something extraordinary together.
+            Ready to experience luxury redefined? Get in touch with our concierge team for personalized service and exclusive access.
           </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <button className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl">
+              Book Consultation
+            </button>
+            <button className="px-8 py-3 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-xl font-semibold transition-all duration-300 hover:scale-105">
+              VIP Access
+            </button>          </motion.div>
         </div>
       </section>
 

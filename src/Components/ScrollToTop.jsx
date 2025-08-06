@@ -3,37 +3,62 @@ import { useLocation } from 'react-router-dom';
 
 export default function ScrollToTop() {
   const { pathname } = useLocation();
-
   useEffect(() => {
-    // Force immediate scroll to top on route change
-    window.scrollTo(0, 0);
+    // Disable browser scroll restoration
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
     
-    // Small delay to ensure the page has rendered before smooth scrolling
+    // Immediate scroll to top on route change
+    const scrollToTop = () => {
+      // Use multiple methods to ensure scroll works
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+
+    // Immediate scroll
+    scrollToTop();
+    
+    // Also try after a small delay to ensure DOM is ready
     const timer = setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-      });
-    }, 50);
+      scrollToTop();
+    }, 10);
 
     return () => clearTimeout(timer);
   }, [pathname]);
 
-  // Handle page reload scenarios
+  // Handle page reload and initial load scenarios
   useEffect(() => {
-    // Force scroll to top on component mount (handles page reloads)
-    window.scrollTo(0, 0);
-    
-    // Also set up a listener for page load events
-    const handleLoad = () => {
+    const scrollToTop = () => {
       window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
     };
+
+    // Force scroll to top on component mount (handles page reloads)
+    scrollToTop();
     
+    // Set up listeners for different load events
+    const handleLoad = () => scrollToTop();
+    const handleDOMContentLoaded = () => scrollToTop();
+    const handleBeforeUnload = () => scrollToTop();
+    
+    // Add multiple event listeners to catch all scenarios
     window.addEventListener('load', handleLoad);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    document.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
+    
+    // Also try after a longer delay for complex pages
+    const delayedTimer = setTimeout(() => {
+      scrollToTop();
+    }, 100);
     
     return () => {
       window.removeEventListener('load', handleLoad);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      document.removeEventListener('DOMContentLoaded', handleDOMContentLoaded);
+      clearTimeout(delayedTimer);
     };
   }, []);
 

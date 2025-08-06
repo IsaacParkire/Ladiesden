@@ -10,7 +10,7 @@ const upcomingEvents = [
     time: "9:00 PM - 2:00 AM",
     type: "Female-Only Event",
     description: "An elegant masquerade ball with live entertainment, premium cocktails, and exclusive networking.",
-    price: "$150",
+    price: "KSH 19,500",
     capacity: "50 ladies",
     hosts: ["Adrian", "Marcus", "Julian"],
     image: "/events/masquerade.jpg",
@@ -23,7 +23,7 @@ const upcomingEvents = [
     time: "7:00 PM - 11:00 PM",
     type: "Private Show",
     description: "Intimate wine tasting with private performances and personalized male host service.",
-    price: "$200",
+    price: "KSH 26,000",
     capacity: "25 ladies",
     hosts: ["Sebastian", "Phoenix", "Damien"],
     image: "/events/wine.jpg",
@@ -36,7 +36,7 @@ const upcomingEvents = [
     time: "8:00 PM - 1:00 AM",
     type: "Bartender Experience",
     description: "Exclusive ladies night with skilled male bartenders creating custom cocktails and entertainment.",
-    price: "$100",
+    price: "KSH 13,000",
     capacity: "40 ladies",
     hosts: ["Ryan", "Blake", "Carter"],
     image: "/events/takeover.jpg",
@@ -49,7 +49,7 @@ const vipTables = [
     id: 1,
     name: "Golden Goddess Table",
     capacity: "Up to 6 ladies",
-    price: "$800",
+    price: "KSH 104,000",
     hosts: 2,
     description: "Premium table service with dedicated male hosts, champagne service, and VIP treatment.",
     features: ["2 Dedicated Hosts", "Champagne Service", "Premium Location", "Personal Concierge"],
@@ -59,7 +59,7 @@ const vipTables = [
     id: 2,
     name: "Ruby Empress Suite",
     capacity: "Up to 8 ladies",
-    price: "$1200",
+    price: "KSH 156,000",
     hosts: 3,
     description: "Exclusive private suite with multiple male hosts, full bar service, and luxury amenities.",
     features: ["3 Dedicated Hosts", "Full Bar Service", "Private Suite", "Luxury Amenities"],
@@ -69,7 +69,7 @@ const vipTables = [
     id: 3,
     name: "Diamond Diva Experience",
     capacity: "Up to 10 ladies",
-    price: "$1800",
+    price: "KSH 234,000",
     hosts: 4,
     description: "Ultimate VIP experience with full host team, premium entertainment, and exclusive perks.",
     features: ["4 Dedicated Hosts", "Premium Entertainment", "Exclusive Perks", "Personal Chef"],
@@ -108,29 +108,35 @@ export default function EventsPage() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedVipTable, setSelectedVipTable] = useState(null);
 
-  return (
-    <div className="pt-24 bg-black text-white">
-      {/* Hero Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-red-900/20 to-black">
-        <div className="max-w-4xl mx-auto text-center">
+  return (    <div className="pt-24 bg-black text-white">      {/* Hero Section */}
+      <section className="h-[20vh] px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+        <div className="relative max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="mb-6"
-          >
-            <span className="text-6xl mb-4 block">🍸</span>
-            <h1 className="text-5xl font-bold text-gold mb-4">Her Night</h1>
-            <p className="text-2xl text-red-500 font-medium">"Pleasure After Dark."</p>
+            className="mb-4"
+          >            <span className="text-4xl mb-2 block">🍸</span>
+            <h1 className="text-3xl md:text-4xl font-bold text-gold mb-2">Her Night</h1>
+            <p className="text-lg text-red-500 font-medium mb-3">"Pleasure After Dark."</p>
+            <p className="text-sm text-zinc-300 leading-relaxed max-w-2xl mx-auto">
+              Exclusive female-only events, private shows, and VIP experiences with our trained male hosts.
+            </p>
           </motion.div>
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-xl text-zinc-300 leading-relaxed max-w-3xl mx-auto"
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="flex flex-wrap justify-center gap-3"
           >
-            Exclusive female-only events, private shows, and VIP experiences with our trained male hosts in the most sophisticated nightlife setting.
-          </motion.p>
+            <button className="px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg font-semibold transition-all duration-300 hover:scale-105 text-sm">
+              View Events
+            </button>
+            <button className="px-6 py-2 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-lg font-semibold transition-all duration-300 hover:scale-105 text-sm">
+              Book VIP Table
+            </button>
+          </motion.div>
         </div>
       </section>
 

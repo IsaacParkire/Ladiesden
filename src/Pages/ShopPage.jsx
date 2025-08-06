@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ShoppingCart, Heart, Star, Filter, Search, Plus, Minus } from "lucide-react";
+import { useCart } from "../contexts/CartContext";
 
 const products = [
   {
@@ -96,10 +97,10 @@ const categories = [
 
 export default function ShopPage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [cart, setCart] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [sortBy, setSortBy] = useState("name");
+  const { addItem, totalItems } = useCart();
 
   const filteredProducts = selectedCategory === "all" 
     ? products 
@@ -117,19 +118,10 @@ export default function ShopPage() {
         return a.name.localeCompare(b.name);
     }
   });
-
   const addToCart = (product, quantity = 1) => {
-    setCart(prev => {
-      const existing = prev.find(item => item.id === product.id);
-      if (existing) {
-        return prev.map(item => 
-          item.id === product.id 
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      }
-      return [...prev, { ...product, quantity }];
-    });
+    for (let i = 0; i < quantity; i++) {
+      addItem(product);
+    }
   };
 
   const toggleFavorite = (productId) => {
@@ -139,9 +131,6 @@ export default function ShopPage() {
         : [...prev, productId]
     );
   };
-
-  const cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-  const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <div className="pt-24 bg-black text-white">
@@ -199,15 +188,13 @@ export default function ShopPage() {
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
                 <option value="rating">Highest Rated</option>
-              </select>
-
-              {/* Cart Button */}
+              </select>              {/* Cart Button */}
               <button className="relative bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-all">
                 <ShoppingCart className="w-5 h-5 inline mr-2" />
                 Cart
-                {cartCount > 0 && (
+                {totalItems > 0 && (
                   <span className="absolute -top-2 -right-2 bg-gold text-black text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold">
-                    {cartCount}
+                    {totalItems}
                   </span>
                 )}
               </button>
@@ -428,21 +415,7 @@ export default function ShopPage() {
                   </button>
                 </div>
               </div>
-            </div>
-          </motion.div>
-        </div>
-      )}
-
-      {/* Cart Summary (if items in cart) */}
-      {cartCount > 0 && (
-        <div className="fixed bottom-6 right-6 bg-zinc-900 p-4 rounded-xl shadow-xl border border-zinc-700">
-          <div className="text-white">
-            <p className="font-semibold mb-2">Cart Summary</p>
-            <p className="text-sm text-zinc-300">{cartCount} items - ${cartTotal.toFixed(2)}</p>
-            <button className="mt-3 w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition-all text-sm font-semibold">
-              Checkout
-            </button>
-          </div>
+            </div>          </motion.div>
         </div>
       )}
     </div>

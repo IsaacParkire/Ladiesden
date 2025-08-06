@@ -2,57 +2,30 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Minus, Plus, Trash2, ArrowLeft, ShoppingBag, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useCart } from '../contexts/CartContext';
 
 export default function CartPage() {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Luxury Silk Dress",
-      price: 299,
-      image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=600&fit=crop",
-      category: "Fashion",
-      quantity: 1,
-      size: "M",
-      color: "Black"
-    },
-    {
-      id: 2,
-      name: "Designer Handbag",
-      price: 599,
-      image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&h=600&fit=crop",
-      category: "Accessories",
-      quantity: 1,
-      color: "Brown"
-    },
-    {
-      id: 3,
-      name: "Premium Skincare Set",
-      price: 149,
-      image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=600&fit=crop",
-      category: "Beauty",
-      quantity: 2
-    }
-  ]);
+  const { items: cartItems, updateQuantity, removeItem, totalPrice } = useCart();
 
-  const updateQuantity = (id, newQuantity) => {
-    if (newQuantity <= 0) {
-      removeItem(id);
-      return;
+  // Helper function to format price
+  const formatPrice = (price) => {
+    if (typeof price === 'string') {
+      return price;
     }
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
+    return `KSH ${price.toLocaleString()}`;
   };
 
-  const removeItem = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id));
+  // Helper function to get numeric price
+  const getNumericPrice = (price) => {
+    if (typeof price === 'string') {
+      return parseFloat(price.replace(/[^\d.]/g, ''));
+    }
+    return price;
   };
 
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = subtotal > 500 ? 0 : 25;
-  const tax = subtotal * 0.08;
+  const subtotal = totalPrice;
+  const shipping = subtotal > 50000 ? 0 : 2500; // Adjusted for KSH
+  const tax = subtotal * 0.16; // Kenya VAT rate
   const total = subtotal + shipping + tax;
 
   return (
@@ -158,13 +131,12 @@ export default function CartPage() {
                             >
                               <Plus size={14} />
                             </button>
-                          </div>
-                          <div className="text-right">
+                          </div>                          <div className="text-right">
                             <p className="font-bold text-gold text-lg">
-                              ${(item.price * item.quantity).toFixed(2)}
+                              {formatPrice(getNumericPrice(item.price) * item.quantity)}
                             </p>
                             <p className="text-xs text-zinc-400">
-                              ${item.price} each
+                              {formatPrice(item.price)} each
                             </p>
                           </div>
                         </div>
@@ -195,36 +167,35 @@ export default function CartPage() {
                 className="bg-zinc-900/50 rounded-xl p-6 sticky top-24"
               >
                 <h2 className="text-xl font-bold text-white mb-6">Order Summary</h2>
-                
-                <div className="space-y-4">
+                  <div className="space-y-4">
                   <div className="flex justify-between text-zinc-300">
                     <span>Subtotal ({cartItems.length} items)</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>KSH {subtotal.toLocaleString()}</span>
                   </div>
                   
                   <div className="flex justify-between text-zinc-300">
                     <span>Shipping</span>
-                    <span>{shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}</span>
+                    <span>{shipping === 0 ? 'FREE' : `KSH ${shipping.toLocaleString()}`}</span>
                   </div>
                   
                   <div className="flex justify-between text-zinc-300">
-                    <span>Tax</span>
-                    <span>${tax.toFixed(2)}</span>
+                    <span>VAT (16%)</span>
+                    <span>KSH {tax.toLocaleString()}</span>
                   </div>
                   
                   <div className="border-t border-zinc-700 pt-4">
                     <div className="flex justify-between text-xl font-bold text-white">
                       <span>Total</span>
-                      <span className="text-gold">${total.toFixed(2)}</span>
+                      <span className="text-gold">KSH {total.toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Free Shipping Notice */}
-                {subtotal < 500 && (
+                {subtotal < 50000 && (
                   <div className="mt-4 p-3 bg-red-900/20 border border-red-600/30 rounded-lg">
                     <p className="text-sm text-red-300">
-                      Add ${(500 - subtotal).toFixed(2)} more for FREE shipping!
+                      Add KSH {(50000 - subtotal).toLocaleString()} more for FREE shipping!
                     </p>
                   </div>
                 )}

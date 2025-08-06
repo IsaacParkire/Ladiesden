@@ -8,7 +8,7 @@ const fitnessPrograms = [
     name: "Private Personal Training",
     icon: <Dumbbell className="w-8 h-8 text-red-500" />,
     duration: "60-90 minutes",
-    price: "$150-250",
+    price: "KSH 19,500-32,500",
     description: "One-on-one training sessions with elite male trainers focused on your specific body transformation goals.",
     features: ["Personalized workout plan", "Form correction", "Motivation coaching", "Progress tracking"],
     image: "/fitness/personal.jpg"
@@ -18,7 +18,7 @@ const fitnessPrograms = [
     name: "Sensual Strength Classes",
     icon: <Heart className="w-8 h-8 text-red-500" />,
     duration: "75-105 minutes",
-    price: "$100-180",
+    price: "KSH 13,000-23,400",
     description: "Partner-based flexibility and mobility classes that combine fitness with sensual movement.",
     features: ["Partner exercises", "Flexibility training", "Sensual movement", "Core strengthening"],
     image: "/fitness/sensual.jpg"
@@ -28,7 +28,7 @@ const fitnessPrograms = [
     name: "Body Transformation Program",
     icon: <Trophy className="w-8 h-8 text-gold" />,
     duration: "12-week program",
-    price: "$2000-3500",
+    price: "KSH 260,000-455,000",
     description: "Comprehensive transformation program designed specifically for women, with dedicated male trainers.",
     features: ["12-week commitment", "Nutrition guidance", "Weekly assessments", "Lifestyle coaching"],
     image: "/fitness/transformation.jpg"
@@ -38,7 +38,7 @@ const fitnessPrograms = [
     name: "Couples Fitness Sessions",
     icon: <Users className="w-8 h-8 text-gold" />,
     duration: "60-90 minutes",
-    price: "$200-300",
+    price: "KSH 26,000-39,000",
     description: "Partner workouts designed to strengthen both your relationship and your bodies together.",
     features: ["Partner exercises", "Communication building", "Trust exercises", "Fun challenges"],
     image: "/fitness/couples.jpg"
@@ -112,29 +112,41 @@ export default function FitnessPage() {
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [selectedTrainer, setSelectedTrainer] = useState(null);
 
-  return (
-    <div className="pt-24 bg-black text-white">
-      {/* Hero Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-red-900/20 to-black">
-        <div className="max-w-4xl mx-auto text-center">
+  return (    <div className="pt-24 bg-black text-white">      {/* Hero Section */}
+      <section className="h-[20vh] px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+        <div className="relative max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="mb-6"
+            className="mb-4"
           >
-            <span className="text-6xl mb-4 block">🏋️‍♀️</span>
-            <h1 className="text-5xl font-bold text-gold mb-4">Her Strength</h1>
-            <p className="text-2xl text-red-500 font-medium">"Built by Him. Ruled by Her."</p>
+            <span className="text-5xl mb-3 block">🏋️‍♀️</span>
+            <h1 className="text-4xl lg:text-5xl font-bold text-gold mb-2">Her Strength</h1>
+            <p className="text-xl text-red-500 font-medium">"Built by Him. Ruled by Her."</p>
           </motion.div>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-xl text-zinc-300 leading-relaxed max-w-3xl mx-auto"
+            className="text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto mb-6"
           >
-            Discover your inner strength with our elite male trainers in a luxurious fitness environment designed exclusively for women who demand excellence.
+            Discover your inner strength with our elite male trainers in a luxurious fitness environment designed exclusively for women.
           </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <button className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl">
+              Start Free Consultation
+            </button>
+            <button className="px-8 py-3 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-xl font-semibold transition-all duration-300 hover:scale-105">
+              View Programs
+            </button>
+          </motion.div>
         </div>
       </section>
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const scenes = [
   {
@@ -19,7 +20,7 @@ const scenes = [
     image: "/scenes/massage.jpg",
     description: "Experience our signature touch therapy with skilled male masseurs in luxurious private suites.",
     cta: "Book Massage",
-    link: "/massage"
+    link: "/touch"
   },
   {
     id: 3,
@@ -28,16 +29,16 @@ const scenes = [
     image: "/scenes/fitness.jpg",
     description: "Private fitness training with elite male trainers focused on your body transformation goals.",
     cta: "Start Training",
-    link: "/fitness"
+    link: "/strength"
   },
   {
     id: 4,
-    title: "Exclusive Lounge",
+    title: "Exclusive Events",
     subtitle: "Pleasure after dark",
     image: "/scenes/lounge.jpg",
     description: "Female-only events, private shows, and VIP experiences with trained male hosts.",
     cta: "Join Events",
-    link: "/events"
+    link: "/night"
   },
   {
     id: 5,
@@ -78,9 +79,8 @@ export default function RotatingScenes() {
     setCurrentScene(index);
     setIsAutoPlaying(false);
   };
-
   return (
-    <section className="relative h-screen overflow-hidden bg-black">
+    <section className="relative h-[60vh] overflow-hidden bg-black rounded-2xl mx-4 my-8 shadow-2xl">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentScene}
@@ -97,17 +97,17 @@ export default function RotatingScenes() {
               alt={scenes[currentScene].title}
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black/50"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
           </div>
 
           {/* Content */}
           <div className="relative z-10 flex items-center justify-center h-full px-6">
-            <div className="text-center max-w-4xl">
+            <div className="text-center max-w-3xl">
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.8 }}
-                className="text-gold text-lg md:text-xl font-medium mb-4"
+                className="text-gold text-sm md:text-base font-medium mb-3"
               >
                 {scenes[currentScene].subtitle}
               </motion.p>
@@ -116,7 +116,7 @@ export default function RotatingScenes() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
-                className="text-4xl md:text-6xl font-bold text-white mb-6"
+                className="text-2xl md:text-4xl font-bold text-white mb-4"
               >
                 {scenes[currentScene].title}
               </motion.h2>
@@ -125,62 +125,63 @@ export default function RotatingScenes() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7, duration: 0.8 }}
-                className="text-zinc-300 text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed"
+                className="text-zinc-300 text-sm md:text-base mb-6 max-w-xl mx-auto leading-relaxed"
               >
                 {scenes[currentScene].description}
               </motion.p>
               
-              <motion.a
-                href={scenes[currentScene].link}
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9, duration: 0.8 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-block bg-red-600 hover:bg-red-700 text-white font-semibold py-4 px-8 rounded-xl shadow-xl transition-all"
               >
-                {scenes[currentScene].cta}
-              </motion.a>
+                <Link
+                  to={scenes[currentScene].link}
+                  className="inline-block bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold py-3 px-6 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+                >
+                  {scenes[currentScene].cta}
+                </Link>
+              </motion.div>
             </div>
           </div>
         </motion.div>
-      </AnimatePresence>
-
-      {/* Navigation Arrows */}
+      </AnimatePresence>      {/* Elegant Navigation Arrows */}
       <button
         onClick={prevScene}
-        className="absolute left-6 top-1/2 transform -translate-y-1/2 z-20 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all"
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-2 rounded-full transition-all duration-300 hover:scale-110"
       >
-        <ChevronLeft className="w-6 h-6" />
+        <ChevronLeft className="w-5 h-5" />
       </button>
       
       <button
         onClick={nextScene}
-        className="absolute right-6 top-1/2 transform -translate-y-1/2 z-20 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all"
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-2 rounded-full transition-all duration-300 hover:scale-110"
       >
-        <ChevronRight className="w-6 h-6" />
+        <ChevronRight className="w-5 h-5" />
       </button>
 
-      {/* Scene Indicators */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex space-x-3">
+      {/* Modern Scene Indicators */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2">
         {scenes.map((_, index) => (
           <button
             key={index}
             onClick={() => goToScene(index)}
-            className={`w-3 h-3 rounded-full transition-all ${
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
               index === currentScene
-                ? "bg-red-600 scale-125"
-                : "bg-white/50 hover:bg-white/70"
+                ? "bg-red-600 scale-125 shadow-lg"
+                : "bg-white/40 hover:bg-white/60"
             }`}
           />
         ))}
       </div>
 
-      {/* Scene Counter */}
-      <div className="absolute top-8 right-8 z-20 bg-black/50 backdrop-blur-sm rounded-full px-4 py-2 text-white">
-        <span className="text-gold font-bold">{currentScene + 1}</span>
-        <span className="text-zinc-300 mx-1">/</span>
-        <span className="text-zinc-300">{scenes.length}</span>
+      {/* Minimal Scene Counter */}
+      <div className="absolute top-4 right-4 z-20 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1 text-white text-sm">
+        <span className="text-gold font-medium">{currentScene + 1}</span>
+        <span className="text-zinc-400 mx-1">/</span>
+        <span className="text-zinc-400">{scenes.length}</span>
       </div>
     </section>
   );

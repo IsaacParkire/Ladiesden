@@ -3,33 +3,32 @@ import { motion } from "framer-motion";
 import { Crown, Heart, Users, Star, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const previewServices = [
-  {
+const previewServices = [  {
     icon: <Crown className="w-8 h-8 text-gold" />,
-    title: "VIP Escort Services",
-    description: "Elite companionship for sophisticated events and intimate encounters.",
-    price: "From $500/hour",
+    title: "VIP Concierge Services",
+    description: "Elite personal assistance for sophisticated events and lifestyle management.",
+    price: "From KSH 65,000/hour",
     image: "/services/vip-preview.jpg"
   },
   {
     icon: <Heart className="w-8 h-8 text-red-500" />,
     title: "Sensual Massage",
     description: "Therapeutic and sensual experiences to awaken your senses.",
-    price: "From $200/session",
+    price: "From KSH 26,000/session",
     image: "/services/massage-preview.jpg"
   },
   {
     icon: <Star className="w-8 h-8 text-gold" />,
     title: "Fantasy Fulfillment",
     description: "Safe exploration of your deepest fantasies and desires.",
-    price: "From $400/session",
+    price: "From KSH 52,000/session",
     image: "/services/fantasy-preview.jpg"
   },
   {
     icon: <Users className="w-8 h-8 text-red-500" />,
     title: "Couples Experiences",
     description: "Enhance intimacy and explore new dimensions together.",
-    price: "From $600/session",
+    price: "From KSH 78,000/session",
     image: "/services/couples-preview.jpg"
   }
 ];

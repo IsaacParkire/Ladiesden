@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Star, ShoppingCart } from 'lucide-react';
+import { useCart } from '../contexts/CartContext';
 
 const products = [
   {
     id: 1,
     name: "Luxury Silk Dress",
-    price: "$299",
+    price: "KSH 38,870",
     image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=600&fit=crop",
     category: "Fashion",
     rating: 5,
@@ -15,7 +16,7 @@ const products = [
   {
     id: 2,
     name: "Designer Handbag",
-    price: "$599",
+    price: "KSH 77,870",
     image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&h=600&fit=crop",
     category: "Accessories",
     rating: 5,
@@ -24,7 +25,7 @@ const products = [
   {
     id: 3,
     name: "Premium Skincare Set",
-    price: "$149",
+    price: "KSH 19,370",
     image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=600&fit=crop",
     category: "Beauty",
     rating: 4,
@@ -33,7 +34,7 @@ const products = [
   {
     id: 4,
     name: "Elegant Jewelry Set",
-    price: "$899",
+    price: "KSH 116,870",
     image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=600&fit=crop",
     category: "Jewelry",
     rating: 5,
@@ -42,7 +43,7 @@ const products = [
   {
     id: 5,
     name: "Luxury Perfume",
-    price: "$199",
+    price: "KSH 25,870",
     image: "https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&h=600&fit=crop",
     category: "Fragrance",
     rating: 5,
@@ -51,7 +52,7 @@ const products = [
   {
     id: 6,
     name: "Designer Heels",
-    price: "$399",
+    price: "KSH 51,870",
     image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&h=600&fit=crop",
     category: "Footwear",
     rating: 4,
@@ -62,6 +63,11 @@ const products = [
 export default function ProductsCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const { addItem } = useCart();
+
+  const handleAddToCart = (product) => {
+    addItem(product);
+  };
 
   // Auto-scroll functionality
   useEffect(() => {
@@ -132,10 +138,12 @@ export default function ProductsCarousel() {
                           SALE
                         </div>
                       )}
-                      
-                      {/* Quick Actions */}
+                        {/* Quick Actions */}
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <button className="bg-red-600 hover:bg-red-700 text-white p-3 rounded-full mx-2 transition-colors">
+                        <button 
+                          onClick={() => handleAddToCart(product)}
+                          className="bg-red-600 hover:bg-red-700 text-white p-3 rounded-full mx-2 transition-colors"
+                        >
                           <ShoppingCart size={20} />
                         </button>
                       </div>

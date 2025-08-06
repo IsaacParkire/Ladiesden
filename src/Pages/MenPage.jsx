@@ -103,15 +103,15 @@ const menStaff = [
 
 export default function MenPage() {
   return (
-    <div className="pt-24 bg-black text-white">
-      {/* Hero Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-red-900/20 to-black">
-        <div className="max-w-4xl mx-auto text-center">
+    <div className="pt-24 bg-black text-white">      {/* Hero Section */}
+      <section className="h-[20vh] px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+        <div className="relative max-w-4xl mx-auto text-center">
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl font-bold text-gold mb-6"
+            className="text-4xl lg:text-5xl font-bold text-gold mb-4"
           >
             Our Elite Gentlemen
           </motion.h1>
@@ -119,11 +119,25 @@ export default function MenPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-xl text-zinc-300 leading-relaxed"
+            className="text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto mb-6"
           >
             Meet our carefully selected professionals, each bringing unique talents and personalities to create unforgettable experiences.
           </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <button className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl">
+              Meet The Team
+            </button>
+            <button className="px-8 py-3 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-xl font-semibold transition-all duration-300 hover:scale-105">
+              Book Session
+            </button>
+          </motion.div>
         </div>
+      </section>
       </section>
 
       {/* Men Profiles */}

@@ -10,7 +10,7 @@ const secretServices = [
     description: "Take control in luxurious private suites with trained submissive male companions who understand the art of service.",
     features: ["Professional submissives", "Safe words protocol", "Equipment provided", "Aftercare included"],
     duration: "60-180 minutes",
-    price: "$400-800",
+    price: "KSH 52,000-104,000",
     image: "/secrets/femdom.jpg",
     memberTier: "Gold"
   },
@@ -21,7 +21,7 @@ const secretServices = [
     description: "Indulge in the ultimate foot worship experience with devoted male servants trained in the art of adoration.",
     features: ["Pedicure service", "Massage therapy", "Worship rituals", "Luxury amenities"],
     duration: "45-120 minutes",
-    price: "$300-600",
+    price: "KSH 39,000-78,000",
     image: "/secrets/foot.jpg",
     memberTier: "Silver"
   },
@@ -32,7 +32,7 @@ const secretServices = [
     description: "Train your personal male servant in the art of obedience and devotion in our specialized training suites.",
     features: ["Training protocols", "Behavior modification", "Reward systems", "Progress tracking"],
     duration: "90-240 minutes",
-    price: "$500-1000",
+    price: "KSH 65,000-130,000",
     image: "/secrets/obedience.jpg",
     memberTier: "Platinum"
   },
@@ -43,7 +43,7 @@ const secretServices = [
     description: "Bring your wildest fantasies to life with our expert roleplay specialists in immersive themed environments.",
     features: ["Custom scenarios", "Professional actors", "Costume wardrobe", "Set design"],
     duration: "60-300 minutes",
-    price: "$600-1500",
+    price: "KSH 78,000-195,000",
     image: "/secrets/roleplay.jpg",
     memberTier: "Diamond"
   }
@@ -52,25 +52,25 @@ const secretServices = [
 const membershipTiers = [
   {
     tier: "Silver",
-    price: "$500/month",
+    price: "KSH 65,000/month",
     benefits: ["Basic access to lounge", "2 sessions per month", "Standard amenities", "Basic customization"],
     color: "from-gray-400 to-gray-600"
   },
   {
     tier: "Gold",
-    price: "$1000/month",
+    price: "KSH 130,000/month",
     benefits: ["Full lounge access", "4 sessions per month", "Premium amenities", "Advanced customization", "Priority booking"],
     color: "from-yellow-400 to-yellow-600"
   },
   {
     tier: "Platinum",
-    price: "$2000/month",
+    price: "KSH 260,000/month",
     benefits: ["Unlimited access", "8 sessions per month", "Luxury amenities", "Full customization", "Personal concierge"],
     color: "from-purple-400 to-purple-600"
   },
   {
     tier: "Diamond",
-    price: "$5000/month",
+    price: "KSH 650,000/month",
     benefits: ["Exclusive access", "Unlimited sessions", "Ultra-luxury amenities", "Bespoke experiences", "24/7 concierge", "Private entrance"],
     color: "from-blue-400 to-blue-600"
   }
@@ -110,42 +110,47 @@ export default function SecretsPage() {
   const [selectedService, setSelectedService] = useState(null);
   const [showMembership, setShowMembership] = useState(false);
 
-  return (
-    <div className="pt-24 bg-black text-white">
-      {/* Hero Section with Age Verification */}
-      <section className="py-20 px-6 bg-gradient-to-b from-red-900/20 to-black">
-        <div className="max-w-4xl mx-auto text-center">
+  return (    <div className="pt-24 bg-black text-white">      {/* Hero Section with Age Verification */}
+      <section className="py-8 px-6 bg-gradient-to-br from-red-900/30 via-black to-zinc-900 relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+        <div className="relative max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="mb-6"
           >
-            <span className="text-6xl mb-4 block">🗝️</span>
-            <h1 className="text-5xl font-bold text-gold mb-4">Her Secrets</h1>
-            <p className="text-2xl text-red-500 font-medium">"Desire. Served Discreetly."</p>
+            <span className="text-3xl mb-2 block">🗝️</span>
+            <h1 className="text-2xl md:text-3xl font-bold text-gold mb-2">Her Secrets</h1>
+            <p className="text-base text-red-500 font-medium mb-3">"Desire. Served Discreetly."</p>
+            <p className="text-sm text-zinc-300 leading-relaxed max-w-2xl mx-auto mb-4">
+              Enter our exclusive private fetish lounge where your deepest desires are explored with complete discretion.
+            </p>
+            
+            {/* Compact Age Verification */}
+            <div className="bg-red-900/20 border border-red-600/30 rounded-lg p-3 max-w-md mx-auto mb-4 backdrop-blur-sm">
+              <div className="flex items-center justify-center gap-2 mb-1">
+                <Shield className="w-4 h-4 text-red-500" />
+                <span className="text-red-300 font-semibold text-sm">Adults Only - 21+ Required</span>
+              </div>
+              <p className="text-zinc-300 text-xs text-center">
+                Membership verification and age confirmation required for access.
+              </p>
+            </div>
           </motion.div>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-xl text-zinc-300 leading-relaxed max-w-3xl mx-auto mb-8"
-          >
-            Enter our exclusive private fetish lounge where your deepest desires are explored with complete discretion and professional expertise.
-          </motion.p>
           
-          {/* Age Verification Warning */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="bg-red-900/30 border border-red-600/50 rounded-xl p-6 max-w-2xl mx-auto"
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="flex flex-wrap justify-center gap-3"
           >
-            <Shield className="w-8 h-8 text-red-500 mx-auto mb-3" />
-            <p className="text-red-300 font-semibold mb-2">Adults Only - 21+ Required</p>
-            <p className="text-zinc-300 text-sm">
-              This section contains adult content. Membership verification and age confirmation required for access.
-            </p>
+            <button className="px-5 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg font-semibold transition-all duration-300 hover:scale-105 text-sm">
+              View Membership
+            </button>
+            <button className="px-5 py-2 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-lg font-semibold transition-all duration-300 hover:scale-105 text-sm">
+              Member Login
+            </button>
           </motion.div>
         </div>
       </section>

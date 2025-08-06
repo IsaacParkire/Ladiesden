@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 const vipPackages = [
   {
     name: "Gold Lounge",
-    price: "$299",
+    price: "KSH 38,870",
     features: [
       { icon: ShieldCheck, label: "Private Booth" },
       { icon: Sparkles, label: "Complimentary Bottle" },
@@ -13,7 +13,7 @@ const vipPackages = [
   },
   {
     name: "Red Velvet",
-    price: "$499",
+    price: "KSH 64,870",
     features: [
       { icon: Star, label: "Front-Row Seating" },
       { icon: Sparkles, label: "2 Premium Bottles" },

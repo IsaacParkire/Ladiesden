@@ -3,12 +3,12 @@ import { motion } from "framer-motion";
 import { Calendar, Clock, User, Phone, Mail, MapPin, CreditCard, Shield } from "lucide-react";
 
 const services = [
-  { id: "boutique", name: "Her Boutique - Personal Shopping", price: "$150-500", duration: "2-4 hours", description: "Personal styling with luxury fashion consultants" },
-  { id: "touch", name: "Her Touch - Massage Therapy", price: "$200-400", duration: "1-2 hours", description: "Professional therapeutic massage by expert male therapists" },
-  { id: "strength", name: "Her Strength - Personal Training", price: "$100-250", duration: "1-2 hours", description: "Customized fitness programs with certified male trainers" },
-  { id: "night", name: "Her Night - Event Experiences", price: "$300-1500", duration: "3-8 hours", description: "VIP access to exclusive events and entertainment" },
-  { id: "secrets", name: "Her Secrets - VIP Lounge", price: "$500-2000", duration: "2-6 hours", description: "Private membership experiences in our exclusive lounge" },
-  { id: "combination", name: "Combination Package", price: "$400-1000", duration: "4-8 hours", description: "Multiple services combined for the ultimate experience" }
+  { id: "boutique", name: "Her Boutique - Personal Shopping", price: "KSH 19,500-65,000", duration: "2-4 hours", description: "Personal styling with luxury fashion consultants" },
+  { id: "touch", name: "Her Touch - Massage Therapy", price: "KSH 26,000-52,000", duration: "1-2 hours", description: "Professional therapeutic massage by expert male therapists" },
+  { id: "strength", name: "Her Strength - Personal Training", price: "KSH 13,000-32,500", duration: "1-2 hours", description: "Customized fitness programs with certified male trainers" },
+  { id: "night", name: "Her Night - Event Experiences", price: "KSH 39,000-195,000", duration: "3-8 hours", description: "VIP access to exclusive events and entertainment" },
+  { id: "secrets", name: "Her Secrets - VIP Lounge", price: "KSH 65,000-260,000", duration: "2-6 hours", description: "Private membership experiences in our exclusive lounge" },
+  { id: "combination", name: "Combination Package", price: "KSH 52,000-130,000", duration: "4-8 hours", description: "Multiple services combined for the ultimate experience" }
 ];
 
 const timeSlots = [
@@ -48,10 +48,9 @@ export default function BookNowPage() {
   };
 
   return (
-    <div className="pt-24 bg-black text-white min-h-screen">
-      {/* Hero Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-red-900/20 to-black">
-        <div className="max-w-4xl mx-auto text-center">          <motion.h1
+    <div className="pt-24 bg-black text-white min-h-screen">      {/* Hero Section */}
+      <section className="py-8 px-6 bg-gradient-to-b from-red-900/20 to-black">
+        <div className="max-w-4xl mx-auto text-center"><motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}

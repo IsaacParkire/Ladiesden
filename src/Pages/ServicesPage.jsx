@@ -2,15 +2,14 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Star, Clock, Users, Sparkles, Heart, Crown } from "lucide-react";
 
-const services = [
-  {
+const services = [  {
     id: 1,
-    title: "VIP Escort Services",
-    description: "Exclusive companionship with our elite gentlemen for sophisticated events, dinners, and private encounters.",
-    image: "/services/vip-escort.jpg",
+    title: "VIP Concierge Services",
+    description: "Exclusive personal assistance and lifestyle management with our elite gentlemen for sophisticated events, dinners, and private consultations.",
+    image: "/services/vip-concierge.jpg",
     icon: <Crown className="w-8 h-8 text-gold" />,
-    features: ["Discreet & Professional", "Background Verified", "Multilingual", "Event Accompaniment"],
-    price: "From $500/hour",
+    features: ["Discreet & Professional", "Background Verified", "Multilingual", "Personal Assistant"],
+    price: "From KSH 65,000/hour",
     cta: "Book VIP Experience"
   },
   {
@@ -20,7 +19,7 @@ const services = [
     image: "/services/massage.jpg",
     icon: <Heart className="w-8 h-8 text-red-500" />,
     features: ["Licensed Therapists", "Private Suites", "Aromatherapy", "Full Body Treatment"],
-    price: "From $200/session",
+    price: "From KSH 26,000/session",
     cta: "Schedule Massage"
   },
   {
@@ -30,7 +29,7 @@ const services = [
     image: "/services/dance.jpg",
     icon: <Sparkles className="w-8 h-8 text-gold" />,
     features: ["Custom Choreography", "Costume Selection", "Private Venue", "Multiple Performers"],
-    price: "From $300/show",
+    price: "From KSH 39,000/show",
     cta: "Book Performance"
   },
   {
@@ -40,7 +39,7 @@ const services = [
     image: "/services/fetish.jpg",
     icon: <Star className="w-8 h-8 text-red-500" />,
     features: ["Safe Words Protocol", "Equipment Provided", "Experienced Dominants", "Aftercare Included"],
-    price: "From $400/session",
+    price: "From KSH 52,000/session",
     cta: "Explore Fantasies"
   },
   {
@@ -50,7 +49,7 @@ const services = [
     image: "/services/couples.jpg",
     icon: <Users className="w-8 h-8 text-gold" />,
     features: ["Relationship Enhancement", "Communication Guidance", "Tantra Sessions", "Joint Exploration"],
-    price: "From $600/session",
+    price: "From KSH 78,000/session",
     cta: "Book Couples Session"
   },
   {
@@ -60,22 +59,22 @@ const services = [
     image: "/services/overnight.jpg",
     icon: <Clock className="w-8 h-8 text-red-500" />,
     features: ["12+ Hour Packages", "Travel Companion", "Overnight Stays", "Weekend Packages"],
-    price: "From $2000/night",
+    price: "From KSH 260,000/night",
     cta: "Plan Extended Stay"
   }
 ];
 
 export default function ServicesPage() {
   return (
-    <div className="pt-24 bg-black text-white">
-      {/* Hero Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-red-900/20 to-black">
-        <div className="max-w-4xl mx-auto text-center">
+    <div className="pt-24 bg-black text-white">      {/* Hero Section */}
+      <section className="h-[20vh] px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+        <div className="relative max-w-4xl mx-auto text-center">
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl font-bold text-gold mb-6"
+            className="text-4xl lg:text-5xl font-bold text-gold mb-4"
           >
             Our Premium Services
           </motion.h1>
@@ -83,10 +82,23 @@ export default function ServicesPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-xl text-zinc-300 leading-relaxed"
+            className="text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto mb-6"
           >
             Discover our carefully curated selection of intimate experiences designed to fulfill your deepest desires.
           </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <button className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl">
+              Explore Services
+            </button>
+            <button className="px-8 py-3 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-xl font-semibold transition-all duration-300 hover:scale-105">
+              Book Now
+            </button>
+          </motion.div>
         </div>
       </section>
 

@@ -38,9 +38,8 @@ export default function AboutIntro() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="relative"
-          >
-            <img
-              src="public\images\about-intro.jpeg"
+          >            <img
+              src="/Ladiesden/images/about-intro.jpeg"
               alt="Laydies Den Experience"
               className="rounded-2xl shadow-2xl w-full h-96 object-cover"
             />

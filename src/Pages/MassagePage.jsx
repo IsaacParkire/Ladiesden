@@ -8,7 +8,7 @@ const massageServices = [
     name: "Erotic Massage",
     icon: <Flame className="w-8 h-8 text-red-500" />,
     duration: "60-90 minutes",
-    price: "$300-450",
+    price: "KSH 39,000-58,500",
     description: "Intimate full-body massage experience with skilled male therapists, designed to awaken your senses and provide deep relaxation.",
     features: ["Full body massage", "Aromatic oils", "Private suite", "Professional male therapist"],
     image: "/massage/erotic.jpg"
@@ -18,7 +18,7 @@ const massageServices = [
     name: "Sensual Therapy",
     icon: <Heart className="w-8 h-8 text-red-500" />,
     duration: "90-120 minutes",
-    price: "$400-550",
+    price: "KSH 52,000-71,500",
     description: "Therapeutic massage combining traditional techniques with sensual elements for ultimate mind-body connection.",
     features: ["Therapeutic techniques", "Sensual elements", "Extended session", "Aftercare included"],
     image: "/massage/therapy.jpg"
@@ -28,7 +28,7 @@ const massageServices = [
     name: "Candle Oil Experience",
     icon: <Flame className="w-8 h-8 text-gold" />,
     duration: "75-105 minutes",
-    price: "$350-500",
+    price: "KSH 45,500-65,000",
     description: "Luxurious massage using warm candle oils in a romantic candlelit atmosphere with expert male masseurs.",
     features: ["Warm candle oils", "Candlelit ambiance", "Aromatherapy", "Romantic setting"],
     image: "/massage/candle.jpg"
@@ -38,7 +38,7 @@ const massageServices = [
     name: "Custom Sessions",
     icon: <Star className="w-8 h-8 text-gold" />,
     duration: "60-180 minutes",
-    price: "$400-800",
+    price: "KSH 52,000-104,000",
     description: "Personalized massage experiences tailored to your specific desires and preferences with our elite male masseurs.",
     features: ["Fully customized", "Choice of therapist", "Special requests", "Extended options"],
     image: "/massage/custom.jpg"
@@ -82,29 +82,41 @@ export default function MassagePage() {
   const [selectedService, setSelectedService] = useState(null);
   const [selectedMasseur, setSelectedMasseur] = useState(null);
 
-  return (
-    <div className="pt-24 bg-black text-white">
-      {/* Hero Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-red-900/20 to-black">
-        <div className="max-w-4xl mx-auto text-center">
+  return (    <div className="pt-24 bg-black text-white">      {/* Hero Section */}
+      <section className="h-[20vh] px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
+        <div className="relative max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="mb-6"
+            className="mb-4"
           >
-            <span className="text-6xl mb-4 block">💆‍♀️</span>
-            <h1 className="text-5xl font-bold text-gold mb-4">Her Touch</h1>
-            <p className="text-2xl text-red-500 font-medium">"Relaxation as Worship."</p>
+            <span className="text-5xl mb-3 block">💆‍♀️</span>
+            <h1 className="text-4xl lg:text-5xl font-bold text-gold mb-2">Her Touch</h1>
+            <p className="text-xl text-red-500 font-medium">"Relaxation as Worship."</p>
           </motion.div>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-xl text-zinc-300 leading-relaxed max-w-3xl mx-auto"
+            className="text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto mb-6"
           >
-            Experience the ultimate in sensual wellness with our expert male masseurs in luxurious private suites designed for your complete relaxation and awakening.
+            Experience the ultimate in sensual wellness with our expert male masseurs in luxurious private suites.
           </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <button className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl">
+              Book Your Session
+            </button>
+            <button className="px-8 py-3 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-xl font-semibold transition-all duration-300 hover:scale-105">
+              View Services
+            </button>
+          </motion.div>
         </div>
       </section>
 

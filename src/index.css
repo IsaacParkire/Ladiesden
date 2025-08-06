@@ -19,9 +19,9 @@
     box-sizing: border-box;
   }
 
-  /* Smooth scrolling for all elements */
+  /* Prevent browser scroll restoration and ensure top start */
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto; /* Disable smooth scroll for programmatic scrolling */
   }
 
   body {
@@ -80,5 +80,19 @@
     button {
       @apply bg-zinc-100;
     }
+  }
+}
+
+/* 4. Custom scrollbar utilities */
+@layer utilities {
+  .scrollbar-hide {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; /* Webkit */
   }
 }
