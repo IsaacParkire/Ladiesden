@@ -8,7 +8,7 @@ const scenes = [
     id: 1,
     title: "Fashion & Style",
     subtitle: "Luxury made wearable",
-    image: "/scenes/fashion.jpg",
+    image: "/Ladiesden/images/about-intro.jpeg",
     description: "Discover our exclusive boutique collection designed for the modern woman who demands both elegance and sensuality.",
     cta: "Shop Boutique",
     link: "/boutique"
@@ -17,7 +17,7 @@ const scenes = [
     id: 2,
     title: "Sensual Wellness",
     subtitle: "Relaxation as worship",
-    image: "/scenes/massage.jpg",
+    image: "/Ladiesden/images/hertouch1.jpeg",
     description: "Experience our signature touch therapy with skilled male masseurs in luxurious private suites.",
     cta: "Book Massage",
     link: "/touch"
@@ -26,7 +26,7 @@ const scenes = [
     id: 3,
     title: "Strength & Beauty",
     subtitle: "Built by him. Ruled by her",
-    image: "/scenes/fitness.jpg",
+    image: "/Ladiesden/images/hertouch2.jpeg",
     description: "Private fitness training with elite male trainers focused on your body transformation goals.",
     cta: "Start Training",
     link: "/strength"
@@ -35,7 +35,7 @@ const scenes = [
     id: 4,
     title: "Exclusive Events",
     subtitle: "Pleasure after dark",
-    image: "/scenes/lounge.jpg",
+    image: "/Ladiesden/images/hernight2.jpeg",
     description: "Female-only events, private shows, and VIP experiences with trained male hosts.",
     cta: "Join Events",
     link: "/night"
@@ -44,10 +44,28 @@ const scenes = [
     id: 5,
     title: "Private Desires",
     subtitle: "Desire. Served discreetly",
-    image: "/scenes/secrets.jpg",
+    image: "/Ladiesden/images/hersecret1.jpeg",
     description: "Explore your deepest fantasies in our exclusive members-only private lounge.",
     cta: "Discover Secrets",
     link: "/secrets"
+  },
+  {
+    id: 6,
+    title: "Signature Scents",
+    subtitle: "Fragrance that captivates",
+    image: "/Ladiesden/images/herscent1.jpeg",
+    description: "Discover our exclusive collection of intoxicating fragrances designed to enhance your natural allure.",
+    cta: "Explore Scents",
+    link: "/scent"
+  },
+  {
+    id: 7,
+    title: "Intimate Collection",
+    subtitle: "Pleasure redefined",
+    image: "/Ladiesden/images/hertoys1.jpeg",
+    description: "Premium intimate accessories and luxury items curated for the sophisticated woman.",
+    cta: "Browse Collection",
+    link: "/toys"
   }
 ];
 

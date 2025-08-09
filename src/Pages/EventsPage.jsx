@@ -107,53 +107,66 @@ const maleHosts = [
 export default function EventsPage() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [selectedVipTable, setSelectedVipTable] = useState(null);
-
-  return (    <div className="pt-24 bg-black text-white">      {/* Hero Section */}
-      <section className="h-[20vh] px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
-        <div className="relative max-w-4xl mx-auto text-center">
+  return (
+    <div className="pt-16 sm:pt-20 md:pt-24 bg-black text-white">      {/* Hero Section */}
+      <section className="min-h-[70vh] px-4 sm:px-6 flex items-center relative">        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/Ladiesden/images/hernight3.jpeg"
+            alt="Her Night Background"
+            className="w-full h-full object-cover scale-110"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/40 to-black/60"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/30"></div>
+        </div>
+        
+        <div className="relative z-10 max-w-6xl mx-auto text-center w-full py-16">
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="mb-4"
-          >            <span className="text-4xl mb-2 block">🍸</span>
-            <h1 className="text-3xl md:text-4xl font-bold text-gold mb-2">Her Night</h1>
-            <p className="text-lg text-red-500 font-medium mb-3">"Pleasure After Dark."</p>
-            <p className="text-sm text-zinc-300 leading-relaxed max-w-2xl mx-auto">
+            className="mb-8"
+          >
+            <span className="text-6xl sm:text-7xl mb-4 block">🍸</span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gold mb-4 leading-tight">
+              Her Night
+            </h1>
+            <p className="text-xl sm:text-2xl md:text-3xl text-red-500 font-medium mb-6 italic">
+              "Pleasure After Dark."
+            </p>
+            <p className="text-base sm:text-lg md:text-xl text-zinc-200 leading-relaxed max-w-3xl mx-auto mb-8">
               Exclusive female-only events, private shows, and VIP experiences with our trained male hosts.
+              Indulge in luxury nightlife designed specifically for sophisticated women.
             </p>
           </motion.div>
+          
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="flex flex-wrap justify-center gap-3"
+            className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6"
           >
-            <button className="px-6 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg font-semibold transition-all duration-300 hover:scale-105 text-sm">
+            <button className="px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-bold transition-all duration-300 hover:scale-105 text-base sm:text-lg shadow-lg backdrop-blur-sm">
               View Events
             </button>
-            <button className="px-6 py-2 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-lg font-semibold transition-all duration-300 hover:scale-105 text-sm">
+            <button className="px-8 sm:px-10 py-4 sm:py-5 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-xl font-bold transition-all duration-300 hover:scale-105 text-base sm:text-lg backdrop-blur-sm">
               Book VIP Table
             </button>
           </motion.div>
         </div>
-      </section>
-
-      {/* Upcoming Events */}
-      <section className="py-20 px-6">
+      </section>{/* Upcoming Events */}
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-4xl font-bold text-gold text-center mb-16"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-gold text-center mb-8 sm:mb-12 md:mb-16"
           >
             Upcoming Exclusive Events
           </motion.h2>
-          
-          <div className="grid lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {upcomingEvents.map((event, index) => (
               <motion.div
                 key={event.id}
@@ -167,7 +180,7 @@ export default function EventsPage() {
                   <img
                     src={event.image}
                     alt={event.title}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-40 sm:h-44 md:h-48 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                   <div className="absolute top-4 left-4">

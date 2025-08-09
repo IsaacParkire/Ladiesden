@@ -63,16 +63,17 @@ export default function ContactPage() {
     "Her Secrets - VIP Membership",
     "General Inquiry"
   ];
-
-  return (    <div className="min-h-screen bg-black text-white pt-24">      {/* Hero Section */}
-      <section className="h-[20vh] px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
+  return (
+    <div className="min-h-screen bg-black text-white pt-16 sm:pt-20 md:pt-24">
+      {/* Hero Section */}
+      <section className="h-[25vh] sm:h-[20vh] px-4 sm:px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
         <div className="relative max-w-7xl mx-auto text-center">
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl lg:text-5xl font-bold mb-4 text-gold"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gold"
           >
             Connect With Us 💎
           </motion.h1>
@@ -80,7 +81,7 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto mb-6"
+            className="text-sm sm:text-base md:text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto mb-4 sm:mb-6"
           >
             Ready to experience luxury redefined? Get in touch with our concierge team for personalized service and exclusive access.
           </motion.p>
@@ -88,21 +89,20 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
           >
-            <button className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl">
+            <button className="px-6 sm:px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl text-sm sm:text-base min-h-[48px] flex items-center justify-center">
               Book Consultation
             </button>
-            <button className="px-8 py-3 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-xl font-semibold transition-all duration-300 hover:scale-105">
+            <button className="px-6 sm:px-8 py-3 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-xl font-semibold transition-all duration-300 hover:scale-105 text-sm sm:text-base min-h-[48px] flex items-center justify-center">
               VIP Access
-            </button>          </motion.div>
+            </button>
+          </motion.div>
         </div>
-      </section>
-
-      {/* Contact Information */}
-      <section className="py-16 bg-zinc-900/30">
+      </section>      {/* Contact Information */}
+      <section className="py-12 sm:py-16 bg-zinc-900/30">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {contactInfo.map((info, index) => (
               <motion.div
                 key={index}

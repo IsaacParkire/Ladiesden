@@ -9,13 +9,12 @@ const previewServices = [  {
     description: "Elite personal assistance for sophisticated events and lifestyle management.",
     price: "From KSH 65,000/hour",
     image: "/services/vip-preview.jpg"
-  },
-  {
+  },  {
     icon: <Heart className="w-8 h-8 text-red-500" />,
     title: "Sensual Massage",
     description: "Therapeutic and sensual experiences to awaken your senses.",
     price: "From KSH 26,000/session",
-    image: "/services/massage-preview.jpg"
+    image: "/Ladiesden/images/hertouch2.jpeg"
   },
   {
     icon: <Star className="w-8 h-8 text-gold" />,

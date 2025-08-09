@@ -111,9 +111,10 @@ const transformationStories = [
 export default function FitnessPage() {
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [selectedTrainer, setSelectedTrainer] = useState(null);
-
-  return (    <div className="pt-24 bg-black text-white">      {/* Hero Section */}
-      <section className="h-[20vh] px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
+  return (
+    <div className="pt-16 sm:pt-20 md:pt-24 bg-black text-white">
+      {/* Hero Section */}
+      <section className="h-[25vh] sm:h-[20vh] px-4 sm:px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
         <div className="relative max-w-4xl mx-auto text-center">
           <motion.div
@@ -122,15 +123,15 @@ export default function FitnessPage() {
             transition={{ duration: 0.8 }}
             className="mb-4"
           >
-            <span className="text-5xl mb-3 block">🏋️‍♀️</span>
-            <h1 className="text-4xl lg:text-5xl font-bold text-gold mb-2">Her Strength</h1>
-            <p className="text-xl text-red-500 font-medium">"Built by Him. Ruled by Her."</p>
+            <span className="text-3xl sm:text-4xl md:text-5xl mb-2 sm:mb-3 block">🏋️‍♀️</span>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gold mb-2">Her Strength</h1>
+            <p className="text-base sm:text-lg md:text-xl text-red-500 font-medium">"Built by Him. Ruled by Her."</p>
           </motion.div>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto mb-6"
+            className="text-sm sm:text-base md:text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto mb-4 sm:mb-6"
           >
             Discover your inner strength with our elite male trainers in a luxurious fitness environment designed exclusively for women.
           </motion.p>
@@ -138,27 +139,25 @@ export default function FitnessPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
           >
-            <button className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl">
+            <button className="px-6 sm:px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl text-sm sm:text-base min-h-[48px] flex items-center justify-center">
               Start Free Consultation
             </button>
-            <button className="px-8 py-3 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-xl font-semibold transition-all duration-300 hover:scale-105">
+            <button className="px-6 sm:px-8 py-3 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-xl font-semibold transition-all duration-300 hover:scale-105 text-sm sm:text-base min-h-[48px] flex items-center justify-center">
               View Programs
             </button>
           </motion.div>
         </div>
-      </section>
-
-      {/* Programs Section */}
-      <section className="py-20 px-6">
+      </section>      {/* Programs Section */}
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-4xl font-bold text-gold text-center mb-16"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-gold text-center mb-8 sm:mb-12 md:mb-16"
           >
             Signature Fitness Programs
           </motion.h2>

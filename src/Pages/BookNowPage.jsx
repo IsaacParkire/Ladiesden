@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Calendar, Clock, User, Phone, Mail, MapPin, CreditCard, Shield } from "lucide-react";
+import { Calendar, Clock, User, Phone, Mail, MapPin, CreditCard, Shield, Instagram, Music2, MessageCircle } from "lucide-react";
 
 const services = [
   { id: "boutique", name: "Her Boutique - Personal Shopping", price: "KSH 19,500-65,000", duration: "2-4 hours", description: "Personal styling with luxury fashion consultants" },
@@ -401,23 +401,57 @@ export default function BookNowPage() {
             </form>
           </motion.div>
         </div>
-      </section>
-
-      {/* Contact Information */}
+      </section>      {/* Contact Information */}
       <section className="py-20 px-6 bg-zinc-900/30">
         <div className="max-w-4xl mx-auto text-center">          <h2 className="text-3xl font-bold text-gold mb-6">Need Assistance? 💬</h2>
           <p className="text-zinc-300 mb-8">
-            Our concierge team is available 24/7 to help customize your perfect experience.
+            Our team is available 24/7 to help you with your booking and answer any questions.
           </p>
-          <div className="flex flex-wrap justify-center gap-8">
+          
+          {/* Contact Details */}
+          <div className="flex flex-wrap justify-center gap-8 mb-8">
             <div className="flex items-center gap-3">
               <Phone className="w-5 h-5 text-red-500" />
-              <span className="text-white">+1 (555) 123-4567</span>
+              <span className="text-white">0712527543</span>
             </div>
             <div className="flex items-center gap-3">
               <Mail className="w-5 h-5 text-red-500" />
-              <span className="text-white">bookings@laydiesden.com</span>
+              <span className="text-white">thelaydiesden@gmail.com</span>
             </div>
+          </div>
+
+          {/* Social Media Links */}
+          <div className="flex justify-center gap-4">
+            <motion.a
+              href="https://www.instagram.com/laydies_den?igsh=MWg2M3dpM25zdDF5aA=="
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-12 h-12 bg-zinc-800 hover:bg-red-600 rounded-full flex items-center justify-center transition-colors duration-300"
+            >
+              <Instagram className="w-5 h-5" />
+            </motion.a>
+            <motion.a
+              href="https://www.tiktok.com/@laydiesden?_t=ZM-8yY4lo3U1gL&_r=1"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-12 h-12 bg-zinc-800 hover:bg-red-600 rounded-full flex items-center justify-center transition-colors duration-300"
+            >
+              <Music2 className="w-5 h-5" />
+            </motion.a>
+            <motion.a
+              href="https://wa.me/254712527543"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-12 h-12 bg-zinc-800 hover:bg-red-600 rounded-full flex items-center justify-center transition-colors duration-300"
+            >
+              <MessageCircle className="w-5 h-5" />
+            </motion.a>
           </div>
         </div>
       </section>

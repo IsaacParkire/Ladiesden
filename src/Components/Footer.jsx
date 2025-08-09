@@ -27,10 +27,11 @@ export default function Footer() {
     { name: 'Her Boutique', path: '/boutique' },
     { name: 'Her Scent', path: '/scent' },
     { name: 'Her Toys', path: '/toys' }
-  ];
-  const legalLinks = [
+  ];  const legalLinks = [
+    { name: 'About Us', path: '/about' },
     { name: 'Terms of Service', path: '/terms' },
     { name: 'Privacy Policy', path: '/privacy' },
+    { name: 'Shipping Policy', path: '/shipping' },
     { name: 'FAQs', path: '/faqs' }
   ];
 
@@ -40,32 +41,31 @@ export default function Footer() {
     { icon: Facebook, href: 'https://www.facebook.com/share/16xC7jqYca/', label: 'Facebook' },
     { icon: MessageCircle, href: 'https://wa.me/254712527543', label: 'WhatsApp' }
   ];
-
   return (
     <footer className="bg-gradient-to-b from-zinc-900 to-black text-white">
       {/* Main Footer Content - Compact */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">          {/* Brand Section */}
-          <div>
-            <Link to="/" className="block mb-4">
-              <img src={logo} alt="Laydies Den" className="h-12 object-contain" />
-            </Link>
-            <p className="text-zinc-400 mb-4 leading-relaxed text-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
+          {/* Brand Section */}
+          <div className="sm:col-span-2 lg:col-span-1">
+            <Link to="/" className="block mb-3 sm:mb-4">
+              <img src={logo} alt="Laydies Den" className="h-10 sm:h-12 object-contain" />
+            </Link>            <p className="text-zinc-400 mb-3 sm:mb-4 leading-relaxed text-xs sm:text-sm">
               Where sophistication meets desire. Luxury experiences crafted exclusively for the modern woman.
             </p>
             
             {/* Trust Badges */}
-            <div className="flex items-center gap-3 text-xs text-zinc-500">
+            <div className="flex items-center gap-2 sm:gap-3 text-xs text-zinc-500">
               <div className="flex items-center gap-1">
-                <Shield size={14} className="text-green-500" />
+                <Shield size={12} className="sm:w-[14px] sm:h-[14px] text-green-500" />
                 <span>Secure</span>
               </div>
               <div className="flex items-center gap-1">
-                <Star size={14} className="text-yellow-500" />
+                <Star size={12} className="sm:w-[14px] sm:h-[14px] text-yellow-500" />
                 <span>Premium</span>
               </div>
               <div className="flex items-center gap-1">
-                <Heart size={14} className="text-red-500" />
+                <Heart size={12} className="sm:w-[14px] sm:h-[14px] text-red-500" />
                 <span>Trusted</span>
               </div>
             </div>
@@ -73,13 +73,13 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="text-gold font-semibold text-base mb-4">Our Services</h4>
-            <ul className="space-y-2">
+            <h4 className="text-gold font-semibold text-sm sm:text-base mb-3 sm:mb-4">Our Services</h4>
+            <ul className="space-y-1 sm:space-y-2">
               {services.map((service) => (
                 <li key={service.name}>
                   <Link
                     to={service.path}
-                    className="text-zinc-400 hover:text-red-400 transition-colors duration-200 text-sm"
+                    className="text-zinc-400 hover:text-red-400 transition-colors duration-200 text-xs sm:text-sm"
                   >
                     {service.name}
                   </Link>
@@ -90,13 +90,13 @@ export default function Footer() {
 
           {/* Products */}
           <div>
-            <h4 className="text-gold font-semibold text-base mb-4">Shop</h4>
-            <ul className="space-y-2">
+            <h4 className="text-gold font-semibold text-sm sm:text-base mb-3 sm:mb-4">Shop</h4>
+            <ul className="space-y-1 sm:space-y-2">
               {products.map((product) => (
                 <li key={product.name}>
                   <Link
                     to={product.path}
-                    className="text-zinc-400 hover:text-red-400 transition-colors duration-200 text-sm"
+                    className="text-zinc-400 hover:text-red-400 transition-colors duration-200 text-xs sm:text-sm"
                   >
                     {product.name}
                   </Link>

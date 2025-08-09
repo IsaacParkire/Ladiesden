@@ -131,17 +131,16 @@ export default function ShopPage() {
         : [...prev, productId]
     );
   };
-
   return (
-    <div className="pt-24 bg-black text-white">
+    <div className="pt-16 sm:pt-20 md:pt-24 bg-black text-white">
       {/* Hero Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-red-900/20 to-black">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-gradient-to-b from-red-900/20 to-black">
         <div className="max-w-4xl mx-auto text-center">
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl font-bold text-gold mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-gold mb-4 sm:mb-6"
           >
             Boutique Collection
           </motion.h1>
@@ -149,24 +148,22 @@ export default function ShopPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-xl text-zinc-300 leading-relaxed"
+            className="text-base sm:text-lg md:text-xl text-zinc-300 leading-relaxed"
           >
             Discover our curated selection of luxury items designed to enhance your intimate experiences.
           </motion.p>
         </div>
-      </section>
-
-      {/* Filters and Controls */}
-      <section className="py-8 px-6 border-b border-zinc-800">
+      </section>      {/* Filters and Controls */}
+      <section className="py-6 sm:py-8 px-4 sm:px-6 border-b border-zinc-800">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
             {/* Category Filter */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
               {categories.map((category) => (
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  className={`px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all min-h-[44px] flex items-center justify-center ${
                     selectedCategory === category.id
                       ? "bg-red-600 text-white"
                       : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
@@ -178,22 +175,24 @@ export default function ShopPage() {
             </div>
 
             {/* Sort & Search */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="bg-zinc-800 text-white px-3 py-2 rounded-lg border border-zinc-700 focus:border-red-600 outline-none"
+                className="bg-zinc-800 text-white px-2 sm:px-3 py-2 rounded-lg border border-zinc-700 focus:border-red-600 outline-none text-xs sm:text-sm min-h-[44px] flex-1 sm:flex-none"
               >
                 <option value="name">Sort by Name</option>
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
                 <option value="rating">Highest Rated</option>
               </select>              {/* Cart Button */}
-              <button className="relative bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-all">
-                <ShoppingCart className="w-5 h-5 inline mr-2" />
-                Cart
+              <button className="relative bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-2 rounded-lg transition-all min-h-[44px] flex items-center justify-center">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                </svg>
+                <span className="hidden sm:inline">Cart</span>
                 {totalItems > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-gold text-black text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold">
+                  <span className="absolute -top-2 -right-2 bg-gold text-black text-xs w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center font-bold">
                     {totalItems}
                   </span>
                 )}
@@ -201,12 +200,9 @@ export default function ShopPage() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Products Grid */}
-      <section className="py-12 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      </section>      {/* Products Grid */}
+      <section className="py-8 sm:py-12 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto">          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {sortedProducts.map((product, index) => (
               <motion.div
                 key={product.id}
@@ -214,18 +210,18 @@ export default function ShopPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                className="bg-zinc-900/50 rounded-2xl overflow-hidden hover:bg-zinc-900/70 transition-all group"
+                className="flex-shrink-0 w-56 bg-white rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden border border-gray-100 relative group mx-auto"
               >
                 <div className="relative">
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
+                    className="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
                     onClick={() => setSelectedProduct(product)}
                   />
                   
                   {/* Badges */}
-                  <div className="absolute top-4 left-4 flex flex-col gap-2">
+                  <div className="absolute top-2 left-2 flex flex-col gap-1">
                     {product.originalPrice && (
                       <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold">
                         SALE
@@ -241,7 +237,7 @@ export default function ShopPage() {
                   {/* Favorite Button */}
                   <button
                     onClick={() => toggleFavorite(product.id)}
-                    className="absolute top-4 right-4 bg-black/50 p-2 rounded-full hover:bg-red-600 transition-colors"
+                    className="absolute top-2 right-2 bg-black/50 p-2 rounded-full hover:bg-red-600 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
                   >
                     <Heart 
                       className={`w-4 h-4 ${favorites.includes(product.id) ? 'text-red-500 fill-current' : 'text-white'}`} 
@@ -251,46 +247,49 @@ export default function ShopPage() {
                   {/* Quick Add Button */}
                   <button
                     onClick={() => addToCart(product)}
-                    className="absolute bottom-4 right-4 bg-red-600 hover:bg-red-700 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all"
+                    className="absolute bottom-2 right-2 bg-red-600 hover:bg-red-700 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all min-h-[44px] min-w-[44px] flex items-center justify-center"
                   >
                     <Plus className="w-4 h-4" />
                   </button>
                 </div>
                 
-                <div className="p-6">
+                <div className="p-4">
                   <div className="flex items-center gap-2 mb-2">
                     <div className="flex items-center">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'text-yellow-500 fill-current' : 'text-zinc-600'}`}
+                          className={`w-3 h-3 ${i < Math.floor(product.rating) ? 'text-yellow-500 fill-current' : 'text-zinc-600'}`}
                         />
                       ))}
                     </div>
-                    <span className="text-zinc-400 text-sm">({product.reviews})</span>
+                    <span className="text-zinc-400 text-xs">({product.reviews})</span>
                   </div>
                   
-                  <h3 className="text-xl font-bold text-white mb-2 cursor-pointer hover:text-gold transition-colors"
+                  <h3 className="text-lg font-bold text-black mb-2 cursor-pointer hover:text-gold transition-colors line-clamp-2"
                       onClick={() => setSelectedProduct(product)}>
                     {product.name}
                   </h3>
                   
-                  <p className="text-zinc-300 text-sm mb-4 line-clamp-2">
+                  <p className="text-zinc-600 text-xs mb-4 line-clamp-2">
                     {product.description}
                   </p>
                   
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col items-start justify-between gap-3">
                     <div className="flex items-center gap-2">
-                      <span className="text-2xl font-bold text-gold">${product.price}</span>
+                      <span className="text-xl font-bold text-gold">${product.price}</span>
                       {product.originalPrice && (
-                        <span className="text-zinc-500 line-through">${product.originalPrice}</span>
+                        <span className="text-zinc-500 line-through text-sm">${product.originalPrice}</span>
                       )}
                     </div>
                     <button
                       onClick={() => addToCart(product)}
-                      className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-all text-sm font-semibold"
+                      className="flex items-center px-3 py-1 rounded-full text-xs font-medium transition-all bg-gray-100 text-[#1a5d1a] hover:bg-green-100 w-full justify-center"
                     >
-                      Add to Cart
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/>
+                      </svg>
+                      Add
                     </button>
                   </div>
                 </div>
@@ -298,34 +297,32 @@ export default function ShopPage() {
             ))}
           </div>
         </div>
-      </section>
-
-      {/* Product Modal */}
+      </section>      {/* Product Modal */}
       {selectedProduct && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-2 sm:p-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="max-w-4xl w-full bg-zinc-900 rounded-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
+            className="max-w-4xl w-full bg-zinc-900 rounded-2xl overflow-hidden max-h-[95vh] sm:max-h-[90vh] overflow-y-auto"
           >
-            <div className="grid md:grid-cols-2">
+            <div className="grid grid-cols-1 md:grid-cols-2">
               {/* Product Image */}
               <div className="relative">
                 <img
                   src={selectedProduct.image}
                   alt={selectedProduct.name}
-                  className="w-full h-96 md:h-full object-cover"
+                  className="w-full h-64 sm:h-80 md:h-full object-cover"
                 />
                 <button
                   onClick={() => setSelectedProduct(null)}
-                  className="absolute top-4 right-4 bg-black/50 p-2 rounded-full hover:bg-red-600 transition-colors"
+                  className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-black/50 p-2 rounded-full hover:bg-red-600 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
                 >
                   ✕
                 </button>
               </div>
               
               {/* Product Details */}
-              <div className="p-8">
+              <div className="p-4 sm:p-6 md:p-8">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (

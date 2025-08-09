@@ -228,16 +228,14 @@ export default function ToysPage() {
       <section className="px-6 py-16">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {filteredProducts.map((product, index) => (
-              <motion.div
+            {filteredProducts.map((product, index) => (              <motion.div
                 key={product.id}
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group bg-zinc-900/50 rounded-2xl overflow-hidden border border-zinc-800 hover:border-gold/50 transition-all duration-300"
-              >
-                {/* Product Image */}
-                <div className="relative aspect-square bg-gradient-to-br from-pink-900/20 to-purple-900/20 overflow-hidden">
+                className="flex-shrink-0 w-56 bg-white rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden border border-gray-100 relative group"
+              >                {/* Product Image */}
+                <div className="relative h-44 bg-gradient-to-br from-pink-100 to-purple-100 overflow-hidden">
                   <img
                     src={product.image}
                     alt={product.name}
@@ -285,49 +283,41 @@ export default function ToysPage() {
                     </div>
                   )}
                 </div>                {/* Product Info */}
-                <div className="p-3">
+                <div className="p-4">
                   <div className="flex items-center gap-1 mb-1">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
                         className={`w-3 h-3 ${
-                          i < Math.floor(product.rating)
-                            ? "text-yellow-500 fill-current"
-                            : "text-zinc-600"
+                          i < Math.floor(product.rating)                            ? "text-yellow-500 fill-current"
+                            : "text-gray-300"
                         }`}
                       />
-                    ))}
-                    <span className="text-xs text-zinc-400 ml-1">
+                    ))}                    <span className="text-xs text-gray-600 ml-1">
                       {product.rating} ({product.reviews})
                     </span>
-                  </div>
-
-                  <h3 className="text-sm font-bold text-white mb-1 line-clamp-2">{product.name}</h3>
-                  <p className="text-zinc-400 text-xs mb-2 line-clamp-2">
+                  </div>                  <h3 className="text-sm font-bold text-gray-800 mb-1 line-clamp-2">{product.name}</h3>
+                  <p className="text-gray-600 text-xs mb-2 line-clamp-2">
                     {product.description}
-                  </p>
-
-                  {/* Features */}
+                  </p>                  {/* Features */}
                   <div className="mb-2">
-                    <h4 className="text-gold text-xs font-semibold mb-1">Features:</h4>
+                    <h4 className="text-green-700 text-xs font-semibold mb-1">Features:</h4>
                     <div className="space-y-0.5">
                       {product.features.slice(0, 2).map((feature, i) => (
-                        <p key={i} className="text-xs text-zinc-400 flex items-center gap-1">
-                          <Zap className="w-2 h-2 text-gold" />
+                        <p key={i} className="text-xs text-gray-600 flex items-center gap-1">
+                          <Zap className="w-2 h-2 text-green-600" />
                           {feature}
                         </p>
                       ))}
                     </div>
-                  </div>
-
-                  {/* Price and Actions */}
+                  </div>                  {/* Price and Actions */}
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col">
-                      <span className="text-sm font-bold text-gold">
+                      <span className="text-sm font-bold text-green-700">
                         {product.price}
                       </span>
                       {product.originalPrice && (
-                        <span className="text-xs text-zinc-500 line-through">
+                        <span className="text-xs text-gray-500 line-through">
                           {product.originalPrice}
                         </span>
                       )}
@@ -338,10 +328,10 @@ export default function ToysPage() {
                       className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold transition-all ${
                         cart.has(product.id)
                           ? "bg-green-600 text-white"
-                          : "bg-red-600 hover:bg-red-700 text-white hover:scale-105"
+                          : "bg-gray-100 text-[#1a5d1a] hover:bg-green-100 hover:scale-105"
                       }`}
                     >
-                      <ShoppingCart className="w-3 h-3" />
+                      <svg className='w-3 h-3' fill='currentColor' viewBox='0 0 20 20'><path d='M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z'/></svg>
                       {cart.has(product.id) ? "Added" : "Add"}
                     </button>
                   </div>

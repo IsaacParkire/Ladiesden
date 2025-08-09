@@ -176,16 +176,14 @@ export default function ScentPage() {
       <section className="px-6 py-16">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {filteredFragrances.map((fragrance, index) => (
-              <motion.div
+            {filteredFragrances.map((fragrance, index) => (              <motion.div
                 key={fragrance.id}
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="group bg-zinc-900/50 rounded-2xl overflow-hidden border border-zinc-800 hover:border-gold/50 transition-all duration-300"
-              >
-                {/* Product Image */}
-                <div className="relative aspect-square bg-gradient-to-br from-purple-900/20 to-pink-900/20 overflow-hidden">
+                className="flex-shrink-0 w-56 bg-white rounded-xl shadow-sm hover:shadow-md transition-all overflow-hidden border border-gray-100 relative group"
+              >                {/* Product Image */}
+                <div className="relative h-44 bg-gradient-to-br from-pink-100 to-purple-100 overflow-hidden">
                   <img
                     src={fragrance.image}
                     alt={fragrance.name}
@@ -231,61 +229,55 @@ export default function ScentPage() {
                     <div className="absolute bottom-4 left-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
                       SAVE KSH 13,000+
                     </div>
-                  )}
-                </div>                {/* Product Info */}
-                <div className="p-3">
+                  )}                </div>
+
+                {/* Product Info */}
+                <div className="p-4">
                   <div className="flex items-center gap-1 mb-2">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
                         className={`w-4 h-4 ${
-                          i < Math.floor(fragrance.rating)
-                            ? "text-yellow-500 fill-current"
-                            : "text-zinc-600"
+                          i < Math.floor(fragrance.rating)                            ? "text-yellow-500 fill-current"
+                            : "text-gray-300"
                         }`}
                       />
-                    ))}
-                    <span className="text-sm text-zinc-400 ml-2">
+                    ))}                    <span className="text-sm text-gray-600 ml-2">
                       {fragrance.rating} ({fragrance.reviews})
                     </span>
                   </div>
-
-                  <h3 className="text-sm font-bold text-white mb-1 line-clamp-1">{fragrance.name}</h3>
-                  <p className="text-zinc-400 text-sm mb-4 line-clamp-2">
+                  <h3 className="text-sm font-bold text-gray-800 mb-1 line-clamp-1">{fragrance.name}</h3>
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                     {fragrance.description}
-                  </p>
-
-                  {/* Fragrance Notes */}
+                  </p>                  {/* Fragrance Notes */}
                   <div className="mb-4">
-                    <h4 className="text-gold text-sm font-semibold mb-2">Notes:</h4>
+                    <h4 className="text-green-700 text-sm font-semibold mb-2">Notes:</h4>
                     <div className="space-y-1">
                       {fragrance.notes.map((note, i) => (
-                        <p key={i} className="text-xs text-zinc-400">{note}</p>
+                        <p key={i} className="text-xs text-gray-600">{note}</p>
                       ))}
                     </div>
                   </div>
 
-                  {/* Price and Actions */}                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xl font-bold text-gold">
+                  {/* Price and Actions */}                  <div className="flex items-center justify-between">                    <div className="flex items-center gap-2">
+                      <span className="text-lg font-bold text-green-700">
                         {fragrance.price}
                       </span>
                       {fragrance.originalPrice && (
-                        <span className="text-lg text-zinc-500 line-through">
+                        <span className="text-sm text-gray-500 line-through">
                           {fragrance.originalPrice}
                         </span>
                       )}
-                    </div>
-                    <button
+                    </div><button
                       onClick={() => addToCart(fragrance.id)}
                       disabled={cart.has(fragrance.id)}
                       className={`flex items-center gap-2 px-4 py-2 rounded-xl font-semibold transition-all ${
                         cart.has(fragrance.id)
                           ? "bg-green-600 text-white"
-                          : "bg-red-600 hover:bg-red-700 text-white hover:scale-105"
+                          : "bg-gray-100 text-[#1a5d1a] hover:bg-green-100 hover:scale-105"
                       }`}
                     >
-                      <ShoppingCart className="w-4 h-4" />
+                      <svg className='w-4 h-4 mr-1' fill='currentColor' viewBox='0 0 20 20'><path d='M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z'/></svg>
                       {cart.has(fragrance.id) ? "Added" : "Add"}
                     </button>
                   </div>

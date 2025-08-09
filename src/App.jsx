@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { CartProvider } from "./contexts/CartContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import Navbar from "./Components/Navbar";
 import HorizontalTabs from "./Components/HorizontalTabs";
 import Footer from "./Components/Footer";
 import ScrollToTop from "./Components/ScrollToTop";
 import FloatingCart from "./Components/FloatingCart";
+import ProtectedRoute from "./Components/ProtectedRoute";
 import HomePage from "./Pages/HomePage";
+import AboutPage from "./Pages/AboutPage";
 import BoutiquePage from "./Pages/BoutiquePage";
 import MassagePage from "./Pages/MassagePage";
 import FitnessPage from "./Pages/FitnessPage";
@@ -19,6 +22,13 @@ import BookNowPage from "./Pages/BookNowPage";
 import ContactPage from "./Pages/ContactPage";
 import CartPage from "./Pages/CartPage";
 import CheckoutPage from "./Pages/CheckoutPage";
+import LoginPage from "./Pages/LoginPage";
+import RegisterPage from "./Pages/RegisterPage";
+import ProfilePage from "./Pages/ProfilePage";
+import TermsPage from "./Pages/TermsPage";
+import PrivacyPage from "./Pages/PrivacyPage";
+import FAQsPage from "./Pages/FAQsPage";
+import ShippingPage from "./Pages/ShippingPage";
 
 export default function App() {
   // Force scroll to top on app initialization and prevent scroll restoration
@@ -44,33 +54,59 @@ export default function App() {
   }, []);
 
   return (
-    <CartProvider>
-      <Router basename="/Ladiesden">
-        <ScrollToTop />
-        <main className="bg-black text-white font-sans"> {/* Removed scroll-smooth to prevent conflicts */}
-          <Navbar />
-          <HorizontalTabs />
-          <div className="pt-[130px]"> {/* Added padding to account for fixed navbar + tabs */}
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/boutique" element={<BoutiquePage />} />
-              <Route path="/touch" element={<MassagePage />} />
-              <Route path="/strength" element={<FitnessPage />} />
-              <Route path="/night" element={<EventsPage />} />
-              <Route path="/secrets" element={<SecretsPage />} />
-              <Route path="/scent" element={<ScentPage />} />
-              <Route path="/toys" element={<ToysPage />} />
-              <Route path="/gallery" element={<GalleryPage />} />
-              <Route path="/book" element={<BookNowPage />} />
-              <Route path="/connect" element={<ContactPage />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-            </Routes>
-          </div>
-          <Footer />
-          <FloatingCart />
-        </main>
-      </Router>
-    </CartProvider>
+    <AuthProvider>
+      <CartProvider>
+        <Router basename="/Ladiesden">
+          <ScrollToTop />
+          <main className="bg-black text-white font-sans">
+            <Navbar />
+            <HorizontalTabs />
+            <div className="pt-[130px]">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/boutique" element={<BoutiquePage />} />
+                <Route path="/touch" element={<MassagePage />} />
+                <Route path="/strength" element={<FitnessPage />} />
+                <Route path="/night" element={<EventsPage />} />
+                <Route path="/secrets" element={<SecretsPage />} />
+                <Route path="/scent" element={<ScentPage />} />
+                <Route path="/toys" element={<ToysPage />} />
+                <Route path="/gallery" element={<GalleryPage />} />
+                <Route path="/book" element={<BookNowPage />} />
+                <Route path="/connect" element={<ContactPage />} />
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/checkout" element={
+                  <ProtectedRoute>
+                    <CheckoutPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/login" element={
+                  <ProtectedRoute requireAuth={false}>
+                    <LoginPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/register" element={
+                  <ProtectedRoute requireAuth={false}>
+                    <RegisterPage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/profile" element={
+                  <ProtectedRoute>
+                    <ProfilePage />
+                  </ProtectedRoute>
+                } />
+                <Route path="/terms" element={<TermsPage />} />
+                <Route path="/privacy" element={<PrivacyPage />} />
+                <Route path="/faqs" element={<FAQsPage />} />
+                <Route path="/shipping" element={<ShippingPage />} />
+              </Routes>
+            </div>
+            <Footer />
+            <FloatingCart />
+          </main>
+        </Router>
+      </CartProvider>
+    </AuthProvider>
   );
 }

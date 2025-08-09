@@ -111,9 +111,19 @@ export default function SecretsPage() {
   const [showMembership, setShowMembership] = useState(false);
 
   return (    <div className="pt-24 bg-black text-white">      {/* Hero Section with Age Verification */}
-      <section className="py-8 px-6 bg-gradient-to-br from-red-900/30 via-black to-zinc-900 relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
-        <div className="relative max-w-4xl mx-auto text-center">
+      <section className="py-8 px-6 relative min-h-[70vh] flex items-center">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/Ladiesden/images/hersecret2.jpeg"
+            alt="Her Secrets Background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/70"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
+        </div>
+        
+        <div className="relative z-10 max-w-4xl mx-auto text-center w-full">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}

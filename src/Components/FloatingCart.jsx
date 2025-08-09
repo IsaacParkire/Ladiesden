@@ -20,22 +20,20 @@ const FloatingCart = () => {
   };
 
   return (
-    <>
-      {/* Floating Cart Button */}
+    <>      {/* Floating Cart Button */}
       <motion.button
         onClick={toggleCart}
-        className="fixed bottom-6 right-6 bg-red-600 hover:bg-red-700 text-white p-4 rounded-full shadow-lg z-50 transition-all duration-300"
+        className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 bg-red-600 hover:bg-red-700 text-white p-3 sm:p-4 rounded-full shadow-lg z-50 transition-all duration-300 min-h-[56px] min-w-[56px] flex items-center justify-center"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.5 }}
-      >
-        <div className="relative">
-          <ShoppingCart size={24} />
+      >        <div className="relative">
+          <svg className='w-5 h-5 sm:w-6 sm:h-6' fill='currentColor' viewBox='0 0 20 20'><path d='M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z'/></svg>
           {totalItems > 0 && (
             <motion.span
-              className="absolute -top-2 -right-2 bg-gold text-black text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center"
+              className="absolute -top-2 -right-2 bg-gold text-black text-xs font-bold rounded-full w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               key={totalItems}
@@ -85,9 +83,8 @@ const FloatingCart = () => {
 
               {/* Cart Items */}
               <div className="flex-1 overflow-y-auto p-6">
-                {items.length === 0 ? (
-                  <div className="text-center py-12">
-                    <ShoppingCart size={48} className="mx-auto text-zinc-600 mb-4" />
+                {items.length === 0 ? (                  <div className="text-center py-12">
+                    <svg className='w-12 h-12 mx-auto text-zinc-600 mb-4' fill='currentColor' viewBox='0 0 20 20'><path d='M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z'/></svg>
                     <p className="text-zinc-400 mb-4">Your cart is empty</p>
                     <Link
                       to="/boutique"

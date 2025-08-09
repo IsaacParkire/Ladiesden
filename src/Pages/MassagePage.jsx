@@ -83,37 +83,51 @@ export default function MassagePage() {
   const [selectedMasseur, setSelectedMasseur] = useState(null);
 
   return (    <div className="pt-24 bg-black text-white">      {/* Hero Section */}
-      <section className="h-[20vh] px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
-        <div className="relative max-w-4xl mx-auto text-center">
+      <section className="min-h-[70vh] px-6 flex items-center relative">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/Ladiesden/images/hertouch4.jpeg"
+            alt="Her Touch Background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/40 to-black/60"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/30"></div>
+        </div>
+        
+        <div className="relative z-10 max-w-6xl mx-auto text-center w-full py-16">
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="mb-4"
+            className="mb-8"
           >
-            <span className="text-5xl mb-3 block">💆‍♀️</span>
-            <h1 className="text-4xl lg:text-5xl font-bold text-gold mb-2">Her Touch</h1>
-            <p className="text-xl text-red-500 font-medium">"Relaxation as Worship."</p>
+            <span className="text-6xl sm:text-7xl mb-4 block">💆‍♀️</span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gold mb-4 leading-tight">
+              Her Touch
+            </h1>
+            <p className="text-xl sm:text-2xl md:text-3xl text-red-500 font-medium mb-6 italic">
+              "Relaxation as Worship."
+            </p>
           </motion.div>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto mb-6"
+            className="text-base sm:text-lg md:text-xl text-zinc-200 leading-relaxed max-w-3xl mx-auto mb-8"
           >
             Experience the ultimate in sensual wellness with our expert male masseurs in luxurious private suites.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            Indulge in therapeutic bliss designed specifically for sophisticated women.
+          </motion.p>          <motion.div
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6"
           >
-            <button className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl">
+            <button className="px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-bold transition-all duration-300 hover:scale-105 text-base sm:text-lg shadow-lg backdrop-blur-sm">
               Book Your Session
             </button>
-            <button className="px-8 py-3 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-xl font-semibold transition-all duration-300 hover:scale-105">
+            <button className="px-8 sm:px-10 py-4 sm:py-5 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-xl font-bold transition-all duration-300 hover:scale-105 text-base sm:text-lg backdrop-blur-sm">
               View Services
             </button>
           </motion.div>

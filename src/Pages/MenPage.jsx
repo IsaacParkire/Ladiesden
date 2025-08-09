@@ -103,15 +103,15 @@ const menStaff = [
 
 export default function MenPage() {
   return (
-    <div className="pt-24 bg-black text-white">      {/* Hero Section */}
-      <section className="h-[20vh] px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
+    <div className="pt-16 sm:pt-20 md:pt-24 bg-black text-white">      {/* Hero Section */}
+      <section className="min-h-[30vh] sm:min-h-[25vh] md:min-h-[20vh] px-4 sm:px-6 py-8 sm:py-12 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
         <div className="relative max-w-4xl mx-auto text-center">
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl lg:text-5xl font-bold text-gold mb-4"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gold mb-3 sm:mb-4"
           >
             Our Elite Gentlemen
           </motion.h1>
@@ -119,7 +119,7 @@ export default function MenPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto mb-6"
+            className="text-sm sm:text-base md:text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto mb-4 sm:mb-6 px-2"
           >
             Meet our carefully selected professionals, each bringing unique talents and personalities to create unforgettable experiences.
           </motion.p>
@@ -127,24 +127,21 @@ export default function MenPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-2"
           >
-            <button className="px-8 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl">
+            <button className="px-6 sm:px-8 py-2.5 sm:py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl font-semibold text-sm sm:text-base transition-all duration-300 hover:scale-105 hover:shadow-xl">
               Meet The Team
             </button>
-            <button className="px-8 py-3 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-xl font-semibold transition-all duration-300 hover:scale-105">
+            <button className="px-6 sm:px-8 py-2.5 sm:py-3 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-xl font-semibold text-sm sm:text-base transition-all duration-300 hover:scale-105">
               Book Session
             </button>
-          </motion.div>
-        </div>
-      </section>
+          </motion.div>        </div>
       </section>
 
       {/* Men Profiles */}
-      <section className="py-20 px-6">
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16">
-            {menStaff.map((man, index) => (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16">{menStaff.map((man, index) => (
               <motion.div
                 key={man.id}
                 initial={{ opacity: 0, y: 40 }}
@@ -157,13 +154,13 @@ export default function MenPage() {
                   <img
                     src={man.image}
                     alt={man.name}
-                    className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-64 sm:h-72 md:h-80 object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                   
                   {/* Availability Badge */}
-                  <div className="absolute top-4 right-4">
-                    <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                  <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
+                    <span className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold ${
                       man.availability === 'Available' ? 'bg-green-600 text-white' :
                       man.availability === 'Limited' ? 'bg-yellow-600 text-white' :
                       'bg-red-600 text-white'
@@ -173,50 +170,50 @@ export default function MenPage() {
                   </div>
                   
                   {/* Name and Age */}
-                  <div className="absolute bottom-4 left-4">
-                    <h3 className="text-3xl font-bold text-white mb-1">{man.name}</h3>
-                    <p className="text-gold text-lg">{man.specialty} • Age {man.age}</p>
+                  <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-1">{man.name}</h3>
+                    <p className="text-gold text-sm sm:text-base md:text-lg">{man.specialty} • Age {man.age}</p>
                   </div>
                 </div>
                 
-                <div className="p-6">
+                <div className="p-4 sm:p-5 md:p-6">
                   {/* Stats */}
-                  <div className="grid grid-cols-3 gap-4 mb-6">
+                  <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-4 sm:mb-6">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-gold">{man.stats.experience}</div>
-                      <div className="text-sm text-zinc-400">Experience</div>
+                      <div className="text-lg sm:text-xl md:text-2xl font-bold text-gold">{man.stats.experience}</div>
+                      <div className="text-xs sm:text-sm text-zinc-400">Experience</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-gold">{man.stats.languages}</div>
-                      <div className="text-sm text-zinc-400">Speaks</div>
+                      <div className="text-lg sm:text-xl md:text-2xl font-bold text-gold">{man.stats.languages}</div>
+                      <div className="text-xs sm:text-sm text-zinc-400">Speaks</div>
                     </div>
                     <div className="text-center flex items-center justify-center gap-1">
-                      <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                      <div className="text-2xl font-bold text-gold">{man.stats.rating}</div>
+                      <Star className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-500 fill-current" />
+                      <div className="text-lg sm:text-xl md:text-2xl font-bold text-gold">{man.stats.rating}</div>
                     </div>
                   </div>
                   
                   {/* Bio */}
-                  <p className="text-zinc-300 text-sm leading-relaxed mb-6">
+                  <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6">
                     {man.bio}
                   </p>
                   
                   {/* Quote */}
-                  <div className="bg-black/30 p-4 rounded-xl mb-6 relative">
-                    <Quote className="w-6 h-6 text-red-500 mb-2" />
-                    <p className="text-white italic text-sm leading-relaxed">
+                  <div className="bg-black/30 p-3 sm:p-4 rounded-xl mb-4 sm:mb-6 relative">
+                    <Quote className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-red-500 mb-2" />
+                    <p className="text-white italic text-xs sm:text-sm leading-relaxed">
                       "{man.quote}"
                     </p>
                   </div>
                   
                   {/* Specialties */}
-                  <div className="mb-6">
-                    <h4 className="text-white font-semibold mb-3">Specialties:</h4>
-                    <div className="flex flex-wrap gap-2">
+                  <div className="mb-4 sm:mb-6">
+                    <h4 className="text-white font-semibold mb-2 sm:mb-3 text-sm sm:text-base">Specialties:</h4>
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
                       {man.specialties.map((specialty, i) => (
                         <span
                           key={i}
-                          className="px-3 py-1 bg-red-600/20 text-red-400 text-xs rounded-full border border-red-600/30"
+                          className="px-2 sm:px-3 py-1 bg-red-600/20 text-red-400 text-xs rounded-full border border-red-600/30"
                         >
                           {specialty}
                         </span>
@@ -225,20 +222,20 @@ export default function MenPage() {
                   </div>
                   
                   {/* Action Buttons */}
-                  <div className="flex gap-3">
+                  <div className="flex gap-2 sm:gap-3">
                     <button 
-                      className={`flex-1 py-3 px-4 rounded-xl font-semibold text-sm transition-all ${
+                      className={`flex-1 py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl font-semibold text-xs sm:text-sm transition-all ${
                         man.availability === 'Available' ? 
                         'bg-red-600 hover:bg-red-700 text-white hover:scale-105' :
                         'bg-zinc-700 text-zinc-400 cursor-not-allowed'
                       }`}
                       disabled={man.availability === 'Booked'}
                     >
-                      <Calendar className="w-4 h-4 inline mr-2" />
+                      <Calendar className="w-3 h-3 sm:w-4 sm:h-4 inline mr-1 sm:mr-2" />
                       {man.availability === 'Available' ? 'Book Now' : 'Fully Booked'}
                     </button>
-                    <button className="px-4 py-3 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl transition-all">
-                      <MessageCircle className="w-4 h-4" />
+                    <button className="px-3 sm:px-4 py-2.5 sm:py-3 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl transition-all">
+                      <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4" />
                     </button>
                   </div>
                 </div>
@@ -246,17 +243,15 @@ export default function MenPage() {
             ))}
           </div>
         </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 px-6 bg-gradient-to-t from-red-900/20 to-transparent">
+      </section>      {/* CTA Section */}
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-gradient-to-t from-red-900/20 to-transparent">
         <div className="max-w-4xl mx-auto text-center">
           <motion.h2
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-4xl font-bold text-gold mb-6"
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-gold mb-4 sm:mb-6 px-2"
           >
             Find Your Perfect Match
           </motion.h2>
@@ -265,14 +260,14 @@ export default function MenPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-xl text-zinc-300 mb-8"
+            className="text-sm sm:text-base md:text-xl text-zinc-300 mb-6 sm:mb-8 px-2"
           >
             Not sure who would be the best fit? Our concierge team can help match you with the perfect companion.
           </motion.p>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all"
+            className="bg-red-600 hover:bg-red-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base md:text-lg transition-all mx-2"
           >
             Get Personalized Recommendation
           </motion.button>
