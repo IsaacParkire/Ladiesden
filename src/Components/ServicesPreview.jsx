@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 
 const previewServices = [  {
     icon: <Crown className="w-8 h-8 text-gold" />,
-    title: "VIP Concierge Services",
+    title: "Beach Massage",
     description: "Elite personal assistance for sophisticated events and lifestyle management.",
     price: "From KSH 65,000/hour",
-    image: "/services/vip-preview.jpg"
+    image: "/Ladiesden/images/hertouch1.jpeg"
   },  {
     icon: <Heart className="w-8 h-8 text-red-500" />,
     title: "Sensual Massage",
@@ -21,14 +21,14 @@ const previewServices = [  {
     title: "Fantasy Fulfillment",
     description: "Safe exploration of your deepest fantasies and desires.",
     price: "From KSH 52,000/session",
-    image: "/services/fantasy-preview.jpg"
+    image: "/Ladiesden/images/hertouch3.jpeg"
   },
   {
     icon: <Users className="w-8 h-8 text-red-500" />,
     title: "Couples Experiences",
     description: "Enhance intimacy and explore new dimensions together.",
     price: "From KSH 78,000/session",
-    image: "/services/couples-preview.jpg"
+    image: "/Ladiesden/images/hertouch4.jpeg"
   }
 ];
 
@@ -82,15 +82,17 @@ export default function ServicesPreview() {
                   </div>
                 </div>
               </div>
-              
-              <div className="p-6">
+                <div className="p-6">
                 <p className="text-zinc-300 leading-relaxed mb-4">
                   {service.description}
                 </p>
-                <button className="text-red-500 hover:text-red-400 font-medium flex items-center gap-2 group-hover:gap-3 transition-all">
+                <Link 
+                  to="/touch"
+                  className="text-red-500 hover:text-red-400 font-medium flex items-center gap-2 group-hover:gap-3 transition-all"
+                >
                   Learn More
                   <ArrowRight className="w-4 h-4" />
-                </button>
+                </Link>
               </div>
             </motion.div>
           ))}
@@ -102,7 +104,7 @@ export default function ServicesPreview() {
           className="text-center"
         >
           <Link
-            to="/book"
+            to="/touch"
             className="inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105"
           >
             View All Services

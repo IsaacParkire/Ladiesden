@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Star, ShoppingCart, Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const products = [
   {
@@ -212,14 +213,15 @@ export default function ProductsCarousel() {
               />
             ))}
           </div>
-        </div>
-
-        {/* Modern CTA */}
+        </div>        {/* Modern CTA */}
         <div className="text-center mt-6">
-          <button className="group relative overflow-hidden bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105">
+          <Link 
+            to="/boutique"
+            className="group relative overflow-hidden bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold py-2 px-6 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105 inline-block"
+          >
             <span className="relative z-10">Shop All Products</span>
             <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-          </button>
+          </Link>
         </div>
       </div>
     </section>

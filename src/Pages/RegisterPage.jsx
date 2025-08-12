@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Heart, Lock, Mail, User, Phone, Calendar } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -110,7 +111,6 @@ export default function RegisterPage() {
     setCurrentStep(1);
     setErrors({});
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -122,7 +122,15 @@ export default function RegisterPage() {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
       console.log('Registration successful:', formData);
+      
       // Handle successful registration here
+      // If user chose premium or VIP Elite membership, redirect to membership page for payment
+      if (formData.membershipType === 'premium' || formData.membershipType === 'vip') {
+        navigate('/membership');
+      } else {
+        // For basic (free) membership, redirect to dashboard or home
+        navigate('/');
+      }
     } catch (error) {
       setErrors({ general: 'Registration failed. Please try again.' });
     } finally {

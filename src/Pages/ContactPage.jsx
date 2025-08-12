@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Clock, Send, Instagram, Twitter, Facebook } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Send, Instagram, Facebook, Music2, MessageCircle } from 'lucide-react';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -31,27 +31,26 @@ export default function ContactPage() {
       [e.target.name]: e.target.value
     });
   };
-
   const contactInfo = [
     {
       icon: Phone,
       title: "Call Us",
-      details: ["+1 (555) 123-4567", "Available 24/7"]
+      details: ["0712527543", "Available 24/7"]
     },
     {
       icon: Mail,
       title: "Email",
-      details: ["info@laydiesden.com", "reservations@laydiesden.com"]
+      details: ["thelaydiesden@gmail.com", "Professional inquiries welcome"]
     },
     {
       icon: MapPin,
       title: "Location",
-      details: ["Downtown Elite District", "Private & Discreet"]
+      details: ["Kenya, Nairobi", "Private & Discreet"]
     },
     {
       icon: Clock,
       title: "Hours",
-      details: ["Mon-Sun: 10 AM - 2 AM", "Private sessions by appointment"]
+      details: ["24/7 Available", "Private sessions by appointment"]
     }
   ];
 
@@ -64,16 +63,15 @@ export default function ContactPage() {
     "General Inquiry"
   ];
   return (
-    <div className="min-h-screen bg-black text-white pt-16 sm:pt-20 md:pt-24">
-      {/* Hero Section */}
-      <section className="h-[25vh] sm:h-[20vh] px-4 sm:px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
+    <div className="min-h-screen bg-black text-white pt-16 sm:pt-20 md:pt-24">      {/* Hero Section */}
+      <section className="h-[40vh] sm:h-[45vh] md:h-[50vh] px-4 sm:px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
         <div className="relative max-w-7xl mx-auto text-center">
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gold"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-gold"
           >
             Connect With Us 💎
           </motion.h1>
@@ -81,7 +79,7 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-sm sm:text-base md:text-lg text-zinc-300 leading-relaxed max-w-2xl mx-auto mb-4 sm:mb-6"
+            className="text-base sm:text-lg md:text-xl text-zinc-300 leading-relaxed max-w-3xl mx-auto mb-6 sm:mb-8"
           >
             Ready to experience luxury redefined? Get in touch with our concierge team for personalized service and exclusive access.
           </motion.p>
@@ -230,18 +228,47 @@ export default function ContactPage() {
       <section className="py-16 bg-zinc-900/30">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h3 className="text-2xl font-bold text-gold mb-8">Follow Our Journey</h3>
-          
-          <div className="flex justify-center gap-6 mb-8">
+            <div className="flex justify-center gap-6 mb-8">
             {[
-              { icon: Instagram, color: "from-pink-500 to-purple-500" },
-              { icon: Twitter, color: "from-blue-400 to-blue-600" },
-              { icon: Facebook, color: "from-blue-600 to-blue-800" }
+              { 
+                icon: Instagram, 
+                color: "from-purple-500 to-pink-500", 
+                href: "https://www.instagram.com/laydies_den?igsh=MWg2M3dpM25zdDF5aA==",
+                label: "Instagram"
+              },
+              { 
+                icon: Music2, 
+                color: "from-black to-gray-900", 
+                href: "https://www.tiktok.com/@laydiesden?_t=ZM-8yY4lo3U1gL&_r=1",
+                label: "TikTok"
+              },
+              { 
+                icon: Facebook, 
+                color: "from-blue-600 to-blue-800", 
+                href: "https://www.facebook.com/share/16xC7jqYca/",
+                label: "Facebook"
+              },
+              { 
+                icon: MessageCircle, 
+                color: "from-green-500 to-green-600", 
+                href: "https://wa.me/254712527543",
+                label: "WhatsApp"
+              },
+              { 
+                icon: Mail, 
+                color: "from-red-600 to-red-700", 
+                href: "mailto:thelaydiesden@gmail.com",
+                label: "Email"
+              }
             ].map((social, index) => (
               <motion.a
                 key={index}
-                href="#"
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.1 }}
                 className={`w-12 h-12 bg-gradient-to-br ${social.color} rounded-full flex items-center justify-center hover:shadow-lg transition-all duration-300`}
+                title={social.label}
               >
                 <social.icon size={24} className="text-white" />
               </motion.a>

@@ -70,11 +70,6 @@ export default function Hero() {
             >
               <span className="relative z-10">Explore Her World</span>
               <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-            </Link>            <Link
-              to="/about"
-              className="border-2 border-gold hover:bg-gold hover:text-black text-gold font-semibold py-3 sm:py-4 px-6 sm:px-8 rounded-full transition-all duration-300 transform hover:scale-105 text-center text-sm sm:text-base min-h-[48px] flex items-center justify-center"
-            >
-              Learn More
             </Link>
           </motion.div>
 

@@ -15,11 +15,10 @@ import {
 import { Link } from 'react-router-dom';
 import logo from '../assets/laydies-logo.png';
 
-export default function Footer() {
-  const services = [
-    { name: 'Her Touch (Massage)', path: '/massage' },
-    { name: 'Her Strength (Fitness)', path: '/fitness' },
-    { name: 'Her Night (Events)', path: '/events' },
+export default function Footer() {  const services = [
+    { name: 'Her Touch (Massage)', path: '/touch' },
+    { name: 'Her Strength (Fitness)', path: '/strength' },
+    { name: 'Her Night (Events)', path: '/night' },
     { name: 'Her Secrets (VIP)', path: '/secrets' }
   ];
 
@@ -33,13 +32,12 @@ export default function Footer() {
     { name: 'Privacy Policy', path: '/privacy' },
     { name: 'Shipping Policy', path: '/shipping' },
     { name: 'FAQs', path: '/faqs' }
-  ];
-
-  const socialLinks = [
-    { icon: Instagram, href: 'https://www.instagram.com/laydies_den?igsh=MWg2M3dpM25zdDF5aA==', label: 'Instagram' },
-    { icon: Music2, href: 'https://www.tiktok.com/@laydiesden?_t=ZM-8yY4lo3U1gL&_r=1', label: 'TikTok' },
-    { icon: Facebook, href: 'https://www.facebook.com/share/16xC7jqYca/', label: 'Facebook' },
-    { icon: MessageCircle, href: 'https://wa.me/254712527543', label: 'WhatsApp' }
+  ];  const socialLinks = [
+    { icon: Instagram, href: 'https://www.instagram.com/laydies_den?igsh=MWg2M3dpM25zdDF5aA==', label: 'Instagram', bgColor: 'bg-gradient-to-r from-purple-500 to-pink-500', hoverColor: 'hover:from-purple-600 hover:to-pink-600' },
+    { icon: Music2, href: 'https://www.tiktok.com/@laydiesden?_t=ZM-8yY4lo3U1gL&_r=1', label: 'TikTok', bgColor: 'bg-black', hoverColor: 'hover:bg-gray-900' },
+    { icon: Facebook, href: 'https://www.facebook.com/share/16xC7jqYca/', label: 'Facebook', bgColor: 'bg-blue-600', hoverColor: 'hover:bg-blue-700' },
+    { icon: MessageCircle, href: 'https://wa.me/254712527543', label: 'WhatsApp', bgColor: 'bg-green-500', hoverColor: 'hover:bg-green-600' },
+    { icon: Mail, href: 'mailto:thelaydiesden@gmail.com', label: 'Email', bgColor: 'bg-red-600', hoverColor: 'hover:bg-red-700' }
   ];
   return (
     <footer className="bg-gradient-to-b from-zinc-900 to-black text-white">
@@ -129,18 +127,20 @@ export default function Footer() {
               <div className="flex items-center gap-2 text-zinc-400 text-sm">
                 <Phone size={16} className="text-red-400" />
                 <span>0712527543</span>
-              </div>
-              <div className="flex items-center gap-2 text-zinc-400 text-sm">
+              </div>              <div className="flex items-center gap-2 text-zinc-400 text-sm">
                 <Mail size={16} className="text-red-400" />
-                <span>thelaydiesden@gmail.com</span>
+                <a 
+                  href="mailto:thelaydiesden@gmail.com"
+                  className="hover:text-red-400 transition-colors duration-200"
+                >
+                  thelaydiesden@gmail.com
+                </a>
               </div>
               <div className="flex items-center gap-2 text-zinc-400 text-sm">
                 <Clock size={16} className="text-red-400" />
                 <span>24/7 Available</span>
               </div>
-            </div>
-
-            {/* Social Media */}
+            </div>            {/* Social Media */}
             <div>
               <h5 className="text-gold font-medium mb-3 text-sm">Follow Us</h5>
               <div className="flex gap-2">
@@ -152,7 +152,8 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-8 h-8 bg-zinc-800 hover:bg-red-600 rounded-full flex items-center justify-center transition-colors duration-300"
+                    className={`w-8 h-8 ${social.bgColor} ${social.hoverColor} rounded-full flex items-center justify-center transition-all duration-300 text-white`}
+                    title={social.label}
                   >
                     <social.icon size={16} />
                   </motion.a>

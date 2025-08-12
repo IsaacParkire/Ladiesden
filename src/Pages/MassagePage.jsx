@@ -83,13 +83,12 @@ export default function MassagePage() {
   const [selectedMasseur, setSelectedMasseur] = useState(null);
 
   return (    <div className="pt-24 bg-black text-white">      {/* Hero Section */}
-      <section className="min-h-[70vh] px-6 flex items-center relative">
-        {/* Background Image */}
+      <section className="min-h-[70vh] px-6 flex items-center relative">        {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img
-            src="/Ladiesden/images/hertouch4.jpeg"
+            src="/Ladiesden/images/hertouch3.jpeg"
             alt="Her Touch Background"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/40 to-black/60"></div>
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/30"></div>

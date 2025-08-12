@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Lock, Shield, Crown, Star, Eye, Key, Users, Calendar } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const secretServices = [
   {
     id: 1,
     name: "Femdom Sessions",
     icon: <Crown className="w-8 h-8 text-red-500" />,
-    description: "Take control in luxurious private suites with trained submissive male companions who understand the art of service.",
-    features: ["Professional submissives", "Safe words protocol", "Equipment provided", "Aftercare included"],
+    description: "Take control in luxurious private suites with trained submissive male companions who understand the art of service.",    features: ["Professional submissives", "Safe words protocol", "Equipment provided", "Aftercare included"],
     duration: "60-180 minutes",
     price: "KSH 52,000-104,000",
     image: "/secrets/femdom.jpg",
-    memberTier: "Gold"
+    memberTier: "Premium"
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const secretServices = [
     duration: "45-120 minutes",
     price: "KSH 39,000-78,000",
     image: "/secrets/foot.jpg",
-    memberTier: "Silver"
+    memberTier: "Premium"
   },
   {
     id: 3,
@@ -34,7 +34,7 @@ const secretServices = [
     duration: "90-240 minutes",
     price: "KSH 65,000-130,000",
     image: "/secrets/obedience.jpg",
-    memberTier: "Platinum"
+    memberTier: "VIP Elite"
   },
   {
     id: 4,
@@ -45,34 +45,31 @@ const secretServices = [
     duration: "60-300 minutes",
     price: "KSH 78,000-195,000",
     image: "/secrets/roleplay.jpg",
-    memberTier: "Diamond"
+    memberTier: "VIP Elite"
   }
 ];
 
 const membershipTiers = [
   {
-    tier: "Silver",
+    tier: "Basic",
+    price: "Free",
+    benefits: ["Basic access to products", "Public events only", "Standard bookings", "Limited features"],
+    color: "from-gray-400 to-gray-600",
+    access: false
+  },
+  {
+    tier: "Premium",
+    price: "KSH 25,000/month",
+    benefits: ["Access to Her Secrets", "Premium themed nights", "Priority booking", "Premium gallery", "Special sessions"],
+    color: "from-yellow-400 to-yellow-600",
+    access: true
+  },
+  {
+    tier: "VIP Elite",
     price: "KSH 65,000/month",
-    benefits: ["Basic access to lounge", "2 sessions per month", "Standard amenities", "Basic customization"],
-    color: "from-gray-400 to-gray-600"
-  },
-  {
-    tier: "Gold",
-    price: "KSH 130,000/month",
-    benefits: ["Full lounge access", "4 sessions per month", "Premium amenities", "Advanced customization", "Priority booking"],
-    color: "from-yellow-400 to-yellow-600"
-  },
-  {
-    tier: "Platinum",
-    price: "KSH 260,000/month",
-    benefits: ["Unlimited access", "8 sessions per month", "Luxury amenities", "Full customization", "Personal concierge"],
-    color: "from-purple-400 to-purple-600"
-  },
-  {
-    tier: "Diamond",
-    price: "KSH 650,000/month",
-    benefits: ["Exclusive access", "Unlimited sessions", "Ultra-luxury amenities", "Bespoke experiences", "24/7 concierge", "Private entrance"],
-    color: "from-blue-400 to-blue-600"
+    benefits: ["Full VIP access", "Private events", "Custom experiences", "24/7 concierge", "Exclusive content"],
+    color: "from-purple-400 via-red-500 to-yellow-500",
+    access: true
   }
 ];
 
@@ -109,13 +106,38 @@ const specialists = [
 export default function SecretsPage() {
   const [selectedService, setSelectedService] = useState(null);
   const [showMembership, setShowMembership] = useState(false);
+  const navigate = useNavigate();
+  
+  // Mock user membership status - in real app, this would come from auth context
+  const [userMembership, setUserMembership] = useState('Basic'); // 'Basic', 'Premium', 'VIP Elite'
+  
+  const handleUnlock = (service) => {
+    // Check if user has required membership
+    const requiredTier = service.memberTier;
+    
+    if (userMembership === 'Basic') {
+      // Redirect to membership page
+      navigate('/membership');
+    } else if (
+      (requiredTier === 'Premium' && (userMembership === 'Premium' || userMembership === 'VIP Elite')) ||
+      (requiredTier === 'VIP Elite' && userMembership === 'VIP Elite')
+    ) {
+      // User has access - proceed with booking or viewing
+      setSelectedService(service);
+      // In real app, this would open booking modal or navigate to booking page
+      alert(`Unlocked: ${service.name}! Redirecting to booking...`);
+    } else {
+      // User needs higher tier
+      navigate('/membership');
+    }
+  };
 
-  return (    <div className="pt-24 bg-black text-white">      {/* Hero Section with Age Verification */}
+  return (<div className="pt-24 bg-black text-white">      {/* Hero Section with Age Verification */}
       <section className="py-8 px-6 relative min-h-[70vh] flex items-center">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img
-            src="/Ladiesden/images/hersecret2.jpeg"
+            src="/Ladiesden/images/hersecret1.jpeg"
             alt="Her Secrets Background"
             className="w-full h-full object-cover"
           />
@@ -154,8 +176,10 @@ export default function SecretsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.8 }}
             className="flex flex-wrap justify-center gap-3"
-          >
-            <button className="px-5 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg font-semibold transition-all duration-300 hover:scale-105 text-sm">
+          >            <button 
+              onClick={() => navigate('/membership')}
+              className="px-5 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-lg font-semibold transition-all duration-300 hover:scale-105 text-sm"
+            >
               View Membership
             </button>
             <button className="px-5 py-2 bg-transparent border-2 border-gold text-gold hover:bg-gold hover:text-black rounded-lg font-semibold transition-all duration-300 hover:scale-105 text-sm">
@@ -181,9 +205,8 @@ export default function SecretsPage() {
               Her Secrets is an exclusive private lounge accessible only to verified premium members. 
               Our membership program ensures the highest level of discretion and quality for all experiences.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={() => setShowMembership(true)}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">              <button
+                onClick={() => navigate('/membership')}
                 className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-xl font-semibold transition-all hover:scale-105"
               >
                 View Membership Options
@@ -218,13 +241,14 @@ export default function SecretsPage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.2, duration: 0.8 }}
                 className="relative bg-zinc-900/50 rounded-2xl overflow-hidden hover:bg-zinc-900/70 transition-all group"
-              >
-                {/* Blur overlay for non-members */}
+              >                {/* Blur overlay for non-members */}
                 <div className="absolute inset-0 backdrop-blur-sm bg-black/30 z-10 flex items-center justify-center">
                   <div className="text-center">
                     <Lock className="w-12 h-12 text-gold mx-auto mb-3" />
-                    <p className="text-white font-semibold mb-2">{service.memberTier} Members Only</p>
-                    <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm">
+                    <p className="text-white font-semibold mb-2">{service.memberTier} Members Only</p>                    <button 
+                      onClick={() => navigate('/membership')}
+                      className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition-all duration-300 hover:scale-105"
+                    >
                       Unlock Access
                     </button>
                   </div>
@@ -308,8 +332,10 @@ export default function SecretsPage() {
                         </li>
                       ))}
                     </ul>
-                    
-                    <button className="w-full bg-gradient-to-r from-red-600 to-gold hover:from-red-700 hover:to-yellow-500 text-white py-3 rounded-xl font-semibold transition-all hover:scale-105">
+                      <button 
+                      onClick={() => navigate('/membership')}
+                      className="w-full bg-gradient-to-r from-red-600 to-gold hover:from-red-700 hover:to-yellow-500 text-white py-3 rounded-xl font-semibold transition-all hover:scale-105"
+                    >
                       Select {tier.tier}
                     </button>
                   </div>
@@ -416,8 +442,10 @@ export default function SecretsPage() {
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.8 }}
             className="mt-8"
-          >
-            <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105">
+          >            <button 
+              onClick={() => navigate('/membership')}
+              className="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:scale-105"
+            >
               Begin Membership Application
             </button>
           </motion.div>

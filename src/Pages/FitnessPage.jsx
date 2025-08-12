@@ -110,13 +110,21 @@ const transformationStories = [
 
 export default function FitnessPage() {
   const [selectedProgram, setSelectedProgram] = useState(null);
-  const [selectedTrainer, setSelectedTrainer] = useState(null);
-  return (
+  const [selectedTrainer, setSelectedTrainer] = useState(null);  return (
     <div className="pt-16 sm:pt-20 md:pt-24 bg-black text-white">
       {/* Hero Section */}
-      <section className="h-[25vh] sm:h-[20vh] px-4 sm:px-6 flex items-center bg-gradient-to-br from-red-900/30 via-black to-zinc-900">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent"></div>
-        <div className="relative max-w-4xl mx-auto text-center">
+      <section className="relative h-[40vh] sm:h-[45vh] md:h-[50vh] px-4 sm:px-6 flex items-center">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/Ladiesden/images/herstrength2.jpg"
+            alt="Her Strength Background"
+            className="w-full h-full object-contain"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/70"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-red-900/30 via-black to-zinc-900"></div>
+        </div>
+        <div className="relative z-10 max-w-4xl mx-auto text-center w-full">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}

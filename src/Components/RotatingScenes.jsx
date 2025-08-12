@@ -8,7 +8,7 @@ const scenes = [
     id: 1,
     title: "Fashion & Style",
     subtitle: "Luxury made wearable",
-    image: "/Ladiesden/images/about-intro.jpeg",
+    image: "/Ladiesden/images/dress.jpg",
     description: "Discover our exclusive boutique collection designed for the modern woman who demands both elegance and sensuality.",
     cta: "Shop Boutique",
     link: "/boutique"
@@ -26,7 +26,7 @@ const scenes = [
     id: 3,
     title: "Strength & Beauty",
     subtitle: "Built by him. Ruled by her",
-    image: "/Ladiesden/images/hertouch2.jpeg",
+    image: "/Ladiesden/images/herstrength2.jpg",
     description: "Private fitness training with elite male trainers focused on your body transformation goals.",
     cta: "Start Training",
     link: "/strength"
@@ -35,7 +35,7 @@ const scenes = [
     id: 4,
     title: "Exclusive Events",
     subtitle: "Pleasure after dark",
-    image: "/Ladiesden/images/hernight2.jpeg",
+    image: "/Ladiesden/images/hernight4.jpg",
     description: "Female-only events, private shows, and VIP experiences with trained male hosts.",
     cta: "Join Events",
     link: "/night"
@@ -107,13 +107,12 @@ export default function RotatingScenes() {
           exit={{ opacity: 0 }}
           transition={{ duration: 1 }}
           className="absolute inset-0"
-        >
-          {/* Background Image */}
+        >          {/* Background Image */}
           <div className="absolute inset-0">
             <img
               src={scenes[currentScene].image}
               alt={scenes[currentScene].title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain object-center"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
           </div>

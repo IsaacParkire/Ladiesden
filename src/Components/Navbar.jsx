@@ -194,15 +194,13 @@ export default function Navbar() {
                 </div>
               </div>
             )}
-          </div>
-
-          {/* Book VIP Button */}
-          <a
-            href="#vip"
+          </div>          {/* Book VIP Button */}
+          <Link
+            to="/membership"
             className="flex items-center gap-1 px-3 py-1.5 text-sm bg-red-600 text-white rounded-full hover:bg-red-700 transition-all shadow-sm hover:scale-105 duration-200"
           >
             <Star size={14} /> <span className="hidden xl:inline">Book</span> VIP
-          </a>
+          </Link>
         </div>        {/* Mobile Actions & Toggle */}
         <div className="lg:hidden flex items-center space-x-2 sm:space-x-3">
           {/* Mobile Love Icon Dropdown */}
@@ -329,16 +327,15 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Mobile VIP Button */}
-          <div className="mt-8 pt-6 border-t border-zinc-800">
-            <a
-              href="#vip"
+          {/* Mobile VIP Button */}          <div className="mt-8 pt-6 border-t border-zinc-800">
+            <Link
+              to="/membership"
               className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-red-600 to-red-700 text-white py-3 px-4 rounded-xl hover:from-red-700 hover:to-red-800 transition-all"
               onClick={() => setOpen(false)}
             >
               <Star size={16} />
               <span className="font-semibold">Book VIP Experience</span>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

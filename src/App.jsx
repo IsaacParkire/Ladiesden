@@ -29,6 +29,9 @@ import TermsPage from "./Pages/TermsPage";
 import PrivacyPage from "./Pages/PrivacyPage";
 import FAQsPage from "./Pages/FAQsPage";
 import ShippingPage from "./Pages/ShippingPage";
+import MembershipPage from "./Pages/MembershipPage";
+import PaymentPage from "./Pages/PaymentPage";
+import PaymentSuccessPage from "./Pages/PaymentSuccessPage";
 
 export default function App() {
   // Force scroll to top on app initialization and prevent scroll restoration
@@ -100,6 +103,9 @@ export default function App() {
                 <Route path="/privacy" element={<PrivacyPage />} />
                 <Route path="/faqs" element={<FAQsPage />} />
                 <Route path="/shipping" element={<ShippingPage />} />
+                <Route path="/membership" element={<MembershipPage />} />
+                <Route path="/payment" element={<PaymentPage />} />
+                <Route path="/payment-success" element={<PaymentSuccessPage />} />
               </Routes>
             </div>
             <Footer />

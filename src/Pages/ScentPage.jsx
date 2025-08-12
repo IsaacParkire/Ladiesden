@@ -113,12 +113,20 @@ export default function ScentPage() {
     newCart.add(id);
     setCart(newCart);
   };
-
   return (
     <div className="min-h-screen bg-black text-white pt-24">      {/* Hero Section */}
-      <section className="relative py-8 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-900/30 to-pink-900/30"></div>
-        <div className="relative max-w-6xl mx-auto text-center">
+      <section className="relative h-[40vh] sm:h-[45vh] md:h-[50vh] px-6 overflow-hidden flex items-center">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/Ladiesden/images/herscent2.jpeg"
+            alt="Her Scent Background"
+            className="w-full h-full object-contain"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/70"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-900/30 to-pink-900/30"></div>
+        </div>
+        <div className="relative z-10 max-w-6xl mx-auto text-center w-full">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}

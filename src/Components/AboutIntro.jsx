@@ -22,9 +22,8 @@ export default function AboutIntro() {
             </p>
             <p className="text-zinc-300 text-lg leading-relaxed mb-8">
               Our carefully selected elite gentlemen and luxurious facilities provide an 
-              unparalleled experience that transcends the ordinary.            </p>
-            <Link
-              to="/connect"
+              unparalleled experience that transcends the ordinary.            </p>            <Link
+              to="/about"
               className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-semibold transition-all hover:scale-105"
             >
               Learn More About Us
@@ -39,7 +38,7 @@ export default function AboutIntro() {
             transition={{ duration: 0.8 }}
             className="relative"
           >            <img
-              src="/Ladiesden/images/about-intro.jpeg"
+              src="/Ladiesden/images/aboutintro1.jpg"
               alt="Laydies Den Experience"
               className="rounded-2xl shadow-2xl w-full h-96 object-cover"
             />
