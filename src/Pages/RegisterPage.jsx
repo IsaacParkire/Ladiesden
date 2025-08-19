@@ -1,29 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, EyeOff, Heart, Lock, Mail, User, Phone, Calendar } from 'lucide-react';
+import { Eye, EyeOff, Heart, Lock, Mail, User, Phone, Calendar, Crown, Star, Shield, CheckCircle } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { useCart } from '../contexts/CartContext';
+import { membershipAPI } from '../services/api';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    dateOfBirth: '',
-    password: '',
-    confirmPassword: '',
-    membershipType: 'basic',
-    agreeToTerms: false,
-    agreeToMarketing: false
-  });
+  const { register, loading, error } = useAuth();
+  const { syncCartWithBackend, items: cartItems } = useCart();
   
+  const [formData, setFormData] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone_number: '',
+    date_of_birth: '',
+    password: '',
+    password_confirm: '',
+    agreeToTerms: false,
+    agreeToMarketing: false,
+    selectedMembership: 'basic'
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errors, setErrors] = useState({});
   const [currentStep, setCurrentStep] = useState(1);
+  const [validationErrors, setValidationErrors] = useState({});
+  const [membershipPlans, setMembershipPlans] = useState([]);
+  const [loadingPlans, setLoadingPlans] = useState(true);  // Fetch membership plans on component mount
+  useEffect(() => {
+    const fetchMembershipPlans = async () => {
+      try {
+        console.log('Fetching membership plans...');
+        const response = await membershipAPI.getPlans();
+        console.log('Membership plans response:', response);
+        console.log('Response data:', response.data);
+        
+        // Handle different response structures
+        let plans = [];
+        if (Array.isArray(response.data)) {
+          plans = response.data;
+        } else if (response.data && Array.isArray(response.data.results)) {
+          plans = response.data.results;
+        } else if (response.data) {
+          plans = [response.data];
+        }
+        
+        console.log('Setting membership plans:', plans);
+        setMembershipPlans(plans);
+      } catch (error) {
+        console.error('Failed to fetch membership plans:', error);
+        console.error('Error details:', error.response);
+        setMembershipPlans([]); // Ensure it's always an array
+      } finally {
+        setLoadingPlans(false);
+      }
+    };
 
+    fetchMembershipPlans();
+  }, []);
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -32,23 +68,22 @@ export default function RegisterPage() {
     }));
     
     // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors(prev => ({
+    if (validationErrors[name]) {
+      setValidationErrors(prev => ({
         ...prev,
         [name]: ''
       }));
     }
   };
-
   const validateStep1 = () => {
     const newErrors = {};
     
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = 'First name is required';
+    if (!formData.first_name.trim()) {
+      newErrors.first_name = 'First name is required';
     }
     
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Last name is required';
+    if (!formData.last_name.trim()) {
+      newErrors.last_name = 'Last name is required';
     }
     
     if (!formData.email) {
@@ -57,25 +92,24 @@ export default function RegisterPage() {
       newErrors.email = 'Email is invalid';
     }
     
-    if (!formData.phone) {
-      newErrors.phone = 'Phone number is required';
+    if (!formData.phone_number) {
+      newErrors.phone_number = 'Phone number is required';
     }
     
-    if (!formData.dateOfBirth) {
-      newErrors.dateOfBirth = 'Date of birth is required';
+    if (!formData.date_of_birth) {
+      newErrors.date_of_birth = 'Date of birth is required';
     } else {
-      const birthDate = new Date(formData.dateOfBirth);
+      const birthDate = new Date(formData.date_of_birth);
       const today = new Date();
       const age = today.getFullYear() - birthDate.getFullYear();
       if (age < 18) {
-        newErrors.dateOfBirth = 'You must be at least 18 years old';
+        newErrors.date_of_birth = 'You must be at least 18 years old';
       }
     }
     
-    setErrors(newErrors);
+    setValidationErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
   const validateStep2 = () => {
     const newErrors = {};
     
@@ -87,82 +121,109 @@ export default function RegisterPage() {
       newErrors.password = 'Password must contain uppercase, lowercase, and number';
     }
     
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password';
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+    if (!formData.password_confirm) {
+      newErrors.password_confirm = 'Please confirm your password';
+    } else if (formData.password !== formData.password_confirm) {
+      newErrors.password_confirm = 'Passwords do not match';
     }
     
     if (!formData.agreeToTerms) {
       newErrors.agreeToTerms = 'You must agree to the terms and conditions';
     }
     
-    setErrors(newErrors);
+    setValidationErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
   const handleNext = () => {
     if (currentStep === 1 && validateStep1()) {
       setCurrentStep(2);
+    } else if (currentStep === 2 && validateStep2()) {
+      setCurrentStep(3);
     }
   };
-
   const handleBack = () => {
-    setCurrentStep(1);
-    setErrors({});
-  };
-  const handleSubmit = async (e) => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+      setValidationErrors({});
+    }
+  };  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!validateStep2()) return;
     
-    setIsLoading(true);
-    
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Registration successful:', formData);
+      console.log('Starting registration process...');
+      console.log('Form data:', {
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        email: formData.email,
+        phone_number: formData.phone_number,
+        date_of_birth: formData.date_of_birth,
+        selectedMembership: formData.selectedMembership
+      });
       
-      // Handle successful registration here
-      // If user chose premium or VIP Elite membership, redirect to membership page for payment
-      if (formData.membershipType === 'premium' || formData.membershipType === 'vip') {
-        navigate('/membership');
+      // Register using AuthContext
+      const result = await register({
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        email: formData.email,
+        phone_number: formData.phone_number,
+        date_of_birth: formData.date_of_birth,
+        password: formData.password,
+        password_confirm: formData.password_confirm
+      });
+      
+      console.log('Registration result:', result);
+      
+      if (result && result.success) {
+        console.log('Registration successful, processing membership...');
+        
+        // Sync cart after successful registration and login
+        if (cartItems.length > 0) {
+          await syncCartWithBackend();
+        }
+        
+        // Handle membership-based redirection
+        const selectedPlan = membershipPlans.find(plan => plan.plan_type === formData.selectedMembership);
+        console.log('Selected plan:', selectedPlan);
+        
+        if (!selectedPlan || selectedPlan.plan_type === 'basic') {
+          // Basic membership - redirect to profile
+          console.log('Redirecting to profile for basic membership');
+          navigate('/profile');
+        } else {
+          // Premium/VIP membership - redirect to payment page with plan info
+          console.log('Redirecting to payment page for premium/VIP');
+          navigate('/payment', {
+            state: {
+              plan: selectedPlan,
+              fromRegistration: true,
+              userData: {
+                first_name: formData.first_name,
+                last_name: formData.last_name,
+                email: formData.email,
+                phone_number: formData.phone_number,
+                date_of_birth: formData.date_of_birth,
+                password: formData.password,
+                password_confirm: formData.password_confirm
+              }
+            }
+          });
+        }
       } else {
-        // For basic (free) membership, redirect to dashboard or home
-        navigate('/');
+        console.error('Registration failed - result not successful:', result);
+        if (result && result.error) {
+          console.error('Registration error details:', result.error);
+        }
+        // Error is already set in AuthContext state
       }
+      
     } catch (error) {
-      setErrors({ general: 'Registration failed. Please try again.' });
-    } finally {
-      setIsLoading(false);
+      console.error('Registration exception:', error);
+      console.error('Error details:', error.response?.data || error.message);
+      // Error is handled by AuthContext
     }
-  };
-
-  const membershipTypes = [
-    {
-      id: 'basic',
-      name: 'Basic Member',
-      icon: '👤',
-      price: 'Free',
-      features: ['Basic access', 'Community features', 'Limited services']
-    },
-    {
-      id: 'premium',
-      name: 'Premium Member',
-      icon: '💎',
-      price: 'KSH 5,000/month',
-      features: ['Full access', 'Priority booking', 'Exclusive events', 'Concierge service']
-    },
-    {
-      id: 'vip',
-      name: 'VIP Elite',
-      icon: '👑',
-      price: 'KSH 15,000/month',
-      features: ['VIP access', 'Personal assistant', 'Private events', '24/7 support', 'Custom experiences']
-    }
-  ];
-
-  return (
+  };return (
     <div className="pt-16 sm:pt-20 md:pt-24 bg-black text-white min-h-screen">
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6">
         <div className="max-w-2xl mx-auto">
@@ -184,6 +245,30 @@ export default function RegisterPage() {
             </p>
           </motion.div>
 
+          {/* Social Register Buttons */}
+          <div className="flex flex-col gap-3 mb-6">
+            <button
+              type="button"
+              className="flex items-center justify-center gap-3 w-full py-3 rounded-lg bg-white text-black font-semibold shadow hover:bg-gray-100 transition-colors border border-gray-200"
+              onClick={() => window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:8000/api'}/accounts/oauth/google/login/`}
+            >
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5" />
+              Continue with Google
+            </button>
+            <button
+              type="button"
+              className="flex items-center justify-center gap-3 w-full py-3 rounded-lg bg-black text-white font-semibold shadow hover:bg-gray-900 transition-colors border border-gray-800"
+              onClick={() => window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:8000/api'}/accounts/oauth/apple/login/`}
+            >
+              <span className="w-5 h-5 flex items-center justify-center">
+                {/* Apple SVG icon inline */}
+                <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M16.365 1.43c0 1.14-.93 2.07-2.07 2.07-.04 0-.08 0-.12-.01-.17-1.09.95-2.08 2.07-2.06.08 0 .12 0 .12.01zm3.44 6.99c-1.14-.13-2.09.62-2.63.62-.55 0-1.39-.6-2.3-.58-.89.01-1.72.52-2.18 1.32-.93 1.61-.24 3.99.66 5.3.44.65.97 1.37 1.67 1.34.67-.03.93-.43 1.74-.43.8 0 1.04.43 1.74.42.72-.01 1.18-.66 1.62-1.31.51-.74.72-1.46.73-1.5-.02-.01-1.41-.54-1.43-2.13-.01-1.33 1.09-1.97 1.14-2.01-.62-.91-1.59-1.01-1.93-1.02zm-3.13-3.41c.38-.46.64-1.1.57-1.74-.55.02-1.21.37-1.6.83-.35.41-.66 1.07-.54 1.7.6.05 1.19-.31 1.57-.79zm-1.7 4.67c.03-1.13.93-1.67.97-1.7-.53-.77-1.36-.88-1.65-.89-.7-.07-1.36.41-1.72.41-.36 0-.91-.4-1.5-.39-.77.01-1.48.45-1.87 1.14-.8 1.39-.21 3.45.57 4.58.38.56.84 1.18 1.45 1.16.6-.02.82-.39 1.54-.39.72 0 .92.39 1.54.38.63-.01 1.03-.57 1.41-1.13.44-.64.62-1.27.63-1.3-.02-.01-1.19-.46-1.21-1.81zm-2.13-3.41c.32-.39.54-.93.48-1.47-.47.02-1.03.31-1.36.7-.3.35-.56.91-.46 1.45.51.04 1.01-.27 1.34-.68z"/></svg>
+              </span>
+              Continue with Apple
+            </button>
+          </div>
+          {/* End Social Register Buttons */}
+
           {/* Progress Steps */}
           <div className="flex items-center justify-center mb-8">
             <div className="flex items-center space-x-4">
@@ -200,6 +285,14 @@ export default function RegisterPage() {
               }`}>
                 2
               </div>
+              <div className={`w-16 h-1 transition-all ${
+                currentStep > 2 ? 'bg-red-600' : 'bg-zinc-800'
+              }`} />
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
+                currentStep >= 3 ? 'bg-red-600 text-white' : 'bg-zinc-800 text-zinc-400'
+              }`}>
+                3
+              </div>
             </div>
           </div>
 
@@ -210,11 +303,10 @@ export default function RegisterPage() {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="bg-zinc-900/50 rounded-2xl p-6 sm:p-8 border border-zinc-800"
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* General Error */}
-              {errors.general && (
+            <form onSubmit={handleSubmit} className="space-y-6">              {/* General Error */}
+              {error && (
                 <div className="bg-red-900/20 border border-red-600/30 rounded-lg p-3">
-                  <p className="text-red-300 text-sm">{errors.general}</p>
+                  <p className="text-red-300 text-sm">{error}</p>
                 </div>
               )}
 
@@ -230,22 +322,21 @@ export default function RegisterPage() {
                         First Name
                       </label>
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-400" />
-                        <input
+                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-400" />                        <input
                           type="text"
-                          name="firstName"
-                          value={formData.firstName}
+                          name="first_name"
+                          value={formData.first_name}
                           onChange={handleChange}
                           className={`w-full pl-10 pr-4 py-3 bg-zinc-800 border rounded-lg text-white focus:outline-none transition-colors ${
-                            errors.firstName
+                            validationErrors.first_name
                               ? 'border-red-500 focus:border-red-500'
                               : 'border-zinc-700 focus:border-red-500'
                           }`}
                           placeholder="First name"
                         />
                       </div>
-                      {errors.firstName && (
-                        <p className="text-red-400 text-xs mt-1">{errors.firstName}</p>
+                      {validationErrors.first_name && (
+                        <p className="text-red-400 text-xs mt-1">{validationErrors.first_name}</p>
                       )}
                     </div>
 
@@ -254,22 +345,21 @@ export default function RegisterPage() {
                         Last Name
                       </label>
                       <div className="relative">
-                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-400" />
-                        <input
+                        <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-400" />                        <input
                           type="text"
-                          name="lastName"
-                          value={formData.lastName}
+                          name="last_name"
+                          value={formData.last_name}
                           onChange={handleChange}
                           className={`w-full pl-10 pr-4 py-3 bg-zinc-800 border rounded-lg text-white focus:outline-none transition-colors ${
-                            errors.lastName
+                            validationErrors.last_name
                               ? 'border-red-500 focus:border-red-500'
                               : 'border-zinc-700 focus:border-red-500'
                           }`}
                           placeholder="Last name"
                         />
                       </div>
-                      {errors.lastName && (
-                        <p className="text-red-400 text-xs mt-1">{errors.lastName}</p>
+                      {validationErrors.last_name && (
+                        <p className="text-red-400 text-xs mt-1">{validationErrors.last_name}</p>
                       )}
                     </div>
                   </div>
@@ -285,17 +375,16 @@ export default function RegisterPage() {
                         type="email"
                         name="email"
                         value={formData.email}
-                        onChange={handleChange}
-                        className={`w-full pl-10 pr-4 py-3 bg-zinc-800 border rounded-lg text-white focus:outline-none transition-colors ${
-                          errors.email
+                        onChange={handleChange}                        className={`w-full pl-10 pr-4 py-3 bg-zinc-800 border rounded-lg text-white focus:outline-none transition-colors ${
+                          validationErrors.email
                             ? 'border-red-500 focus:border-red-500'
                             : 'border-zinc-700 focus:border-red-500'
                         }`}
                         placeholder="your@email.com"
                       />
                     </div>
-                    {errors.email && (
-                      <p className="text-red-400 text-xs mt-1">{errors.email}</p>
+                    {validationErrors.email && (
+                      <p className="text-red-400 text-xs mt-1">{validationErrors.email}</p>
                     )}
                   </div>
 
@@ -306,22 +395,21 @@ export default function RegisterPage() {
                         Phone Number
                       </label>
                       <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-400" />
-                        <input
+                        <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-400" />                        <input
                           type="tel"
-                          name="phone"
-                          value={formData.phone}
+                          name="phone_number"
+                          value={formData.phone_number}
                           onChange={handleChange}
                           className={`w-full pl-10 pr-4 py-3 bg-zinc-800 border rounded-lg text-white focus:outline-none transition-colors ${
-                            errors.phone
+                            validationErrors.phone_number
                               ? 'border-red-500 focus:border-red-500'
                               : 'border-zinc-700 focus:border-red-500'
                           }`}
                           placeholder="+254 700 000 000"
                         />
                       </div>
-                      {errors.phone && (
-                        <p className="text-red-400 text-xs mt-1">{errors.phone}</p>
+                      {validationErrors.phone_number && (
+                        <p className="text-red-400 text-xs mt-1">{validationErrors.phone_number}</p>
                       )}
                     </div>
 
@@ -330,55 +418,22 @@ export default function RegisterPage() {
                         Date of Birth
                       </label>
                       <div className="relative">
-                        <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-400" />
-                        <input
+                        <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-400" />                        <input
                           type="date"
-                          name="dateOfBirth"
-                          value={formData.dateOfBirth}
+                          name="date_of_birth"
+                          value={formData.date_of_birth}
                           onChange={handleChange}
                           className={`w-full pl-10 pr-4 py-3 bg-zinc-800 border rounded-lg text-white focus:outline-none transition-colors ${
-                            errors.dateOfBirth
+                            validationErrors.date_of_birth
                               ? 'border-red-500 focus:border-red-500'
                               : 'border-zinc-700 focus:border-red-500'
                           }`}
                         />
                       </div>
-                      {errors.dateOfBirth && (
-                        <p className="text-red-400 text-xs mt-1">{errors.dateOfBirth}</p>
+                      {validationErrors.date_of_birth && (
+                        <p className="text-red-400 text-xs mt-1">{validationErrors.date_of_birth}</p>
                       )}
-                    </div>
-                  </div>
-
-                  {/* Membership Type Selection */}
-                  <div>
-                    <label className="block text-gold font-medium mb-4 text-sm">
-                      Choose Your Membership
-                    </label>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      {membershipTypes.map((type) => (
-                        <div
-                          key={type.id}
-                          className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
-                            formData.membershipType === type.id
-                              ? 'border-red-500 bg-red-900/20'
-                              : 'border-zinc-700 hover:border-zinc-600'
-                          }`}
-                          onClick={() => setFormData(prev => ({ ...prev, membershipType: type.id }))}
-                        >
-                          <div className="text-center">
-                            <span className="text-2xl mb-2 block">{type.icon}</span>
-                            <h3 className="font-bold text-white mb-1">{type.name}</h3>
-                            <p className="text-gold font-semibold mb-2">{type.price}</p>
-                            <div className="space-y-1">
-                              {type.features.map((feature, index) => (
-                                <p key={index} className="text-xs text-zinc-400">{feature}</p>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                    </div>                  </div>
 
                   {/* Next Button */}
                   <button
@@ -408,9 +463,8 @@ export default function RegisterPage() {
                           type={showPassword ? 'text' : 'password'}
                           name="password"
                           value={formData.password}
-                          onChange={handleChange}
-                          className={`w-full pl-10 pr-12 py-3 bg-zinc-800 border rounded-lg text-white focus:outline-none transition-colors ${
-                            errors.password
+                          onChange={handleChange}                          className={`w-full pl-10 pr-12 py-3 bg-zinc-800 border rounded-lg text-white focus:outline-none transition-colors ${
+                            validationErrors.password
                               ? 'border-red-500 focus:border-red-500'
                               : 'border-zinc-700 focus:border-red-500'
                           }`}
@@ -424,8 +478,8 @@ export default function RegisterPage() {
                           {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                         </button>
                       </div>
-                      {errors.password && (
-                        <p className="text-red-400 text-xs mt-1">{errors.password}</p>
+                      {validationErrors.password && (
+                        <p className="text-red-400 text-xs mt-1">{validationErrors.password}</p>
                       )}
                     </div>
 
@@ -434,14 +488,13 @@ export default function RegisterPage() {
                         Confirm Password
                       </label>
                       <div className="relative">
-                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-400" />
-                        <input
+                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-400" />                        <input
                           type={showConfirmPassword ? 'text' : 'password'}
-                          name="confirmPassword"
-                          value={formData.confirmPassword}
+                          name="password_confirm"
+                          value={formData.password_confirm}
                           onChange={handleChange}
                           className={`w-full pl-10 pr-12 py-3 bg-zinc-800 border rounded-lg text-white focus:outline-none transition-colors ${
-                            errors.confirmPassword
+                            validationErrors.password_confirm
                               ? 'border-red-500 focus:border-red-500'
                               : 'border-zinc-700 focus:border-red-500'
                           }`}
@@ -455,8 +508,8 @@ export default function RegisterPage() {
                           {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                         </button>
                       </div>
-                      {errors.confirmPassword && (
-                        <p className="text-red-400 text-xs mt-1">{errors.confirmPassword}</p>
+                      {validationErrors.password_confirm && (
+                        <p className="text-red-400 text-xs mt-1">{validationErrors.password_confirm}</p>
                       )}
                     </div>
                   </div>
@@ -483,9 +536,8 @@ export default function RegisterPage() {
                           </Link>
                           {' '}*
                         </span>
-                      </label>
-                      {errors.agreeToTerms && (
-                        <p className="text-red-400 text-xs mt-1 ml-6">{errors.agreeToTerms}</p>
+                      </label>                      {validationErrors.agreeToTerms && (
+                        <p className="text-red-400 text-xs mt-1 ml-6">{validationErrors.agreeToTerms}</p>
                       )}
                     </div>
 
@@ -503,7 +555,156 @@ export default function RegisterPage() {
                         </span>
                       </label>
                     </div>
+                  </div>                  {/* Action Buttons */}
+                  <div className="flex gap-4">
+                    <button
+                      type="button"
+                      onClick={handleBack}
+                      className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-white font-semibold py-3 rounded-xl transition-all duration-300"
+                    >
+                      Back
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleNext}
+                      className="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold py-3 rounded-xl transition-all duration-300 hover:scale-105"
+                    >
+                      Next: Choose Membership
+                    </button>
                   </div>
+                </div>
+              )}
+
+              {/* Step 3: Membership Selection */}
+              {currentStep === 3 && (
+                <div className="space-y-6">
+                  <h2 className="text-xl font-bold text-white mb-4">Choose Your Membership</h2>
+                  <p className="text-zinc-300 text-sm mb-6">
+                    Select the membership plan that best fits your lifestyle. You can always upgrade later.
+                  </p>                  {loadingPlans ? (
+                    <div className="flex justify-center py-8">
+                      <div className="w-8 h-8 border-2 border-red-600 border-t-transparent rounded-full animate-spin"></div>
+                      <span className="ml-3 text-zinc-300">Loading membership plans...</span>
+                    </div>
+                  ) : membershipPlans.length === 0 ? (
+                    <div className="space-y-4">
+                      <div className="text-center py-8">
+                        <p className="text-zinc-300 mb-4">Unable to load membership plans. Using default options:</p>
+                      </div>
+                      {/* Fallback plans */}
+                      {[
+                        { plan_type: 'basic', name: 'Basic', price: 0, currency: 'KSH', description: 'Free membership with basic access' },
+                        { plan_type: 'premium', name: 'Premium', price: 25000, currency: 'KSH', description: 'Premium membership with exclusive features' },
+                        { plan_type: 'vip', name: 'VIP Elite', price: 65000, currency: 'KSH', description: 'Ultimate VIP experience' }
+                      ].map((plan) => {
+                        const isSelected = formData.selectedMembership === plan.plan_type;
+                        const planIcon = plan.plan_type === 'basic' ? Shield : 
+                                       plan.plan_type === 'premium' ? Star : Crown;
+                        const IconComponent = planIcon;
+                        
+                        return (
+                          <motion.div
+                            key={plan.plan_type}
+                            whileHover={{ scale: 1.02 }}
+                            className={`relative border-2 rounded-xl p-6 cursor-pointer transition-all duration-300 ${
+                              isSelected 
+                                ? 'border-red-500 bg-red-500/10' 
+                                : 'border-zinc-700 bg-zinc-800/50 hover:border-zinc-600'
+                            }`}
+                            onClick={() => setFormData(prev => ({ ...prev, selectedMembership: plan.plan_type }))}
+                          >
+                            <div className="flex items-start justify-between">
+                              <div className="flex items-center space-x-3">
+                                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                                  plan.plan_type === 'basic' ? 'bg-zinc-700' :
+                                  plan.plan_type === 'premium' ? 'bg-yellow-600' : 'bg-purple-600'
+                                }`}>
+                                  <IconComponent className="w-6 h-6 text-white" />
+                                </div>
+                                <div>
+                                  <h3 className="text-lg font-bold text-white">{plan.name}</h3>
+                                  <p className="text-zinc-300 text-sm">{plan.description}</p>
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-xl font-bold text-gold">
+                                  {plan.price === 0 ? 'FREE' : `${plan.currency} ${plan.price.toLocaleString()}`}
+                                </div>
+                                <div className="text-xs text-zinc-400">per month</div>
+                              </div>
+                            </div>
+                            
+                            {isSelected && (
+                              <CheckCircle className="absolute top-4 right-4 w-6 h-6 text-red-500" />
+                            )}
+                          </motion.div>
+                        );
+                      })}                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {(membershipPlans || []).map((plan) => {
+                        const isSelected = formData.selectedMembership === plan.plan_type;
+                        const planIcon = plan.plan_type === 'basic' ? Shield : 
+                                       plan.plan_type === 'premium' ? Star : Crown;
+                        const IconComponent = planIcon;
+                        
+                        return (
+                          <motion.div
+                            key={plan.plan_type}
+                            whileHover={{ scale: 1.02 }}
+                            className={`relative border-2 rounded-xl p-6 cursor-pointer transition-all duration-300 ${
+                              isSelected 
+                                ? 'border-red-500 bg-red-500/10' 
+                                : 'border-zinc-700 bg-zinc-800/50 hover:border-zinc-600'
+                            }`}
+                            onClick={() => setFormData(prev => ({ ...prev, selectedMembership: plan.plan_type }))}
+                          >
+                            <div className="flex items-start justify-between">
+                              <div className="flex items-center space-x-3">
+                                <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                                  plan.plan_type === 'basic' ? 'bg-zinc-700' :
+                                  plan.plan_type === 'premium' ? 'bg-yellow-600' : 'bg-purple-600'
+                                }`}>
+                                  <IconComponent className="w-6 h-6 text-white" />
+                                </div>
+                                <div>
+                                  <h3 className="text-lg font-bold text-white">{plan.name}</h3>
+                                  <p className="text-zinc-300 text-sm">{plan.description}</p>
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <div className="text-xl font-bold text-gold">
+                                  {plan.price === 0 ? 'FREE' : `${plan.currency} ${plan.price.toLocaleString()}`}
+                                </div>
+                                <div className="text-xs text-zinc-400">per month</div>
+                              </div>
+                            </div>
+                            
+                            {isSelected && (
+                              <CheckCircle className="absolute top-4 right-4 w-6 h-6 text-red-500" />
+                            )}
+                            
+                            <div className="mt-4 space-y-2">
+                              <h4 className="text-sm font-semibold text-gold">Key Features:</h4>
+                              <ul className="space-y-1">
+                                {plan.features_list?.slice(0, 3).map((feature, index) => (
+                                  <li key={index} className="text-xs text-zinc-300 flex items-start">
+                                    <CheckCircle className="w-3 h-3 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                                    {feature}
+                                  </li>
+                                ))}
+                                {plan.features_list?.length > 3 && (
+                                  <li className="text-xs text-zinc-400">
+                                    +{plan.features_list.length - 3} more features...
+                                  </li>
+                                )}
+                              </ul>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                  )}
 
                   {/* Action Buttons */}
                   <div className="flex gap-4">
@@ -516,10 +717,10 @@ export default function RegisterPage() {
                     </button>
                     <button
                       type="submit"
-                      disabled={isLoading}
+                      disabled={loading}
                       className="flex-1 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold py-3 rounded-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                     >
-                      {isLoading ? (
+                      {loading ? (
                         <div className="flex items-center justify-center">
                           <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
                           Creating Account...

@@ -7,12 +7,12 @@ const ProductCard = ({ product, onQuickView }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
-  const { addToCart } = useCart();
+  const { addItem } = useCart();
 
   const handleAddToCart = async () => {
     setIsAdding(true);
     try {
-      await addToCart(product.id);
+      addItem(product);
     } catch (error) {
       console.error('Failed to add to cart:', error);
     } finally {
@@ -48,7 +48,7 @@ const ProductCard = ({ product, onQuickView }) => {
       {/* Product Image */}
       <div className="relative h-44 overflow-hidden bg-gray-50">
         <motion.img
-          src={product.image || product.images?.[0]?.url}
+          src={product.primary_image || product.images?.[0]?.image || 'https://via.placeholder.com/300x400?text=No+Image'}
           alt={product.name}
           className="w-full h-full object-cover"
           variants={imageVariants}

@@ -13,6 +13,89 @@ export default function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
   const location = useLocation();
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchError, setSearchError] = useState(null);
+
+  // Search handler
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (!searchTerm.trim()) return;
+    setSearchLoading(true);
+    setSearchError(null);
+    setSearchResults([]);
+    try {
+      // Search products
+      const productRes = await import("../services/api").then(m => m.productsAPI.search(searchTerm));
+      // Search services (local, from ServicesPage)
+      const services = [
+        {
+          id: 1,
+          title: "VIP Concierge Services",
+          description: "Exclusive personal assistance and lifestyle management with our elite gentlemen for sophisticated events, dinners, and private consultations.",
+          image: "/services/vip-concierge.jpg",
+        },
+        {
+          id: 2,
+          title: "Sensual Massage",
+          description: "Therapeutic and sensual massage experiences designed to relax, rejuvenate, and awaken your senses.",
+          image: "/services/massage.jpg",
+        },
+        {
+          id: 3,
+          title: "Private Dance Shows",
+          description: "Intimate performances tailored to your preferences in luxurious private settings.",
+          image: "/services/dance.jpg",
+        },
+        {
+          id: 4,
+          title: "Fetish & Fantasy",
+          description: "Safe exploration of fetishes and fantasies with experienced professionals in a judgment-free environment.",
+          image: "/services/fetish.jpg",
+        },
+        {
+          id: 5,
+          title: "Couples Experiences",
+          description: "Enhance intimacy and explore new dimensions of pleasure together in a supportive environment.",
+          image: "/services/couples.jpg",
+        },
+        {
+          id: 6,
+          title: "Overnight Companionship",
+          description: "Extended companionship services for overnight stays, travel, and extended engagements.",
+          image: "/services/overnight.jpg",
+        },
+      ];
+      const serviceResults = services.filter(s =>
+        s.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        s.description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSearchResults([
+        ...productRes.data.results.map(p => ({
+          type: "product",
+          id: p.id,
+          name: p.name,
+          image: p.primary_image,
+          description: p.short_description,
+          url: `/products/${p.slug}`
+        })),
+        ...serviceResults.map(s => ({
+          type: "service",
+          id: s.id,
+          name: s.title,
+          image: s.image,
+          description: s.description,
+          url: `/services#${s.title.replace(/\s+/g, "-").toLowerCase()}`
+        }))
+      ]);
+    } catch (err) {
+      setSearchError("No results found.");
+    } finally {
+      setSearchLoading(false);
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 30);
@@ -90,14 +173,35 @@ export default function Navbar() {
         </div>{/* Right: Search Bar & Desktop Actions */}
         <div className="hidden lg:flex items-center space-x-3 xl:space-x-4">
           {/* Search Bar (Desktop) - Smaller */}
-          <div className="relative">
+          <form onSubmit={handleSearch} className="relative">
             <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-zinc-400 w-3 h-3" />
             <input
               type="text"
               placeholder="Search..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
               className="bg-zinc-900/50 text-white placeholder-zinc-400 pl-7 pr-3 py-1.5 rounded-full text-xs w-28 xl:w-32 focus:outline-none focus:ring-1 focus:ring-red-500 border border-zinc-800 transition-all focus:w-36 xl:focus:w-40"
             />
-          </div>
+          </form>
+          {/* Search Results Dropdown */}
+          {searchTerm && (searchLoading ? (
+            <div className="absolute left-0 mt-2 w-64 bg-white text-black rounded-xl shadow-lg z-50 p-4 text-center text-sm">Searching...</div>
+          ) : searchResults.length > 0 ? (
+            <div className="absolute left-0 mt-2 w-64 bg-white text-black rounded-xl shadow-lg z-50 max-h-80 overflow-y-auto">
+              {searchResults.map(result => (
+                <Link key={result.type + result.id} to={result.url} className="flex items-center gap-3 px-4 py-2 hover:bg-pink-50 transition-colors">
+                  <img src={result.image} alt={result.name} className="w-10 h-10 object-cover rounded-lg" />
+                  <div>
+                    <div className="font-semibold">{result.name}</div>
+                    <div className="text-xs text-zinc-500 line-clamp-2">{result.description}</div>
+                    <div className="text-xs mt-1 text-pink-600">{result.type === 'product' ? 'Product' : 'Service'}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : searchError ? (
+            <div className="absolute left-0 mt-2 w-64 bg-white text-black rounded-xl shadow-lg z-50 p-4 text-center text-sm">{searchError}</div>
+          ) : null)}
           
           {/* Cart Icon */}          <Link
             to="/cart"
@@ -113,13 +217,16 @@ export default function Navbar() {
           </Link>
 
           {/* Profile Dropdown */}
-          <div className="relative profile-dropdown">
-            <button
+          <div className="relative profile-dropdown">            <button
               onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
               className="flex items-center gap-1 px-3 py-1.5 text-sm bg-zinc-900/80 text-gold rounded-full hover:bg-red-600 hover:text-white transition-all hover:scale-105 duration-200 backdrop-blur"
               aria-label="Account menu"
             >
-              <Heart className="w-4 h-4 fill-current" />
+              {isAuthenticated ? (
+                <User className="w-4 h-4" />
+              ) : (
+                <Heart className="w-4 h-4 fill-current" />
+              )}
               <ChevronDown className={`w-3 h-3 transition-transform ${
                 isProfileDropdownOpen ? 'rotate-180' : ''
               }`} />
@@ -303,11 +410,34 @@ export default function Navbar() {
           {/* Mobile Search */}
           <div className="relative mb-6">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400 w-4 h-4" />
-            <input
-              type="text"
-              placeholder="Search..."
-              className="w-full bg-zinc-900/50 text-white placeholder-zinc-400 pl-10 pr-4 py-3 rounded-xl border border-zinc-800 focus:outline-none focus:ring-2 focus:ring-red-500"
-            />
+            <form onSubmit={handleSearch}>
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                className="w-full bg-zinc-900/50 text-white placeholder-zinc-400 pl-10 pr-4 py-3 rounded-xl border border-zinc-800 focus:outline-none focus:ring-2 focus:ring-red-500"
+              />
+            </form>
+            {/* Search Results Dropdown (Mobile) */}
+            {searchTerm && (searchLoading ? (
+              <div className="absolute left-0 mt-2 w-full bg-white text-black rounded-xl shadow-lg z-50 p-4 text-center text-sm">Searching...</div>
+            ) : searchResults.length > 0 ? (
+              <div className="absolute left-0 mt-2 w-full bg-white text-black rounded-xl shadow-lg z-50 max-h-80 overflow-y-auto">
+                {searchResults.map(result => (
+                  <Link key={result.type + result.id} to={result.url} className="flex items-center gap-3 px-4 py-2 hover:bg-pink-50 transition-colors" onClick={() => setOpen(false)}>
+                    <img src={result.image} alt={result.name} className="w-10 h-10 object-cover rounded-lg" />
+                    <div>
+                      <div className="font-semibold">{result.name}</div>
+                      <div className="text-xs text-zinc-500 line-clamp-2">{result.description}</div>
+                      <div className="text-xs mt-1 text-pink-600">{result.type === 'product' ? 'Product' : 'Service'}</div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : searchError ? (
+              <div className="absolute left-0 mt-2 w-full bg-white text-black rounded-xl shadow-lg z-50 p-4 text-center text-sm">{searchError}</div>
+            ) : null)}
           </div>
 
           {/* Mobile Navigation Links */}

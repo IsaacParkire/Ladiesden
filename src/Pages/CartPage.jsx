@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Minus, Plus, Trash2, ArrowLeft, ShoppingBag, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
+import QuantitySelector from '../Components/QuantitySelector';
 
 export default function CartPage() {
   const { items: cartItems, updateQuantity, removeItem, totalPrice } = useCart();
@@ -84,7 +85,7 @@ export default function CartPage() {
                       {/* Product Image */}
                       <div className="flex-shrink-0 mx-auto sm:mx-0">
                         <img
-                          src={item.image}
+                          src={item.image || item.primary_image || (item.images && item.images[0]?.image) || 'https://via.placeholder.com/100x100?text=No+Image'}
                           alt={item.name}
                           className="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg"
                         />
@@ -109,26 +110,16 @@ export default function CartPage() {
                           >
                             <Trash2 size={16} />
                           </button>
-                        </div>
-
-                        {/* Quantity and Price */}
+                        </div>                        {/* Quantity and Price */}
                         <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0">
                           <div className="flex items-center gap-3">
-                            <button
-                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                              className="w-10 h-10 sm:w-8 sm:h-8 bg-zinc-700 hover:bg-zinc-600 rounded-full flex items-center justify-center transition-colors"
-                            >
-                              <Minus size={14} />
-                            </button>
-                            <span className="font-medium text-white w-8 text-center text-sm sm:text-base">
-                              {item.quantity}
-                            </span>
-                            <button
-                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              className="w-10 h-10 sm:w-8 sm:h-8 bg-zinc-700 hover:bg-zinc-600 rounded-full flex items-center justify-center transition-colors"
-                            >
-                              <Plus size={14} />
-                            </button>
+                            <QuantitySelector
+                              quantity={item.quantity}
+                              onQuantityChange={(newQuantity) => updateQuantity(item.id, newQuantity)}
+                              min={1}
+                              max={99}
+                              size="md"
+                            />
                           </div>
                           <div className="text-center sm:text-right">
                             <p className="font-bold text-gold text-base sm:text-lg">

@@ -1,7 +1,7 @@
 import { ArrowDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import bgVideo from "../assets/hero-bg.mp4";
+import bgVideo from "../assets/video.webm";
 import sideImage from "../assets/side-image.jpg";
 
 export default function Hero() {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Clock, User, Phone, Mail, MapPin, CreditCard, Shield, Instagram, Music2, MessageCircle } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 const services = [
   { id: "boutique", name: "Her Boutique - Personal Shopping", price: "KSH 19,500-65,000", duration: "2-4 hours", description: "Personal styling with luxury fashion consultants" },
@@ -17,9 +18,13 @@ const timeSlots = [
 ];
 
 export default function BookNowPage() {
-  const [step, setStep] = useState(1);
+  const location = useLocation();
+  // Check if a service is preselected (from navigation state)
+  const preselectedService = location.state?.selectedService || "";
+  const skipServiceStep = location.state?.skipServiceStep || false;
+  const [step, setStep] = useState(skipServiceStep ? 2 : 1);
   const [formData, setFormData] = useState({
-    service: "",
+    service: preselectedService,
     date: "",
     time: "",
     duration: "",

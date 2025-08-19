@@ -92,11 +92,10 @@ export default function BoutiquePage() {
             </motion.button>
           ))}
         </div>
-      </div>
-
-      {/* Products Grid */}
+      </div>      {/* Products Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
         <ProductsGrid 
+          page="boutique"
           category={selectedCategory}
           searchQuery={searchQuery}
         />

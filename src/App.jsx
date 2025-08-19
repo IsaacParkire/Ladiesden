@@ -32,6 +32,7 @@ import ShippingPage from "./Pages/ShippingPage";
 import MembershipPage from "./Pages/MembershipPage";
 import PaymentPage from "./Pages/PaymentPage";
 import PaymentSuccessPage from "./Pages/PaymentSuccessPage";
+import ServicesTouchPage from "./Pages/ServicesTouchPage";
 
 export default function App() {
   // Force scroll to top on app initialization and prevent scroll restoration
@@ -77,13 +78,10 @@ export default function App() {
                 <Route path="/toys" element={<ToysPage />} />
                 <Route path="/gallery" element={<GalleryPage />} />
                 <Route path="/book" element={<BookNowPage />} />
+                <Route path="/servicestouchpage" element={<ServicesTouchPage />} />
                 <Route path="/connect" element={<ContactPage />} />
                 <Route path="/cart" element={<CartPage />} />
-                <Route path="/checkout" element={
-                  <ProtectedRoute>
-                    <CheckoutPage />
-                  </ProtectedRoute>
-                } />
+                <Route path="/checkout" element={<CheckoutPage />} />
                 <Route path="/login" element={
                   <ProtectedRoute requireAuth={false}>
                     <LoginPage />

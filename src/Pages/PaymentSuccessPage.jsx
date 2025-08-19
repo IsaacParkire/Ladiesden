@@ -141,14 +141,14 @@ export default function PaymentSuccessPage() {
             Your {plan.name} Benefits
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {plan.features.slice(0, 8).map((feature, index) => (
+            {(plan.features || []).slice(0, 8).map((feature, index) => (
               <div key={index} className="flex items-start gap-3">
                 <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
                 <span className="text-zinc-300">{feature}</span>
               </div>
             ))}
           </div>
-          {plan.features.length > 8 && (
+          {plan.features && plan.features.length > 8 && (
             <div className="text-center mt-6">
               <p className="text-zinc-400">And {plan.features.length - 8} more exclusive benefits...</p>
             </div>

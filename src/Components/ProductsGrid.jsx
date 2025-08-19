@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Filter, Grid, List } from 'lucide-react';
 import { productsAPI } from '../services/api';
 import ProductCard from './ProductCard';
-import LoadingSpinner from './LoadingSpinner';
 
-const ProductsGrid = ({ categoryId, searchQuery, featured = false }) => {
+const ProductsGrid = ({ 
+  categoryId, 
+  category, 
+  mainCategoryId, 
+  subCategoryId, 
+  page, 
+  searchQuery, 
+  featured = false 
+}) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,7 +25,7 @@ const ProductsGrid = ({ categoryId, searchQuery, featured = false }) => {
 
   useEffect(() => {
     fetchProducts();
-  }, [categoryId, searchQuery, featured, sortBy]);
+  }, [categoryId, category, mainCategoryId, subCategoryId, page, searchQuery, featured, sortBy]);
 
   const fetchProducts = async () => {
     setLoading(true);
@@ -33,13 +39,46 @@ const ProductsGrid = ({ categoryId, searchQuery, featured = false }) => {
         response = await productsAPI.search(searchQuery);
       } else {
         const params = {
-          category: categoryId,
           ordering: sortBy === 'newest' ? '-created_at' : 
                    sortBy === 'price_low' ? 'price' : 
                    sortBy === 'price_high' ? '-price' : 
                    sortBy === 'rating' ? '-rating' : '-created_at',
           ...filters,
         };
+
+        // Add category filters based on props
+        if (categoryId && categoryId !== 'all') params.category = categoryId;
+        if (mainCategoryId) params.main_category = mainCategoryId;
+        if (subCategoryId) params.sub_category = subCategoryId;
+        if (page) params.main_category__page = page;
+        
+        // Handle legacy category system (for BoutiquePage compatibility)
+        if (category && category !== 'all') {
+          // Map the old category names to subcategories or flags
+          switch (category) {
+            case 'activewear':
+              params.sub_category__slug = 'activewear';
+              break;
+            case 'bikinis':
+              params.sub_category__slug = 'bikinis-resortwear';
+              break;
+            case 'party':
+              params.sub_category__slug = 'party-dresses';
+              break;
+            case 'lounge':
+              params.sub_category__slug = 'lounge-bedroom';
+              break;
+            case 'accessories':
+              params.sub_category__slug = 'accessories';
+              break;
+            default:
+              // For other categories, try to match by name
+              if (category !== 'all') {
+                params.sub_category__slug = category;
+              }
+          }
+        }
+
         response = await productsAPI.getAll(params);
       }
       
@@ -73,11 +112,7 @@ const ProductsGrid = ({ categoryId, searchQuery, featured = false }) => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center py-20">
-        <LoadingSpinner size="lg" />
-      </div>
-    );
+    return null; // Remove the white filter horizontal tab and loading spinner
   }
 
   if (error) {
@@ -96,60 +131,6 @@ const ProductsGrid = ({ categoryId, searchQuery, featured = false }) => {
 
   return (
     <div className="space-y-6">
-      {/* Controls */}
-      {!featured && (
-        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between bg-white p-4 rounded-xl shadow-sm">
-          {/* Sort & Filter */}
-          <div className="flex flex-wrap gap-3 items-center">
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-            >
-              <option value="newest">Newest First</option>
-              <option value="price_low">Price: Low to High</option>
-              <option value="price_high">Price: High to Low</option>
-              <option value="rating">Highest Rated</option>
-            </select>
-
-            <button className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50 transition-colors">
-              <Filter className="w-4 h-4" />
-              Filters
-            </button>
-          </div>
-
-          {/* View Mode & Results Count */}
-          <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-600">
-              {products.length} products
-            </span>
-            
-            <div className="flex bg-gray-100 rounded-lg p-1">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-2 rounded ${
-                  viewMode === 'grid' 
-                    ? 'bg-white shadow-sm' 
-                    : 'hover:bg-gray-200'
-                } transition-colors`}
-              >
-                <Grid className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-2 rounded ${
-                  viewMode === 'list' 
-                    ? 'bg-white shadow-sm' 
-                    : 'hover:bg-gray-200'
-                } transition-colors`}
-              >
-                <List className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Products Grid */}
       {products.length === 0 ? (
         <div className="text-center py-20">
@@ -184,32 +165,19 @@ const ProductsGrid = ({ categoryId, searchQuery, featured = false }) => {
           ))}
         </motion.div>
       )}
-
-      {/* Load More Button */}
-      {products.length > 0 && products.length % 12 === 0 && (
-        <div className="text-center pt-8">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-8 py-3 bg-gradient-to-r from-pink-600 to-purple-600 text-white rounded-full font-medium hover:from-pink-700 hover:to-purple-700 transition-all"
-          >
-            Load More Products
-          </motion.button>
-        </div>
-      )}
     </div>
   );
 };
 
 // List view component for products
 const ProductListItem = ({ product, onQuickView }) => {
-  const { addToCart } = useCart();
+  const { addItem } = useCart();
   const [isAdding, setIsAdding] = useState(false);
 
   const handleAddToCart = async () => {
     setIsAdding(true);
     try {
-      await addToCart(product.id);
+      addItem(product);
     } finally {
       setIsAdding(false);
     }
@@ -222,7 +190,7 @@ const ProductListItem = ({ product, onQuickView }) => {
     >
       <div className="w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
         <img
-          src={product.image || product.images?.[0]?.url}
+          src={product.primary_image || product.images?.[0]?.image || 'https://via.placeholder.com/300x400?text=No+Image'}
           alt={product.name}
           className="w-full h-full object-cover"
         />

@@ -59,17 +59,37 @@ export const AuthProvider = ({ children }) => {
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
-  };
-
-  const register = async (userData) => {
+  };  const register = async (userData) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
       dispatch({ type: 'SET_ERROR', payload: null });
       
-      await authAPI.register(userData);
-      return { success: true };
+      console.log('Attempting registration with:', userData);
+      const { user } = await authAPI.register(userData);
+      console.log('Registration successful:', user);
+      dispatch({ type: 'SET_USER', payload: user });
+      return { success: true, user };
     } catch (error) {
-      const message = error.response?.data?.message || 'Registration failed';
+      console.error('Registration error:', error);
+      console.error('Error response:', error.response?.data);
+      
+      let message = 'Registration failed';
+      if (error.response?.data) {
+        if (typeof error.response.data === 'string') {
+          message = error.response.data;
+        } else if (error.response.data.detail) {
+          message = error.response.data.detail;
+        } else if (error.response.data.message) {
+          message = error.response.data.message;
+        } else if (error.response.data.non_field_errors) {
+          message = error.response.data.non_field_errors[0];
+        } else {
+          // Handle field-specific errors
+          const errors = Object.values(error.response.data).flat();
+          message = errors.join(', ');
+        }
+      }
+      
       dispatch({ type: 'SET_ERROR', payload: message });
       return { success: false, error: message };
     } finally {
@@ -84,24 +104,53 @@ export const AuthProvider = ({ children }) => {
       dispatch({ type: 'LOGOUT' });
     }
   };
-
   const updateProfile = async (data) => {
     try {
       const response = await authAPI.updateProfile(data);
       dispatch({ type: 'SET_USER', payload: response.data });
       return { success: true };
     } catch (error) {
-      const message = error.response?.data?.message || 'Update failed';
+      const message = error.response?.data?.detail || 
+                     error.response?.data?.message || 
+                     'Update failed';
       return { success: false, error: message };
     }
   };
 
+  const updateUserProfile = async (data) => {
+    try {
+      const response = await authAPI.updateUserProfile(data);
+      // Merge the updated profile data with existing user data
+      const updatedUser = { ...state.user, profile: response.data };
+      dispatch({ type: 'SET_USER', payload: updatedUser });
+      return { success: true };
+    } catch (error) {
+      const message = error.response?.data?.detail || 
+                     error.response?.data?.message || 
+                     'Profile update failed';
+      return { success: false, error: message };
+    }
+  };
+
+  const changePassword = async (passwordData) => {
+    try {
+      await authAPI.changePassword(passwordData);
+      return { success: true, message: 'Password changed successfully' };
+    } catch (error) {
+      const message = error.response?.data?.detail || 
+                     error.response?.data?.message || 
+                     'Password change failed';
+      return { success: false, error: message };
+    }
+  };
   const value = {
     ...state,
     login,
     register,
     logout,
     updateProfile,
+    updateUserProfile,
+    changePassword,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

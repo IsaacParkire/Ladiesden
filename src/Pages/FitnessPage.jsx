@@ -113,16 +113,15 @@ export default function FitnessPage() {
   const [selectedTrainer, setSelectedTrainer] = useState(null);  return (
     <div className="pt-16 sm:pt-20 md:pt-24 bg-black text-white">
       {/* Hero Section */}
-      <section className="relative h-[40vh] sm:h-[45vh] md:h-[50vh] px-4 sm:px-6 flex items-center">
+      <section className="relative h-[60vh] sm:h-[70vh] md:h-[80vh] px-4 sm:px-6 flex items-center">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img
             src="/Ladiesden/images/herstrength2.jpg"
             alt="Her Strength Background"
-            className="w-full h-full object-contain"
+            className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/70"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-red-900/30 via-black to-zinc-900"></div>
+          <div className="absolute inset-0 bg-black/80"></div>
         </div>
         <div className="relative z-10 max-w-4xl mx-auto text-center w-full">
           <motion.div

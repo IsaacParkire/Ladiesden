@@ -109,7 +109,7 @@ const FloatingCart = () => {
                           {/* Product Image */}
                           {item.image && (
                             <img
-                              src={item.image}
+                              src={item.image || item.primary_image || (item.images && item.images[0]?.image) || 'https://via.placeholder.com/64?text=Product'}
                               alt={item.name}
                               className="w-16 h-16 object-cover rounded-lg"
                             />
