@@ -9,64 +9,71 @@ const scenes = [
     title: "Fashion & Style",
     subtitle: "Luxury made wearable",
     image: "/Ladiesden/images/dress.jpg",
-    description: "Discover our exclusive boutique collection designed for the modern woman who demands both elegance and sensuality.",
+    description:
+      "Discover our exclusive boutique collection designed for the modern woman who demands both elegance and sensuality.",
     cta: "Shop Boutique",
-    link: "/boutique"
+    link: "/boutique",
   },
   {
     id: 2,
     title: "Sensual Wellness",
     subtitle: "Relaxation as worship",
     image: "/Ladiesden/images/hertouch1.jpeg",
-    description: "Experience our signature touch therapy with skilled male masseurs in luxurious private suites.",
+    description:
+      "Experience our signature touch therapy with skilled male masseurs in luxurious private suites.",
     cta: "Book Massage",
-    link: "/touch"
+    link: "/touch",
   },
   {
     id: 3,
     title: "Strength & Beauty",
     subtitle: "Built by him. Ruled by her",
     image: "/Ladiesden/images/herstrength2.jpg",
-    description: "Private fitness training with elite male trainers focused on your body transformation goals.",
+    description:
+      "Private fitness training with elite male trainers focused on your body transformation goals.",
     cta: "Start Training",
-    link: "/strength"
+    link: "/strength",
   },
   {
     id: 4,
     title: "Exclusive Events",
     subtitle: "Pleasure after dark",
     image: "/Ladiesden/images/hernight4.jpg",
-    description: "Female-only events, private shows, and VIP experiences with trained male hosts.",
+    description:
+      "Female-only events, private shows, and VIP experiences with trained male hosts.",
     cta: "Join Events",
-    link: "/night"
+    link: "/night",
   },
   {
     id: 5,
     title: "Private Desires",
     subtitle: "Desire. Served discreetly",
     image: "/Ladiesden/images/hersecret1.jpeg",
-    description: "Explore your deepest fantasies in our exclusive members-only private lounge.",
+    description:
+      "Explore your deepest fantasies in our exclusive members-only private lounge.",
     cta: "Discover Secrets",
-    link: "/secrets"
+    link: "/secrets",
   },
   {
     id: 6,
     title: "Signature Scents",
     subtitle: "Fragrance that captivates",
     image: "/Ladiesden/images/herscent1.jpeg",
-    description: "Discover our exclusive collection of intoxicating fragrances designed to enhance your natural allure.",
+    description:
+      "Discover our exclusive collection of intoxicating fragrances designed to enhance your natural allure.",
     cta: "Explore Scents",
-    link: "/scent"
+    link: "/scent",
   },
   {
     id: 7,
     title: "Intimate Collection",
     subtitle: "Pleasure redefined",
     image: "/Ladiesden/images/hertoys1.jpeg",
-    description: "Premium intimate accessories and luxury items curated for the sophisticated woman.",
+    description:
+      "Premium intimate accessories and luxury items curated for the sophisticated woman.",
     cta: "Browse Collection",
-    link: "/toys"
-  }
+    link: "/toys",
+  },
 ];
 
 export default function RotatingScenes() {
@@ -75,7 +82,7 @@ export default function RotatingScenes() {
 
   useEffect(() => {
     if (!isAutoPlaying) return;
-    
+
     const interval = setInterval(() => {
       setCurrentScene((prev) => (prev + 1) % scenes.length);
     }, 5000);
@@ -97,90 +104,144 @@ export default function RotatingScenes() {
     setCurrentScene(index);
     setIsAutoPlaying(false);
   };
+
+  // helpers for prev/next indices
+  const prevIndex = (currentScene - 1 + scenes.length) % scenes.length;
+  const nextIndex = (currentScene + 1) % scenes.length;
+
   return (
     <section className="relative h-[60vh] overflow-hidden bg-black rounded-2xl mx-4 my-8 shadow-2xl">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentScene}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1 }}
-          className="absolute inset-0"
-        >          {/* Background Image */}
-          <div className="absolute inset-0">
-            <img
-              src={scenes[currentScene].image}
-              alt={scenes[currentScene].title}
-              className="w-full h-full object-contain object-center"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-          </div>
-
-          {/* Content */}
-          <div className="relative z-10 flex items-center justify-center h-full px-6">
-            <div className="text-center max-w-3xl">
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.8 }}
-                className="text-gold text-sm md:text-base font-medium mb-3"
-              >
-                {scenes[currentScene].subtitle}
-              </motion.p>
-              
-              <motion.h2
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                className="text-2xl md:text-4xl font-bold text-white mb-4"
-              >
-                {scenes[currentScene].title}
-              </motion.h2>
-              
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7, duration: 0.8 }}
-                className="text-zinc-300 text-sm md:text-base mb-6 max-w-xl mx-auto leading-relaxed"
-              >
-                {scenes[currentScene].description}
-              </motion.p>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.9, duration: 0.8 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link
-                  to={scenes[currentScene].link}
-                  className="inline-block bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold py-3 px-6 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
-                >
-                  {scenes[currentScene].cta}
-                </Link>
-              </motion.div>
+      {/* Mobile View - unchanged */}
+      <div className="block md:hidden h-full">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentScene}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+            className="absolute inset-0"
+          >
+            {/* Background Image */}
+            <div className="absolute inset-0">
+              <img
+                src={scenes[currentScene].image}
+                alt={scenes[currentScene].title}
+                className="w-full h-full object-contain object-center"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
             </div>
+
+            {/* Content */}
+            <div className="relative z-10 flex items-center justify-center h-full px-6">
+              <div className="text-center max-w-3xl">
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.8 }}
+                  className="text-gold text-sm md:text-base font-medium mb-3"
+                >
+                  {scenes[currentScene].subtitle}
+                </motion.p>
+
+                <motion.h2
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 0.8 }}
+                  className="text-2xl md:text-4xl font-bold text-white mb-4"
+                >
+                  {scenes[currentScene].title}
+                </motion.h2>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.7, duration: 0.8 }}
+                  className="text-zinc-300 text-sm md:text-base mb-6 max-w-xl mx-auto leading-relaxed"
+                >
+                  {scenes[currentScene].description}
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.9, duration: 0.8 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link
+                    to={scenes[currentScene].link}
+                    className="inline-block bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold py-3 px-6 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+                  >
+                    {scenes[currentScene].cta}
+                  </Link>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Desktop / Laptop View */}
+      <div className="hidden md:flex h-full w-full">
+        {[prevIndex, currentScene, nextIndex].map((index, i) => (
+          <motion.div
+            key={`${index}-${currentScene}`}
+            className="relative h-full w-1/3"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: i === 1 ? 1 : 0.4 }} // center full, sides faded
+            transition={{ duration: 1 }}
+          >
+            <img
+              src={scenes[index].image}
+              alt={scenes[index].title}
+              className="w-full h-full object-cover"
+            />
+            {i === 1 && (
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+            )}
+          </motion.div>
+        ))}
+
+        {/* Text content spans across full width but overlays center */}
+        <div className="absolute inset-0 flex items-center justify-center px-6 z-20">
+          <div className="text-center max-w-4xl mx-auto">
+            <p className="text-gold text-lg font-medium mb-3">
+              {scenes[currentScene].subtitle}
+            </p>
+            <h2 className="text-4xl font-bold text-white mb-4">
+              {scenes[currentScene].title}
+            </h2>
+            <p className="text-zinc-300 text-lg mb-6 max-w-2xl mx-auto leading-relaxed">
+              {scenes[currentScene].description}
+            </p>
+            <Link
+              to={scenes[currentScene].link}
+              className="inline-block bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-semibold py-3 px-6 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105"
+            >
+              {scenes[currentScene].cta}
+            </Link>
           </div>
-        </motion.div>
-      </AnimatePresence>      {/* Elegant Navigation Arrows */}
+        </div>
+      </div>
+
+      {/* Navigation Arrows */}
       <button
         onClick={prevScene}
-        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-2 rounded-full transition-all duration-300 hover:scale-110"
+        className="absolute left-4 top-1/2 transform -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-2 rounded-full transition-all duration-300 hover:scale-110"
       >
         <ChevronLeft className="w-5 h-5" />
       </button>
-      
+
       <button
         onClick={nextScene}
-        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-2 rounded-full transition-all duration-300 hover:scale-110"
+        className="absolute right-4 top-1/2 transform -translate-y-1/2 z-30 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white p-2 rounded-full transition-all duration-300 hover:scale-110"
       >
         <ChevronRight className="w-5 h-5" />
       </button>
 
-      {/* Modern Scene Indicators */}
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2">
+      {/* Scene Indicators */}
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-30 flex space-x-2">
         {scenes.map((_, index) => (
           <button
             key={index}
@@ -194,8 +255,8 @@ export default function RotatingScenes() {
         ))}
       </div>
 
-      {/* Minimal Scene Counter */}
-      <div className="absolute top-4 right-4 z-20 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1 text-white text-sm">
+      {/* Scene Counter */}
+      <div className="absolute top-4 right-4 z-30 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1 text-white text-sm">
         <span className="text-gold font-medium">{currentScene + 1}</span>
         <span className="text-zinc-400 mx-1">/</span>
         <span className="text-zinc-400">{scenes.length}</span>
