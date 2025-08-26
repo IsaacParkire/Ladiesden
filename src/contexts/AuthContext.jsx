@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { authAPI, tokenManager, membershipAPI } from '../services/api';
+import { useCart } from "./CartContext";
 
 const AuthContext = createContext();
 
@@ -25,6 +26,7 @@ export const AuthProvider = ({ children }) => {
     loading: true,
     error: null,
   });
+  const { syncCartWithBackend } = useCart ? useCart() : { syncCartWithBackend: null };
 
   // Helper to merge membership status into user
   const mergeMembershipStatus = async (user) => {
@@ -69,6 +71,22 @@ export const AuthProvider = ({ children }) => {
       const { user } = await authAPI.login(credentials);
       const userWithMembership = await mergeMembershipStatus(user);
       dispatch({ type: 'SET_USER', payload: userWithMembership });
+      
+      // --- Cart Sync Logic ---
+      // Sync guest cart to backend after login
+      const guestCart = localStorage.getItem('laydiesden_cart');
+      if (syncCartWithBackend && guestCart) {
+        try {
+          const parsedCart = JSON.parse(guestCart);
+          if (parsedCart.length > 0) {
+            await syncCartWithBackend(parsedCart);
+            localStorage.removeItem('laydiesden_cart');
+          }
+        } catch (e) {
+          // ignore
+        }
+      }
+      // --- End Cart Sync ---
       
       return { success: true };
     } catch (error) {

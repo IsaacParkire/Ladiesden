@@ -351,36 +351,31 @@ export default function BookNowPage() {
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
                         <h3 className="text-white font-semibold mb-4">Service Details</h3>
-                        <p className="text-zinc-300 mb-2">
-                          <strong>Service:</strong> {services.find(s => s.id === formData.service)?.name}
-                        </p>
-                        <p className="text-zinc-300 mb-2">
-                          <strong>Date:</strong> {formData.date}
-                        </p>
-                        <p className="text-zinc-300 mb-2">
-                          <strong>Time:</strong> {formData.time}
-                        </p>
-                        <p className="text-zinc-300 mb-2">
-                          <strong>Duration:</strong> {formData.duration}
-                        </p>                        <p className="text-zinc-300">
-                          <strong>Location:</strong> {formData.location === "our-location" ? "Our Luxury Facility" : formData.customLocation}
-                        </p>
+                        {(() => {
+                          const selectedService = services.find(s => s.id === formData.service || s.name === formData.service);
+                          return selectedService ? (
+                            <>
+                              <p className="text-zinc-300 mb-2"><strong>Service:</strong> {selectedService.name}</p>
+                              <p className="text-zinc-300 mb-2"><strong>Price:</strong> <span className="text-gold font-semibold">{selectedService.price}</span></p>
+                              <p className="text-zinc-300 mb-2"><strong>Duration:</strong> {selectedService.duration}</p>
+                              <p className="text-zinc-300 mb-2"><strong>Description:</strong> {selectedService.description}</p>
+                            </>
+                          ) : (
+                            <p className="text-zinc-300 mb-2"><strong>Service:</strong> {formData.service}</p>
+                          );
+                        })()}
+                        <p className="text-zinc-300 mb-2"><strong>Date:</strong> {formData.date}</p>
+                        <p className="text-zinc-300 mb-2"><strong>Time:</strong> {formData.time}</p>
+                        <p className="text-zinc-300 mb-2"><strong>Duration:</strong> {formData.duration}</p>
+                        <p className="text-zinc-300"><strong>Location:</strong> {formData.location === "our-location" ? "Our Luxury Facility" : formData.customLocation}</p>
                       </div>
                       <div>
                         <h3 className="text-white font-semibold mb-4">Contact Information</h3>
-                        <p className="text-zinc-300 mb-2">
-                          <strong>Name:</strong> {formData.name}
-                        </p>
-                        <p className="text-zinc-300 mb-2">
-                          <strong>Email:</strong> {formData.email}
-                        </p>
-                        <p className="text-zinc-300 mb-2">
-                          <strong>Phone:</strong> {formData.phone}
-                        </p>
+                        <p className="text-zinc-300 mb-2"><strong>Name:</strong> {formData.name}</p>
+                        <p className="text-zinc-300 mb-2"><strong>Email:</strong> {formData.email}</p>
+                        <p className="text-zinc-300 mb-2"><strong>Phone:</strong> {formData.phone}</p>
                         {formData.specialRequests && (
-                          <p className="text-zinc-300">
-                            <strong>Special Requests:</strong> {formData.specialRequests}
-                          </p>
+                          <p className="text-zinc-300"><strong>Special Requests:</strong> {formData.specialRequests}</p>
                         )}
                       </div>
                     </div>
