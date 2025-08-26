@@ -58,8 +58,8 @@ export default function App() {
   }, []);
 
   return (
-    <AuthProvider>
-      <CartProvider>
+    <CartProvider>
+      <AuthProvider>
         <Router basename="/Ladiesden">
           <ScrollToTop />
           <main className="bg-black text-white font-sans">
@@ -110,7 +110,7 @@ export default function App() {
             <FloatingCart />
           </main>
         </Router>
-      </CartProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </CartProvider>
   );
 }
