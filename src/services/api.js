@@ -171,4 +171,11 @@ export const membershipAPI = {
   cancelMembership: () => api.post('/accounts/membership/cancel/'),
 };
 
+export const appointmentsAPI = {
+  create: (bookingData) => api.post('/appointments/', bookingData),
+  getAll: () => api.get('/appointments/'),
+  getAvailableSlots: (params = {}) => api.get('/appointments/available-slots/', { params }),
+  cancel: (id, data = {}) => api.post(`/appointments/${id}/cancel/`, data),
+};
+
 export default api;

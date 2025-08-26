@@ -2,48 +2,74 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Lock, Shield, Crown, Star, Eye, Key, Users, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from '../contexts/AuthContext';
 
 const secretServices = [
   {
     id: 1,
-    name: "Femdom Sessions",
+    name: "Level 1 The Velvet Collar",
     icon: <Crown className="w-8 h-8 text-red-500" />,
-    description: "Take control in luxurious private suites with trained submissive male companions who understand the art of service.",    features: ["Professional submissives", "Safe words protocol", "Equipment provided", "Aftercare included"],
-    duration: "60-180 minutes",
-    price: "KSH 52,000-104,000",
+    description: "your first taste of surrender, wrapped in elegance. For the curious—where fantasies take their first breath.",
+    features: [
+      "Foot Worship",
+      "Lingerie/Outfit Fetish",
+      "Roleplay",
+      "Praise Kink",
+      "Confession Booth"
+    ],
+    duration: "Varies",
+    price: "KSH 25,000+",
     image: "/secrets/femdom.jpg",
     memberTier: "Premium"
   },
   {
     id: 2,
-    name: "Foot Worship Experience",
+    name: "Level 2 The Crimson Chains",
     icon: <Star className="w-8 h-8 text-gold" />,
-    description: "Indulge in the ultimate foot worship experience with devoted male servants trained in the art of adoration.",
-    features: ["Pedicure service", "Massage therapy", "Worship rituals", "Luxury amenities"],
-    duration: "45-120 minutes",
-    price: "KSH 39,000-78,000",
+    description: "restraint becomes luxury, bondage dressed in silk and steel. When desire demands discipline and touch turns to control.",
+    features: [
+      "Impact Play",
+      "Bondage/Restraints",
+      "Sensory Play",
+      "Femdom Worship",
+      "Financial Tribute"
+    ],
+    duration: "Varies",
+    price: "KSH 39,000+",
     image: "/secrets/foot.jpg",
     memberTier: "Premium"
   },
   {
     id: 3,
-    name: "Obedience Training",
+    name: "Level 3 The Golden Whip",
     icon: <Key className="w-8 h-8 text-red-500" />,
-    description: "Train your personal male servant in the art of obedience and devotion in our specialized training suites.",
-    features: ["Training protocols", "Behavior modification", "Reward systems", "Progress tracking"],
-    duration: "90-240 minutes",
-    price: "KSH 65,000-130,000",
+    description: "discipline kissed with decadence, pain laced in pleasure. Pleasure becomes obedience, and obedience becomes truth.",
+    features: [
+      "Obedience Training",
+      "Orgasm Control",
+      "Humiliation",
+      "Pet Play",
+      "Mirror Talks"
+    ],
+    duration: "Varies",
+    price: "KSH 65,000+",
     image: "/secrets/obedience.jpg",
     memberTier: "VIP Elite"
   },
   {
     id: 4,
-    name: "Custom Roleplay Scenarios",
+    name: "Level 4 The Obsidian Dungeon",
     icon: <Eye className="w-8 h-8 text-gold" />,
-    description: "Bring your wildest fantasies to life with our expert roleplay specialists in immersive themed environments.",
-    features: ["Custom scenarios", "Professional actors", "Costume wardrobe", "Set design"],
-    duration: "60-300 minutes",
-    price: "KSH 78,000-195,000",
+    description: "where shadows reign, and your devotion is absolute. This is no longer kink—it is worship.",
+    features: [
+      "Ritual Play",
+      "Group/Masked Sessions",
+      "Objectification/Degradation",
+      "Dark Confession",
+      "Symbolic Contracts"
+    ],
+    duration: "Varies",
+    price: "KSH 78,000+",
     image: "/secrets/roleplay.jpg",
     memberTier: "VIP Elite"
   }
@@ -107,27 +133,24 @@ export default function SecretsPage() {
   const [selectedService, setSelectedService] = useState(null);
   const [showMembership, setShowMembership] = useState(false);
   const navigate = useNavigate();
-  
-  // Mock user membership status - in real app, this would come from auth context
-  const [userMembership, setUserMembership] = useState('Basic'); // 'Basic', 'Premium', 'VIP Elite'
-  
+  const { user } = useAuth();
+
+  // Use real membership type from context
+  const userMembership = user?.membership_type
+    ? (user.membership_type === 'vip' ? 'VIP Elite' : user.membership_type.charAt(0).toUpperCase() + user.membership_type.slice(1))
+    : 'Basic';
+
+  // Updated unlock logic: Premium and VIP Elite can access all services
   const handleUnlock = (service) => {
-    // Check if user has required membership
     const requiredTier = service.memberTier;
-    
     if (userMembership === 'Basic') {
-      // Redirect to membership page
       navigate('/membership');
     } else if (
-      (requiredTier === 'Premium' && (userMembership === 'Premium' || userMembership === 'VIP Elite')) ||
-      (requiredTier === 'VIP Elite' && userMembership === 'VIP Elite')
+      userMembership === 'Premium' || userMembership === 'VIP Elite'
     ) {
-      // User has access - proceed with booking or viewing
       setSelectedService(service);
-      // In real app, this would open booking modal or navigate to booking page
       alert(`Unlocked: ${service.name}! Redirecting to booking...`);
     } else {
-      // User needs higher tier
       navigate('/membership');
     }
   };
@@ -232,7 +255,7 @@ export default function SecretsPage() {
             Exclusive Experiences
           </motion.h2>
           
-          <div className="grid lg:grid-cols-2 gap-8">
+          <div className="grid lg:grid-cols-2  gap-8">
             {secretServices.map((service, index) => (
               <motion.div
                 key={service.id}

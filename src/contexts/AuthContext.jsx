@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import { authAPI, tokenManager } from '../services/api';
+import { authAPI, tokenManager, membershipAPI } from '../services/api';
 
 const AuthContext = createContext();
 
@@ -26,12 +26,30 @@ export const AuthProvider = ({ children }) => {
     error: null,
   });
 
+  // Helper to merge membership status into user
+  const mergeMembershipStatus = async (user) => {
+    try {
+      const res = await membershipAPI.getCurrentStatus();
+      const { user: userData, current_plan, privileges } = res.data;
+      return {
+        ...user,
+        membership_type: userData?.membership_type || user?.membership_type || 'basic',
+        membership_privileges: privileges || {},
+        current_plan: current_plan || null,
+      };
+    } catch (e) {
+      return user;
+    }
+  };
+
   useEffect(() => {
     const initAuth = async () => {
       if (tokenManager.isAuthenticated()) {
         try {
           const response = await authAPI.getProfile();
-          dispatch({ type: 'SET_USER', payload: response.data });
+          let user = response.data;
+          user = await mergeMembershipStatus(user);
+          dispatch({ type: 'SET_USER', payload: user });
         } catch (error) {
           tokenManager.clearTokens();
           dispatch({ type: 'LOGOUT' });
@@ -49,7 +67,8 @@ export const AuthProvider = ({ children }) => {
       dispatch({ type: 'SET_ERROR', payload: null });
       
       const { user } = await authAPI.login(credentials);
-      dispatch({ type: 'SET_USER', payload: user });
+      const userWithMembership = await mergeMembershipStatus(user);
+      dispatch({ type: 'SET_USER', payload: userWithMembership });
       
       return { success: true };
     } catch (error) {
@@ -59,7 +78,9 @@ export const AuthProvider = ({ children }) => {
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
-  };  const register = async (userData) => {
+  };
+
+  const register = async (userData) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
       dispatch({ type: 'SET_ERROR', payload: null });
@@ -104,6 +125,7 @@ export const AuthProvider = ({ children }) => {
       dispatch({ type: 'LOGOUT' });
     }
   };
+
   const updateProfile = async (data) => {
     try {
       const response = await authAPI.updateProfile(data);
@@ -143,6 +165,7 @@ export const AuthProvider = ({ children }) => {
       return { success: false, error: message };
     }
   };
+
   const value = {
     ...state,
     login,

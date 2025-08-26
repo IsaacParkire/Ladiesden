@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Clock, User, Phone, Mail, MapPin, CreditCard, Shield, Instagram, Music2, MessageCircle } from "lucide-react";
 import { useLocation } from "react-router-dom";
+import { appointmentsAPI } from "../services/api";
 
 const services = [
   { id: "boutique", name: "Her Boutique - Personal Shopping", price: "KSH 19,500-65,000", duration: "2-4 hours", description: "Personal styling with luxury fashion consultants" },
@@ -47,9 +48,41 @@ export default function BookNowPage() {
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Booking request submitted! We will contact you within 24 hours to confirm your appointment.");
+    // Map frontend formData to backend booking fields
+    // Backend expects: service_id, therapist_id, booking_date, booking_time, notes, addon_ids (optional)
+    // For MVP, we'll use only service_id, booking_date, booking_time, notes
+    // Therapist selection is not present in the form, so pick a default or null
+    // You may want to extend this to allow therapist selection in the future
+    const bookingData = {
+      service_id: formData.service,
+      // therapist_id: null, // If therapist selection is added, include this
+      booking_date: formData.date,
+      booking_time: formData.time,
+      notes: [
+        formData.duration && `Duration: ${formData.duration}`,
+        formData.location === "hotel"
+          ? `Location: ${formData.customLocation}`
+          : "Location: Our Luxury Facility",
+        formData.specialRequests && `Special Requests: ${formData.specialRequests}`,
+        formData.phone && `Phone: ${formData.phone}`,
+        formData.name && `Name: ${formData.name}`,
+        formData.email && `Email: ${formData.email}`,
+      ]
+        .filter(Boolean)
+        .join(" | "),
+    };
+    try {
+      await appointmentsAPI.create(bookingData);
+      alert("Booking request submitted! We will contact you within 24 hours to confirm your appointment.");
+      // Optionally reset form or redirect
+    } catch (error) {
+      alert(
+        error?.response?.data?.detail ||
+          "There was an error submitting your booking. Please try again or contact support."
+      );
+    }
   };
 
   return (
