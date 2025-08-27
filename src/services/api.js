@@ -192,4 +192,14 @@ export const appointmentsAPI = {
   cancel: (id, data = {}) => api.post(`/appointments/${id}/cancel/`, data),
 };
 
+export const servicesAPI = {
+  getAll: (params = {}) => api.get('/services/', { params }),
+  getById: (id) => api.get(`/services/${id}/`),
+  getCategories: () => api.get('/services/categories/'),
+  getTherapists: () => api.get('/services/therapists/'),
+  getAvailability: (serviceId, date) => api.get(`/services/${serviceId}/availability/?date=${date}`),
+};
+
+export { servicesAPI };
+
 export default api;
