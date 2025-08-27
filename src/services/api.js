@@ -55,7 +55,7 @@ api.interceptors.response.use(
         return api(originalRequest);
       } catch (refreshError) {
         tokenManager.clearTokens();
-        window.location.href = '/login';
+        window.location.href = '/Laydiesden/login';
       }
     }
     return Promise.reject(error);
@@ -172,7 +172,21 @@ export const membershipAPI = {
 };
 
 export const appointmentsAPI = {
-  create: (bookingData) => api.post('/appointments/', bookingData),
+  create: (bookingData) => {
+    // Remove Authorization header for guest bookings
+    const token = tokenManager.getToken();
+    if (token) {
+      return api.post('/appointments/', bookingData);
+    } else {
+      // Create a new axios instance without Authorization header
+      const guestApi = axios.create({
+        baseURL: api.defaults.baseURL,
+        timeout: 10000,
+        headers: { 'Content-Type': 'application/json' },
+      });
+      return guestApi.post('/appointments/', bookingData);
+    }
+  },
   getAll: () => api.get('/appointments/'),
   getAvailableSlots: (params = {}) => api.get('/appointments/available-slots/', { params }),
   cancel: (id, data = {}) => api.post(`/appointments/${id}/cancel/`, data),

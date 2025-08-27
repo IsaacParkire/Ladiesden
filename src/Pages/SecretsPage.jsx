@@ -256,63 +256,71 @@ export default function SecretsPage() {
           </motion.h2>
           
           <div className="grid lg:grid-cols-2  gap-8">
-            {secretServices.map((service, index) => (
-              <motion.div
-                key={service.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2, duration: 0.8 }}
-                className="relative bg-zinc-900/50 rounded-2xl overflow-hidden hover:bg-zinc-900/70 transition-all group"
-              >                {/* Blur overlay for non-members */}
-                <div className="absolute inset-0 backdrop-blur-sm bg-black/30 z-10 flex items-center justify-center">
-                  <div className="text-center">
-                    <Lock className="w-12 h-12 text-gold mx-auto mb-3" />
-                    <p className="text-white font-semibold mb-2">{service.memberTier} Members Only</p>                    <button 
-                      onClick={() => navigate('/membership')}
-                      className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition-all duration-300 hover:scale-105"
-                    >
-                      Unlock Access
-                    </button>
-                  </div>
-                </div>
-                
-                <div className="relative">
-                  <img
-                    src={service.image}
-                    alt={service.name}
-                    className="w-full h-64 object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                  <div className="absolute bottom-4 left-4 flex items-center gap-3">
-                    {service.icon}
-                    <div>
-                      <h3 className="text-2xl font-bold text-white">{service.name}</h3>
-                      <p className="text-gold font-semibold">{service.price}</p>
+            {secretServices.map((service, index) => {
+              // Determine if user can access this service
+              const canAccess =
+                userMembership === service.memberTier ||
+                (userMembership === 'VIP Elite' && service.memberTier === 'Premium');
+
+              return (
+                <motion.div
+                  key={service.id}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.2, duration: 0.8 }}
+                  className="relative bg-zinc-900/50 rounded-2xl overflow-hidden hover:bg-zinc-900/70 transition-all group"
+                >
+                  {/* Blur overlay for non-members */}
+                  {!canAccess && (
+                    <div className="absolute inset-0 backdrop-blur-sm bg-black/30 z-10 flex items-center justify-center">
+                      <div className="text-center">
+                        <Lock className="w-12 h-12 text-gold mx-auto mb-3" />
+                        <p className="text-white font-semibold mb-2">{service.memberTier} Members Only</p>
+                        <button
+                          onClick={() => navigate('/membership')}
+                          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition-all duration-300 hover:scale-105"
+                        >
+                          Unlock Access
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  {/* ...existing code for the rest of the card... */}
+                  <div className="relative">
+                    <img
+                      src={service.image}
+                      alt={service.name}
+                      className="w-full h-64 object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                    <div className="absolute bottom-4 left-4 flex items-center gap-3">
+                      {service.icon}
+                      <div>
+                        <h3 className="text-2xl font-bold text-white">{service.name}</h3>
+                        <p className="text-gold font-semibold">{service.price}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-                
-                <div className="p-6">
-                  <p className="text-zinc-300 mb-4 leading-relaxed">
-                    {service.description}
-                  </p>
-                  
-                  <div className="grid grid-cols-2 gap-2 mb-4">
-                    {service.features.map((feature, i) => (
-                      <div key={i} className="flex items-center gap-2 text-sm text-zinc-400">
-                        <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
-                        {feature}
-                      </div>
-                    ))}
+                  <div className="p-6">
+                    <p className="text-zinc-300 mb-4 leading-relaxed">
+                      {service.description}
+                    </p>
+                    <div className="grid grid-cols-2 gap-2 mb-4">
+                      {service.features.map((feature, i) => (
+                        <div key={i} className="flex items-center gap-2 text-sm text-zinc-400">
+                          <div className="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
+                          {feature}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="text-zinc-400 text-sm">
+                      Duration: {service.duration}
+                    </div>
                   </div>
-                  
-                  <div className="text-zinc-400 text-sm">
-                    Duration: {service.duration}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
