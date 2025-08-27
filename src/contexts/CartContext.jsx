@@ -158,6 +158,32 @@ export const CartProvider = ({ children }) => {
       localStorage.setItem('laydiesden_cart', JSON.stringify(state.items));
     }
   }, [state.items, state.synced]);
+
+  // Listen for authentication changes and reload backend cart
+  useEffect(() => {
+    const checkAuthAndReloadCart = async () => {
+      if (tokenManager.isAuthenticated()) {
+        try {
+          dispatch({ type: CART_ACTIONS.SET_LOADING, payload: true });
+          const response = await cartAPI.get();
+          const backendItems = response.data.items || [];
+          dispatch({ type: CART_ACTIONS.SYNC_WITH_BACKEND, payload: backendItems });
+        } catch (error) {
+          console.error('Error syncing cart after login:', error);
+          dispatch({ type: CART_ACTIONS.SET_ERROR, payload: 'Failed to sync cart after login' });
+        } finally {
+          dispatch({ type: CART_ACTIONS.SET_LOADING, payload: false });
+        }
+      }
+    };
+    checkAuthAndReloadCart();
+    // Listen for token changes (login/logout)
+    window.addEventListener('storage', checkAuthAndReloadCart);
+    return () => {
+      window.removeEventListener('storage', checkAuthAndReloadCart);
+    };
+  }, [tokenManager.isAuthenticated()]);
+
   // Cart Actions
   const addItem = async (product, quantity = 1, variantId = null) => {
     try {

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Clock, User, Phone, Mail, MapPin, CreditCard, Shield, Instagram, Music2, MessageCircle } from "lucide-react";
 import { useLocation } from "react-router-dom";
-import { appointmentsAPI } from "../services/api";
+import { appointmentsAPI, servicesAPI } from "../services/api";
 
 const services = [
   { id: "boutique", name: "Her Boutique - Personal Shopping", price: "KSH 19,500-65,000", duration: "2-4 hours", description: "Personal styling with luxury fashion consultants" },
@@ -23,6 +23,7 @@ export default function BookNowPage() {
   // Check if a service is preselected (from navigation state)
   const preselectedService = location.state?.selectedService || "";
   const skipServiceStep = location.state?.skipServiceStep || false;
+  const secretServiceDetails = location.state?.secretServiceDetails;
   const [step, setStep] = useState(skipServiceStep ? 2 : 1);
   const [formData, setFormData] = useState({
     service: preselectedService,
@@ -37,6 +38,32 @@ export default function BookNowPage() {
     location: "our-location",
     customLocation: ""
   });
+
+  const [therapists, setTherapists] = useState([]);
+  const [selectedTherapist, setSelectedTherapist] = useState(null);
+
+  // Fetch therapists when service changes
+  useEffect(() => {
+    async function fetchTherapists() {
+      if (formData.service) {
+        try {
+          const res = await servicesAPI.getTherapists();
+          // Filter therapists for the selected service if needed
+          const filtered = res.data.filter(t => t.service_ids?.includes(formData.service) || t.service === formData.service);
+          setTherapists(filtered);
+          setSelectedTherapist(filtered[0] ? filtered[0].id : null);
+        } catch (e) {
+          setTherapists([]);
+          setSelectedTherapist(null);
+        }
+      } else {
+        setTherapists([]);
+        setSelectedTherapist(null);
+      }
+    }
+    fetchTherapists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData.service]);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -57,7 +84,7 @@ export default function BookNowPage() {
     // You may want to extend this to allow therapist selection in the future
     const bookingData = {
       service_id: formData.service,
-      // therapist_id: null, // If therapist selection is added, include this
+      therapist_id: selectedTherapist, // Now included
       booking_date: formData.date,
       booking_time: formData.time,
       notes: [
@@ -351,7 +378,24 @@ export default function BookNowPage() {
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
                         <h3 className="text-white font-semibold mb-4">Service Details</h3>
-                        {(() => {
+                        {secretServiceDetails ? (
+                          <>
+                            <p className="text-zinc-300 mb-2"><strong>Service:</strong> {secretServiceDetails.name}</p>
+                            <p className="text-zinc-300 mb-2"><strong>Price:</strong> <span className="text-gold font-semibold">{secretServiceDetails.price}</span></p>
+                            <p className="text-zinc-300 mb-2"><strong>Duration:</strong> {secretServiceDetails.duration}</p>
+                            <p className="text-zinc-300 mb-2"><strong>Description:</strong> {secretServiceDetails.description}</p>
+                            {secretServiceDetails.features && (
+                              <div className="mb-2">
+                                <strong className="text-zinc-300">Features:</strong>
+                                <ul className="list-disc list-inside text-zinc-400 text-sm">
+                                  {secretServiceDetails.features.map((f, i) => (
+                                    <li key={i}>{f}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </>
+                        ) : (() => {
                           const selectedService = services.find(s => s.id === formData.service || s.name === formData.service);
                           return selectedService ? (
                             <>

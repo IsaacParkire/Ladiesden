@@ -286,7 +286,6 @@ export default function SecretsPage() {
                       </div>
                     </div>
                   )}
-                  {/* ...existing code for the rest of the card... */}
                   <div className="relative">
                     <img
                       src={service.image}
@@ -314,9 +313,29 @@ export default function SecretsPage() {
                         </div>
                       ))}
                     </div>
-                    <div className="text-zinc-400 text-sm">
+                    <div className="text-zinc-400 text-sm mb-4">
                       Duration: {service.duration}
                     </div>
+                    {/* Book Session CTA button, only for accessible services */}
+                    {canAccess && (
+                      <button
+                        className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-semibold transition-all duration-300 mt-2"
+                        onClick={() => navigate('/book-now', {
+                          state: {
+                            step: 2,
+                            secretServiceDetails: {
+                              name: service.name,
+                              price: service.price,
+                              description: service.description,
+                              features: service.features,
+                              duration: service.duration
+                            }
+                          }
+                        })}
+                      >
+                        Book Session
+                      </button>
+                    )}
                   </div>
                 </motion.div>
               );
