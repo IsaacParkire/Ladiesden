@@ -200,6 +200,4 @@ export const servicesAPI = {
   getAvailability: (serviceId, date) => api.get(`/services/${serviceId}/availability/?date=${date}`),
 };
 
-export { servicesAPI };
-
 export default api;
