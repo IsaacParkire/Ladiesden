@@ -16,7 +16,7 @@ import FitnessPage from "./Pages/FitnessPage";
 import EventsPage from "./Pages/EventsPage";
 import SecretsPage from "./Pages/SecretsPage";
 import ScentPage from "./Pages/ScentPage";
-import ToysPage from "./Pages/ToysPage";
+import BeautyPage from "./Pages/BeautyPage";
 import GalleryPage from "./Pages/GalleryPage";
 import BookNowPage from "./Pages/BookNowPage";
 import ContactPage from "./Pages/ContactPage";
@@ -75,7 +75,7 @@ export default function App() {
                 <Route path="/night" element={<EventsPage />} />
                 <Route path="/secrets" element={<SecretsPage />} />
                 <Route path="/scent" element={<ScentPage />} />
-                <Route path="/toys" element={<ToysPage />} />
+                <Route path="/beauty" element={<BeautyPage />} />
                 <Route path="/gallery" element={<GalleryPage />} />
                 <Route path="/book" element={<BookNowPage />} />
                 <Route path="/servicestouchpage" element={<ServicesTouchPage />} />

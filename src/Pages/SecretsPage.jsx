@@ -320,7 +320,7 @@ export default function SecretsPage() {
                     {canAccess && (
                       <button
                         className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-semibold transition-all duration-300 mt-2"
-                        onClick={() => navigate('/book-now', {
+                        onClick={() => navigate('/book', {
                           state: {
                             step: 2,
                             secretServiceDetails: {
@@ -340,6 +340,28 @@ export default function SecretsPage() {
                 </motion.div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Her Toys Carousel Section */}
+      <section className="py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl font-bold text-gold text-center mb-10">Her Toys</h2>
+          {/* Carousel component for Her Toys products */}
+          <div className="overflow-x-auto whitespace-nowrap flex gap-6 pb-4">
+            {/* Example product cards, replace with dynamic products if available */}
+            <div className="inline-block bg-zinc-900/70 rounded-xl p-4 min-w-[250px] shadow-lg">
+              <img src="/Ladiesden/images/hertoys1.jpeg" alt="Her Toy Product" className="w-full h-40 object-cover rounded-lg mb-3" />
+              <h3 className="text-lg font-bold text-gold mb-1">Luxury Toy 1</h3>
+              <p className="text-zinc-300 text-sm">Premium quality, body-safe materials.</p>
+            </div>
+            <div className="inline-block bg-zinc-900/70 rounded-xl p-4 min-w-[250px] shadow-lg">
+              <img src="/Ladiesden/images/hertoys2.jpeg" alt="Her Toy Product" className="w-full h-40 object-cover rounded-lg mb-3" />
+              <h3 className="text-lg font-bold text-gold mb-1">Luxury Toy 2</h3>
+              <p className="text-zinc-300 text-sm">Discreet shipping, elegant design.</p>
+            </div>
+            {/* Add more product cards as needed */}
           </div>
         </div>
       </section>

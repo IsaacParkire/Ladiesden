@@ -6,7 +6,7 @@ import ModernProductsCarousel from "../Components/ModernProductsCarousel";
 import ServicesPreview from "../Components/ServicesPreview";
 import RotatingScenes from "../Components/RotatingScenes";
 import ScentIntro from "../Components/ScentIntro";
-import ToysIntro from "../Components/ToysIntro";
+import BeautyIntro from "../Components/BeautyIntro";
 import BookingButton from "../Components/BookingButton";
 
 export default function HomePage() {
@@ -18,7 +18,7 @@ export default function HomePage() {
       <RotatingScenes />
       <ServicesPreview />
       <ScentIntro />
-      <ToysIntro />
+      <BeautyIntro />
       <BookingButton />
     </div>
   );

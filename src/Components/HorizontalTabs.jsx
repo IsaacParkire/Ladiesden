@@ -8,7 +8,7 @@ const tabLinks = [
   { name: "Her Touch", href: "/touch" },
   { name: "Her Strength", href: "/strength" },
   { name: "Her Scent", href: "/scent" },
-  { name: "Her Toys", href: "/toys" },
+  { name: "Her Beauty", href: "/beauty" },
   { name: "Her Night", href: "/night" },
   { name: "Her Secrets", href: "/secrets" },
   { name: "Book Session", href: "/book" },

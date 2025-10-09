@@ -45,7 +45,7 @@ export default function ContactPage() {
     {
       icon: MapPin,
       title: "Location",
-      details: ["Kenya, Nairobi", "Private & Discreet"]
+      details: ["Kenya, Mombasa", "Private & Discreet"]
     },
     {
       icon: Clock,

@@ -54,7 +54,7 @@ export default function Hero() {
             transition={{ delay: 0.4, duration: 0.7 }}
             className="text-sm sm:text-base md:text-lg text-zinc-300 mb-6 sm:mb-8 max-w-full sm:max-w-lg leading-relaxed"
           >
-            Luxury experiences crafted exclusively for the modern woman. Where sophistication meets desire.
+            Discover seductive luxury for every look. <span className="text-gold">Her Beauty</span> brings you wigs, makeup, nails, skincare, and curated beauty sets for the modern Den queen. Unleash your style, own your glow.
           </motion.p>
 
           {/* Modern CTA Buttons */}

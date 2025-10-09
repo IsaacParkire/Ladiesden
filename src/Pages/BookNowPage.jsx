@@ -4,15 +4,6 @@ import { Calendar, Clock, User, Phone, Mail, MapPin, CreditCard, Shield, Instagr
 import { useLocation } from "react-router-dom";
 import { appointmentsAPI, servicesAPI } from "../services/api";
 
-const services = [
-  { id: "boutique", name: "Her Boutique - Personal Shopping", price: "KSH 19,500-65,000", duration: "2-4 hours", description: "Personal styling with luxury fashion consultants" },
-  { id: "touch", name: "Her Touch - Massage Therapy", price: "KSH 26,000-52,000", duration: "1-2 hours", description: "Professional therapeutic massage by expert male therapists" },
-  { id: "strength", name: "Her Strength - Personal Training", price: "KSH 13,000-32,500", duration: "1-2 hours", description: "Customized fitness programs with certified male trainers" },
-  { id: "night", name: "Her Night - Event Experiences", price: "KSH 39,000-195,000", duration: "3-8 hours", description: "VIP access to exclusive events and entertainment" },
-  { id: "secrets", name: "Her Secrets - VIP Lounge", price: "KSH 65,000-260,000", duration: "2-6 hours", description: "Private membership experiences in our exclusive lounge" },
-  { id: "combination", name: "Combination Package", price: "KSH 52,000-130,000", duration: "4-8 hours", description: "Multiple services combined for the ultimate experience" }
-];
-
 const timeSlots = [
   "10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM",
   "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM"
@@ -41,6 +32,7 @@ export default function BookNowPage() {
 
   const [therapists, setTherapists] = useState([]);
   const [selectedTherapist, setSelectedTherapist] = useState(null);
+  const [services, setServices] = useState([]);
 
   // Fetch therapists when service changes
   useEffect(() => {
@@ -65,6 +57,18 @@ export default function BookNowPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData.service]);
 
+  useEffect(() => {
+    async function fetchServices() {
+      try {
+        const res = await servicesAPI.getAll();
+        setServices(res.data);
+      } catch (e) {
+        setServices([]);
+      }
+    }
+    fetchServices();
+  }, []);
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -83,7 +87,7 @@ export default function BookNowPage() {
     // Therapist selection is not present in the form, so pick a default or null
     // You may want to extend this to allow therapist selection in the future
     const bookingData = {
-      service_id: formData.service,
+      service_id: typeof formData.service === 'object' ? formData.service.id : formData.service,
       therapist_id: selectedTherapist, // Now included
       booking_date: formData.date,
       booking_time: formData.time,
