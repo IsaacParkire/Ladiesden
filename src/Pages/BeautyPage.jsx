@@ -1,19 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, Award, Crown, Heart, Star, Wand2, Droplet, Diamond, Sun, Smile } from "lucide-react";
 import ProductsGrid from "../Components/ProductsGrid";
-
-const categories = [
-  { id: "all", name: "All Beauty", icon: "💄" },
-  { id: "wigs", name: "Wigs & Hair", icon: "👑" },
-  { id: "makeup", name: "Makeup", icon: "💋" },
-  { id: "nails", name: "Nails", icon: "💅" },
-  { id: "skincare", name: "Skincare & Body", icon: "🧴" },
-  { id: "sets", name: "Beauty Sets", icon: "🎁" }
-];
+import { productsAPI } from "../services/api";
 
 export default function BeautyPage() {
+  const [categories, setCategories] = useState([
+    { id: "all", name: "All Beauty", slug: "all", icon: "💄" }
+  ]);
   const [selectedCategory, setSelectedCategory] = useState("all");
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await productsAPI.getSubCategories({ page: 'toys' });
+      const subCategories = response.data.map(cat => ({
+        id: cat.slug,
+        name: cat.name,
+        slug: cat.slug,
+        icon: getCategoryIcon(cat.slug)
+      }));
+      setCategories([
+        { id: "all", name: "All Beauty", slug: "all", icon: "💄" },
+        ...subCategories
+      ]);
+    } catch (error) {
+      console.error('Failed to fetch categories:', error);
+    }
+  };
+
+  const getCategoryIcon = (slug) => {
+    const iconMap = {
+      'wigs': '👑',
+      'makeup': '💋',
+      'nails': '💅',
+      'skincare': '🧴',
+      'sets': '🎁'
+    };
+    return iconMap[slug] || '💄';
+  };
 
   // Beauty line sections for card rendering
   const beautySections = [
@@ -143,7 +171,7 @@ export default function BeautyPage() {
       <section className="px-6 py-16">
         <div className="max-w-7xl mx-auto">
           <ProductsGrid 
-            page="beauty"
+            page="toys"
             category={selectedCategory}
           />
         </div>

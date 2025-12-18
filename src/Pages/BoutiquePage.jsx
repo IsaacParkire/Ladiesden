@@ -1,21 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Search, SlidersHorizontal } from "lucide-react";
 import ProductsGrid from "../Components/ProductsGrid";
-
-const categories = [
-  { id: "all", name: "All Items", icon: "👗" },
-  { id: "activewear", name: "Activewear", icon: "🏃‍♀️" },
-  { id: "bikinis", name: "Bikinis & Resortwear", icon: "👙" },
-  { id: "party", name: "Party Dresses", icon: "🎉" },
-  { id: "lounge", name: "Lounge & Bedroom", icon: "🛏️" },
-  { id: "accessories", name: "Accessories", icon: "💎" }
-];
+import { productsAPI } from "../services/api";
 
 export default function BoutiquePage() {
+  const [categories, setCategories] = useState([
+    { id: "all", name: "All Items", slug: "all", icon: "👗" }
+  ]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await productsAPI.getSubCategories({ page: 'boutique' });
+      const subCategories = response.data.map(cat => ({
+        id: cat.slug,
+        name: cat.name,
+        slug: cat.slug,
+        icon: getCategoryIcon(cat.slug)
+      }));
+      setCategories([
+        { id: "all", name: "All Items", slug: "all", icon: "👗" },
+        ...subCategories
+      ]);
+    } catch (error) {
+      console.error('Failed to fetch categories:', error);
+    }
+  };
+
+  const getCategoryIcon = (slug) => {
+    const iconMap = {
+      'activewear': '🏃‍♀️',
+      'bikinis-resortwear': '👙',
+      'party-dresses': '🎉',
+      'lounge-bedroom': '🛏️',
+      'accessories': '💎'
+    };
+    return iconMap[slug] || '👗';
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">

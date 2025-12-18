@@ -1,19 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, Award, Crown } from "lucide-react";
 import ProductsGrid from "../Components/ProductsGrid";
-
-const categories = [
-  { id: "all", name: "All Fragrances", icon: "✨" },
-  { id: "signature", name: "Signature Collection", icon: "👑" },
-  { id: "exotic", name: "Exotic Blends", icon: "🌺" },
-  { id: "aphrodisiac", name: "Aphrodisiac", icon: "💋" },
-  { id: "custom", name: "Custom Blends", icon: "🎨" },
-  { id: "oils", name: "Essential Oils", icon: "🌿" }
-];
+import { productsAPI } from "../services/api";
 
 export default function ScentPage() {
+  const [categories, setCategories] = useState([
+    { id: "all", name: "All Fragrances", slug: "all", icon: "✨" }
+  ]);
   const [selectedCategory, setSelectedCategory] = useState("all");
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await productsAPI.getSubCategories({ page: 'scent' });
+      const subCategories = response.data.map(cat => ({
+        id: cat.slug,
+        name: cat.name,
+        slug: cat.slug,
+        icon: getCategoryIcon(cat.slug)
+      }));
+      setCategories([
+        { id: "all", name: "All Fragrances", slug: "all", icon: "✨" },
+        ...subCategories
+      ]);
+    } catch (error) {
+      console.error('Failed to fetch categories:', error);
+    }
+  };
+
+  const getCategoryIcon = (slug) => {
+    const iconMap = {
+      'signature': '👑',
+      'exotic': '🌺',
+      'aphrodisiac': '💋',
+      'custom': '🎨',
+      'oils': '🌿'
+    };
+    return iconMap[slug] || '✨';
+  };
 
   return (
     <div className="min-h-screen bg-black text-white pt-24">
